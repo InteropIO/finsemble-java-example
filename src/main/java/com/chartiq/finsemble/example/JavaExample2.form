@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.chartiq.finsemble.example.JavaExample2">
   <grid id="27dc6" binding="mainPanel" layout-manager="GridBagLayout">
     <constraints>
-      <xy x="20" y="20" width="204" height="314"/>
+      <xy x="20" y="20" width="204" height="353"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -48,14 +48,16 @@
           <visible value="false"/>
         </properties>
       </component>
-      <component id="d9ca3" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+      <component id="d9ca3" class="javax.swing.JTextField" binding="symbolTextField">
         <constraints>
           <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
           </grid>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
-        <properties/>
+        <properties>
+          <editable value="false"/>
+        </properties>
       </component>
       <component id="8aebe" class="javax.swing.JButton" binding="sendSymbolButton">
         <constraints>
@@ -193,6 +195,32 @@
         <border type="none"/>
         <children/>
       </grid>
+      <vspacer id="ac98">
+        <constraints>
+          <grid row="11" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+      </vspacer>
+      <component id="d18cf" class="javax.swing.JButton" binding="messagesButton" default-binding="true">
+        <constraints>
+          <grid row="12" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <enabled value="true"/>
+          <focusable value="false"/>
+          <text value="Messages"/>
+        </properties>
+      </component>
+      <component id="b8862" class="javax.swing.JTextArea" binding="messages">
+        <constraints>
+          <grid row="13" column="0" row-span="1" col-span="3" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="50"/>
+          </grid>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties/>
+      </component>
     </children>
   </grid>
 </form>
