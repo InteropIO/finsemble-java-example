@@ -128,7 +128,7 @@ public class JavaExample {
      */
     private void launchComponent() {
         final String componentName = componentComboBox.getSelectedItem().toString();
-        fsbl.getClients().getLauncherClient().spawn(componentName, null, (err, res) -> {
+        fsbl.getClients().getLauncherClient().spawn(componentName, new org.json.JSONObject(), (err, res) -> {
             if (err != null) {
                 LOGGER.log(Level.SEVERE, String.format("Error spawning \"%s\"", componentName), err);
             } else {
