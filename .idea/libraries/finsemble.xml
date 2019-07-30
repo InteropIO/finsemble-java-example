@@ -1,9 +1,11 @@
 <component name="libraryTable">
   <library name="finsemble">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../finsemble.jar/out/artifacts/finsemble_jar_bundled/finsemble.jar!/" />
+      <root url="file://$PROJECT_DIR$/../finsemble.jar" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../finsemble.jar/src/main/java" />
+    </SOURCES>
   </library>
 </component>
