@@ -1,0 +1,37 @@
+{
+    "components": {
+        "Java Example": {
+            "window": {
+                "id": "JavaExample",
+                "native": true,
+                "path": "$finsembleJavaExampleRoot/",
+                "url": "",
+                "defaultHeight": 600,
+                "autoShow": true,
+                "alwaysOnTop": false,
+                "resizable": true,
+                "showTaskbarIcon": false,
+                "contextMenu": true,
+                "addToWorkspace": true
+            },
+            "component": {
+            },
+            "foreign": {
+                "services": {
+                    "workspaceService": {
+                        "isArrangable": true
+                    }
+                },
+                "components": {
+                    "App Launcher": {
+                        "launchableByUser": true
+                    },
+                    "Window Manager": {
+                        "persistWindowState": false,
+                        "FSBLHeader": true
+                    }
+                }
+            }
+        }
+    }
+}
