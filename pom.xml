@@ -6,14 +6,11 @@
 
     <groupId>ChartIQ</groupId>
     <artifactId>finesmble-java-example</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>3.10.1-SNAPSHOT</version>
 
-<dependencies>
-    <!-- https://mvnrepository.com/artifact/it.sauronsoftware/junique -->
-    <dependency>
-        <groupId>it.sauronsoftware</groupId>
-        <artifactId>junique</artifactId>
-        <version>1.0.4</version>
-    </dependency>
-</dependencies>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
 </project>
