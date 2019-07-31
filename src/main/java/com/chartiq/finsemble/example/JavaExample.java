@@ -368,8 +368,7 @@ public class JavaExample implements WindowListener {
     private static void launchForm(List<String> args) {
         final JFrame frame = new JFrame("JavaExample");
         frame.setContentPane(new JavaExample(args).mainPanel);
-        frame.pack();
-        frame.setSize(800, 400);
+        frame.setSize(250, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
