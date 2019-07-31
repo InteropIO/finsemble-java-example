@@ -67,7 +67,10 @@ public class JavaExample implements WindowListener {
         messagesButton.addActionListener((e) -> this.toggleMessages());
         toggleMessages();
 
-        // Hide linker pips initially
+        // TODO: Hiding linker panel until linker is figured out
+        linkerPanel.setVisible(false);
+
+        // Hide linker pips initially to be shown later
         group1Panel.setVisible(false);
         group2Panel.setVisible(false);
         group3Panel.setVisible(false);
@@ -190,6 +193,42 @@ public class JavaExample implements WindowListener {
 
     private void showLinker() {
         // TODO: Show linker
+
+//        var channelsToSend = new JArray { };
+//        if (channels != null)
+//        {
+//            foreach (var item in channels)
+//            {
+//                var channelinfo = allChannels.Where(jt => jt["name"].ToString() == item.ToString())?.First();
+//                if (channelinfo != null) channelsToSend.Add(channelinfo);
+//            }
+//        }
+//        JObject data = new JObject
+//        {
+//                ["channels"] = channelsToSend,
+//                ["windowIdentifier"] = windowClient.windowIdentifier
+//        };
+//
+//        routerClient.Query("Finsemble.LinkerWindow.SetActiveChannels", data, new JObject { }, delegate (object sender, FinsembleEventArgs e)
+//        {
+//            Application.Current.Dispatcher.Invoke((Action)delegate //main thread
+//            {
+//
+//                var wi = new JObject
+//                {
+//                        ["componentType"] = "linkerWindow"
+//                };
+//                var parameters = new JObject
+//                {
+//                        ["position"] = "relative",
+//                        ["left"] = left,
+//                        ["top"] = top,
+//                        ["spawnIfNotFound"] = false
+//                };
+//                launcherClient.ShowWindow(wi, parameters, (EventHandler<FinsembleEventArgs>)delegate (object s2, FinsembleEventArgs e2) { });
+//
+//            });
+//        });
     }
 
     /**
@@ -466,12 +505,6 @@ public class JavaExample implements WindowListener {
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         linkerPanel.add(linkerButton, gbc);
-        final JPanel spacer1 = new JPanel();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 7;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        linkerPanel.add(spacer1, gbc);
     }
 
     /**
