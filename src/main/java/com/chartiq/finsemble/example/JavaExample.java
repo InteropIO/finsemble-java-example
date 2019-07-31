@@ -60,6 +60,11 @@ public class JavaExample implements WindowListener {
         launchArgs = args;
 
         setFormEnable(false);
+
+        // Add messages button handler
+        messagesButton.addActionListener((e) -> this.toggleMessages());
+
+        toggleMessages();
     }
 
     private void initFinsemble() {
@@ -105,7 +110,14 @@ public class JavaExample implements WindowListener {
      */
     private void toggleMessages() {
         final boolean isVisible = messages.isVisible();
+
         messages.setVisible(!isVisible);
+
+        if (messages.isVisible()) {
+            messagesButton.setText("Hide messages");
+        } else {
+            messagesButton.setText("Show messages");
+        }
     }
 
     private void initForm() {
@@ -130,9 +142,6 @@ public class JavaExample implements WindowListener {
         // dock checkbox
 
         // group check boxes
-
-        // messages button
-        messagesButton.addActionListener((e) -> this.toggleMessages());
     }
 
     /**
