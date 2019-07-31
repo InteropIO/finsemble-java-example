@@ -50,9 +50,9 @@ public class JavaExample implements WindowListener {
     /**
      * Initializes a new instance of the JavaExample class.
      *
-     * @param args
+     * @param args The arguments passed to the Java application from the command line
      */
-    public JavaExample(List<String> args) {
+    private JavaExample(List<String> args) {
         appendMessage(String.format(
                 "Finsemble Java Example starting with arguments:\n\t%s", String.join("\n\t", args)));
         appendMessage("Initiating Finsemble connection");
@@ -81,11 +81,13 @@ public class JavaExample implements WindowListener {
                 @Override
                 public void disconnected(ConnectionEventGenerator from) {
                     LOGGER.info("Finsemble connection closed");
+                    appendMessage("Finsemble connection closed");
                 }
 
                 @Override
                 public void error(ConnectionEventGenerator from, Exception e) {
                     LOGGER.log(Level.SEVERE, "Error from Finsemble", e);
+                    appendErrorMessage(String.format("Error from Finsemble:\n%s", e.getMessage()));
                 }
             });
             fsbl.register();
@@ -100,7 +102,7 @@ public class JavaExample implements WindowListener {
                 fsbl.close();
             } catch (IOException e1) {
                 LOGGER.log(Level.SEVERE, "Error closing Finsemble connection", e1);
-                appendMessage((e1.getMessage()));
+                appendErrorMessage(String.format("Error closing Finsemble connection:\n%s",e1.getMessage()));
             }
         }
     }
@@ -129,10 +131,10 @@ public class JavaExample implements WindowListener {
         fsbl.getClients().getLauncherClient().getComponentList((err, res) -> {
             if (err != null) {
                 LOGGER.log(Level.SEVERE, "Error getting component list", err);
+                appendErrorMessage(String.format(":\n%s", err));
             } else {
                 //
                 LOGGER.info("Break here");
-                ;
             }
         });
 
@@ -148,12 +150,21 @@ public class JavaExample implements WindowListener {
      * Launches the currently selected component from the component combo box.
      */
     private void launchComponent() {
-        final String componentName = componentComboBox.getSelectedItem().toString();
+        final String componentName = componentComboBox.getSelectedItem() != null ? componentComboBox.getSelectedItem().toString() : null;
+
+        if (componentName == null) {
+            LOGGER.warning("No selected component");
+            appendMessage(("WARNING: No selected component"));
+            return;
+        }
+
         fsbl.getClients().getLauncherClient().spawn(componentName, new JSONObject(), (err, res) -> {
             if (err != null) {
                 LOGGER.log(Level.SEVERE, String.format("Error spawning \"%s\"", componentName), err);
+                appendErrorMessage(String.format("Error spawning\n%s", err));
             } else {
                 LOGGER.info(String.format("\"%s\" spawned", componentName));
+                appendMessage(String.format("\"%s\" spawned", componentName));
             }
         });
     }
@@ -178,10 +189,23 @@ public class JavaExample implements WindowListener {
      * @param s The message to add.
      */
     private void appendMessage(String s) {
-        LOGGER.info(String.format("Message to UI", s));
         try {
             Document doc = messages.getDocument();
             doc.insertString(0, String.format("%s\n", s), null);
+        } catch (BadLocationException exc) {
+            LOGGER.severe(exc.getMessage());
+        }
+    }
+
+    /**
+     * Adds an error message to the message box.
+     *
+     * @param s The message to add.
+     */
+    private void appendErrorMessage(String s) {
+        try {
+            Document doc = messages.getDocument();
+            doc.insertString(0, String.format("ERROR: %s\n", s), null);
         } catch (BadLocationException exc) {
             LOGGER.severe(exc.getMessage());
         }
@@ -197,13 +221,6 @@ public class JavaExample implements WindowListener {
 
         initLogging(argList);
 
-        // Parse message into ArrayList of strings so arguments can be added.
-        final List<String> otherArgs = new ArrayList<>(Arrays.asList(args));
-
-        otherArgs.add("Not first");
-        launchForm(otherArgs);
-
-        argList.add("First");
         launchForm(argList);
 
         // the following statement is used to log any messages
@@ -452,9 +469,6 @@ public class JavaExample implements WindowListener {
         mainPanel.add(messages, gbc);
     }
 
-    /**
-     * @noinspection ALL
-     */
     private Font $$$getFont$$$(String fontName, int style, int size, Font currentFont) {
         if (currentFont == null) return null;
         String resultName;
@@ -471,9 +485,6 @@ public class JavaExample implements WindowListener {
         return new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
     }
 
-    /**
-     * @noinspection ALL
-     */
     public JComponent $$$getRootComponent$$$() {
         return mainPanel;
     }
@@ -482,7 +493,7 @@ public class JavaExample implements WindowListener {
     /**
      * Invoked the first time a window is made visible.
      *
-     * @param e
+     * @param e The window event
      */
     @Override
     public void windowOpened(WindowEvent e) {
@@ -493,7 +504,7 @@ public class JavaExample implements WindowListener {
      * Invoked when the user attempts to close the window
      * from the window's system menu.
      *
-     * @param e
+     * @param e The window event
      */
     @Override
     public void windowClosing(WindowEvent e) {
@@ -504,7 +515,7 @@ public class JavaExample implements WindowListener {
      * Invoked when a window has been closed as the result
      * of calling dispose on the window.
      *
-     * @param e
+     * @param e The window event
      */
     @Override
     public void windowClosed(WindowEvent e) {
@@ -524,7 +535,7 @@ public class JavaExample implements WindowListener {
      * is displayed as the icon specified in the window's
      * iconImage property.
      *
-     * @param e
+     * @param e The window event
      * @see Frame#setIconImage
      */
     @Override
@@ -536,7 +547,7 @@ public class JavaExample implements WindowListener {
      * Invoked when a window is changed from a minimized
      * to a normal state.
      *
-     * @param e
+     * @param e The window event
      */
     @Override
     public void windowDeiconified(WindowEvent e) {
@@ -551,7 +562,7 @@ public class JavaExample implements WindowListener {
      * focused Window, or the first Frame or Dialog that is an owner of the
      * focused Window.
      *
-     * @param e
+     * @param e The window event
      */
     @Override
     public void windowActivated(WindowEvent e) {
@@ -566,7 +577,7 @@ public class JavaExample implements WindowListener {
      * Window, or the first Frame or Dialog that is an owner of the focused
      * Window.
      *
-     * @param e
+     * @param e The window event
      */
     @Override
     public void windowDeactivated(WindowEvent e) {
