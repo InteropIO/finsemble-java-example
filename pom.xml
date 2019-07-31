@@ -14,6 +14,11 @@
             <version>20160810</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.chartiq.finsemble</groupId>
+            <artifactId>finsemble</artifactId>
+            <version>3.5.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <properties>
