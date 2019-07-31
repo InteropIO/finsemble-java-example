@@ -80,6 +80,8 @@ public class JavaExample implements WindowListener {
 
         // TODO: Show when docking is supported
         dockCheckBox.setVisible(false);
+
+        initFinsemble();
     }
 
     private void initFinsemble() {
@@ -120,8 +122,6 @@ public class JavaExample implements WindowListener {
                 appendErrorMessage(String.format("Error closing Finsemble connection:\n%s", e1.getMessage()));
             }
         }
-
-        initForm();
     }
 
     /**
@@ -170,19 +170,45 @@ public class JavaExample implements WindowListener {
         // Send symbol
         symbolTextField.addActionListener(e -> sendSymbol());
 
-        // populate component combobox
+        // populate component combo box
         fsbl.getClients().getLauncherClient().getComponentList((err, res) -> {
             if (err != null) {
                 LOGGER.log(Level.SEVERE, "Error getting component list", err);
                 appendErrorMessage(String.format(":\n%s", err));
             } else {
-                //
-                LOGGER.info("Break here");
+                if (res.has("data")) {
+                    // Get list of component names
+                    final List<String> componentNames = new ArrayList<>();
+                    final JSONObject data = res.getJSONObject("data");
+                    data.keys().forEachRemaining(componentNames::add);
+
+                    // Get non-system components
+                    final String[] nonSystemComponents = componentNames
+                            .stream()
+                            .filter(componentName -> {
+                                final JSONObject component = data.getJSONObject(componentName);
+                                return !component.has("component") ||
+                                        !component.getJSONObject("component").has("category") ||
+                                        !component.getJSONObject("component").getString("category").equals("system");
+                            }).toArray(String[]::new);
+
+                    // Add them to the component combo
+                    componentComboBox.setModel(new DefaultComboBoxModel<>(nonSystemComponents));
+
+                    if (componentComboBox.getItemCount() > 0) {
+                        // If there are components, select the first
+                        componentComboBox.setSelectedIndex(0);
+                    } else {
+                        // If there aren't components, spawn buttons
+                        launchComponentButton.setEnabled(false);
+                        appendMessage("No components to spawn, disabling Launch Component button");
+                    }
+                }
             }
         });
 
         // Add launch component button handler
-        launchComponentButton.addActionListener((e) -> launchComponent());
+        launchComponentButton.addActionListener(e -> launchComponent());
 
         // dock checkbox
         // TODO: Figure this out at some point
