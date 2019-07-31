@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.chartiq.finsemble.example.JavaExample">
   <grid id="27dc6" binding="mainPanel" layout-manager="GridBagLayout">
     <constraints>
-      <xy x="20" y="20" width="204" height="353"/>
+      <xy x="20" y="20" width="212" height="382"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -69,141 +69,9 @@
           <text value="Send Symbol"/>
         </properties>
       </component>
-      <component id="b3195" class="javax.swing.JCheckBox" binding="group1CheckBox" default-binding="true">
-        <constraints>
-          <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
-        </constraints>
-        <properties>
-          <enabled value="false"/>
-          <text value="Group 1"/>
-        </properties>
-      </component>
-      <component id="797f2" class="javax.swing.JCheckBox" binding="group2CheckBox" default-binding="true">
-        <constraints>
-          <grid row="6" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
-        </constraints>
-        <properties>
-          <enabled value="false"/>
-          <text value="Group 2"/>
-        </properties>
-      </component>
-      <component id="5e1bb" class="javax.swing.JCheckBox" binding="group3CheckBox" default-binding="true">
-        <constraints>
-          <grid row="7" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
-        </constraints>
-        <properties>
-          <enabled value="false"/>
-          <text value="Group 3"/>
-        </properties>
-      </component>
-      <component id="39260" class="javax.swing.JCheckBox" binding="group4CheckBox" default-binding="true">
-        <constraints>
-          <grid row="8" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
-        </constraints>
-        <properties>
-          <enabled value="false"/>
-          <text value="Group 4"/>
-        </properties>
-      </component>
-      <component id="a41e6" class="javax.swing.JCheckBox" binding="group5CheckBox" default-binding="true">
-        <constraints>
-          <grid row="9" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
-        </constraints>
-        <properties>
-          <enabled value="false"/>
-          <text value="Group 5"/>
-        </properties>
-      </component>
-      <component id="82c32" class="javax.swing.JCheckBox" binding="group6CheckBox" default-binding="true">
-        <constraints>
-          <grid row="10" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
-        </constraints>
-        <properties>
-          <enabled value="false"/>
-          <text value="Group 6"/>
-        </properties>
-      </component>
-      <grid id="4d716" layout-manager="GridBagLayout">
-        <constraints>
-          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
-        </constraints>
-        <properties>
-          <background color="-7896643"/>
-        </properties>
-        <border type="none"/>
-        <children/>
-      </grid>
-      <grid id="da7ac" layout-manager="GridBagLayout">
-        <constraints>
-          <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
-        </constraints>
-        <properties>
-          <background color="-8139"/>
-        </properties>
-        <border type="none"/>
-        <children/>
-      </grid>
-      <grid id="3bbca" layout-manager="GridBagLayout">
-        <constraints>
-          <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
-        </constraints>
-        <properties>
-          <background color="-7743485"/>
-        </properties>
-        <border type="none"/>
-        <children/>
-      </grid>
-      <grid id="595a5" layout-manager="GridBagLayout">
-        <constraints>
-          <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
-        </constraints>
-        <properties>
-          <background color="-105886"/>
-        </properties>
-        <border type="none"/>
-        <children/>
-      </grid>
-      <grid id="3053e" layout-manager="GridBagLayout">
-        <constraints>
-          <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
-        </constraints>
-        <properties>
-          <background color="-13783809"/>
-        </properties>
-        <border type="none"/>
-        <children/>
-      </grid>
-      <grid id="8bda" layout-manager="GridBagLayout">
-        <constraints>
-          <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
-        </constraints>
-        <properties>
-          <background color="-24064"/>
-        </properties>
-        <border type="none"/>
-        <children/>
-      </grid>
-      <vspacer id="ac98">
-        <constraints>
-          <grid row="11" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
-        </constraints>
-      </vspacer>
       <component id="d18cf" class="javax.swing.JButton" binding="messagesButton" default-binding="true">
         <constraints>
-          <grid row="12" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="6" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
@@ -214,13 +82,99 @@
       </component>
       <component id="b8862" class="javax.swing.JTextArea" binding="messages">
         <constraints>
-          <grid row="13" column="0" row-span="1" col-span="3" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+          <grid row="7" column="0" row-span="1" col-span="3" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="50"/>
           </grid>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties/>
       </component>
+      <grid id="90667" binding="linkerPanel" layout-manager="GridBagLayout">
+        <constraints>
+          <grid row="5" column="0" row-span="1" col-span="3" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="4d716" binding="group1Panel" layout-manager="GridBagLayout">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <background color="-7896643"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </grid>
+          <grid id="da7ac" binding="group2Panel" layout-manager="GridBagLayout">
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <background color="-8139"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </grid>
+          <grid id="3bbca" binding="group3Panel" layout-manager="GridBagLayout">
+            <constraints>
+              <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <background color="-7743485"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </grid>
+          <grid id="595a5" binding="group4Panel" layout-manager="GridBagLayout">
+            <constraints>
+              <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <background color="-105886"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </grid>
+          <grid id="3053e" binding="group5Panel" layout-manager="GridBagLayout">
+            <constraints>
+              <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <background color="-13783809"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </grid>
+          <grid id="8bda" binding="group6Panel" layout-manager="GridBagLayout">
+            <constraints>
+              <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <background color="-24064"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </grid>
+          <component id="32645" class="javax.swing.JButton" binding="linkerButton">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <label value="Linker"/>
+              <text value="Linker"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
     </children>
   </grid>
 </form>
