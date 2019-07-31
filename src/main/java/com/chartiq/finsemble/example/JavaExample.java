@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.FileInputStream;
@@ -46,6 +47,12 @@ public class JavaExample implements WindowListener {
     private JPanel group5Panel;
     private JPanel group6Panel;
     private JPanel linkerPanel;
+    private JButton group1Button;
+    private JButton group2Button;
+    private JButton group3Button;
+    private JButton group4Button;
+    private JButton group5Button;
+    private JButton group6Button;
 
     private Finsemble fsbl;
 
@@ -67,16 +74,12 @@ public class JavaExample implements WindowListener {
         messagesButton.addActionListener((e) -> this.toggleMessages());
         toggleMessages();
 
-        // TODO: Hiding linker panel until linker is figured out
-        linkerPanel.setVisible(false);
-
-        // Hide linker pips initially to be shown later
-        group1Panel.setVisible(false);
-        group2Panel.setVisible(false);
-        group3Panel.setVisible(false);
-        group4Panel.setVisible(false);
-        group5Panel.setVisible(false);
-        group6Panel.setVisible(false);
+        group1Button.setText("");
+        group2Button.setText("");
+        group3Button.setText("");
+        group4Button.setText("");
+        group5Button.setText("");
+        group6Button.setText("");
 
         // TODO: Show when docking is supported
         dockCheckBox.setVisible(false);
@@ -171,6 +174,56 @@ public class JavaExample implements WindowListener {
         symbolTextField.addActionListener(e -> sendSymbol());
 
         // populate component combo box
+        populateComboBox();
+
+        // Add launch component button handler
+        launchComponentButton.addActionListener(e -> launchComponent());
+
+        // dock checkbox
+        // TODO: Figure this out at some point
+
+        // Linker
+        group1Button.addActionListener(this::toggleLinker);
+        group2Button.addActionListener(this::toggleLinker);
+        group3Button.addActionListener(this::toggleLinker);
+        group4Button.addActionListener(this::toggleLinker);
+        group5Button.addActionListener(this::toggleLinker);
+        group6Button.addActionListener(this::toggleLinker);
+    }
+
+    private void toggleLinker(ActionEvent e) {
+        final JButton btn = (JButton) e.getSource();
+        final String channel = btn.getName();
+        final boolean selected = btn.getText().equals("X");
+
+        final JSONObject wi = fsbl.getClients().getWindowClient().getWindowIdentifier();
+
+        if (selected) {
+            // unlink
+            btn.setText("");
+            fsbl.getClients().getLinkerClient().unlinkFromChannel(channel, wi, (err, res) -> {
+                if (err != null) {
+                    LOGGER.log(Level.SEVERE, String.format("Error unlinking from channel: %s", channel), err);
+                    appendErrorMessage(String.format(":\n%s", err));
+                } else {
+                    appendMessage(String.format("Unlinked from channel: %s", channel));
+                }
+            });
+        } else {
+            // link
+            btn.setText("X");
+            fsbl.getClients().getLinkerClient().linkToChannel(channel, wi, (err, res) -> {
+                if (err != null) {
+                    LOGGER.log(Level.SEVERE, String.format("Error linking to channel: %s", channel), err);
+                    appendErrorMessage(String.format(":\n%s", err));
+                } else {
+                    appendMessage(String.format("Linked to channel: %s", channel));
+                }
+            });
+        }
+    }
+
+    private void populateComboBox() {
         fsbl.getClients().getLauncherClient().getComponentList((err, res) -> {
             if (err != null) {
                 LOGGER.log(Level.SEVERE, "Error getting component list", err);
@@ -206,56 +259,8 @@ public class JavaExample implements WindowListener {
                 }
             }
         });
-
-        // Add launch component button handler
-        launchComponentButton.addActionListener(e -> launchComponent());
-
-        // dock checkbox
-        // TODO: Figure this out at some point
-
-        // Linker button
-        linkerButton.addActionListener((e) -> showLinker());
     }
 
-    private void showLinker() {
-        // TODO: Show linker
-
-//        var channelsToSend = new JArray { };
-//        if (channels != null)
-//        {
-//            foreach (var item in channels)
-//            {
-//                var channelinfo = allChannels.Where(jt => jt["name"].ToString() == item.ToString())?.First();
-//                if (channelinfo != null) channelsToSend.Add(channelinfo);
-//            }
-//        }
-//        JObject data = new JObject
-//        {
-//                ["channels"] = channelsToSend,
-//                ["windowIdentifier"] = windowClient.windowIdentifier
-//        };
-//
-//        routerClient.Query("Finsemble.LinkerWindow.SetActiveChannels", data, new JObject { }, delegate (object sender, FinsembleEventArgs e)
-//        {
-//            Application.Current.Dispatcher.Invoke((Action)delegate //main thread
-//            {
-//
-//                var wi = new JObject
-//                {
-//                        ["componentType"] = "linkerWindow"
-//                };
-//                var parameters = new JObject
-//                {
-//                        ["position"] = "relative",
-//                        ["left"] = left,
-//                        ["top"] = top,
-//                        ["spawnIfNotFound"] = false
-//                };
-//                launcherClient.ShowWindow(wi, parameters, (EventHandler<FinsembleEventArgs>)delegate (object s2, FinsembleEventArgs e2) { });
-//
-//            });
-//        });
-    }
 
     /**
      * Launches the currently selected component from the component combo box.
@@ -286,7 +291,7 @@ public class JavaExample implements WindowListener {
         componentComboBox.setEnabled(enabled);
         launchComponentButton.setEnabled(enabled);
         dockCheckBox.setEnabled(enabled);
-        linkerButton.setEnabled(enabled);
+        linkerPanel.setEnabled(enabled);
     }
 
     /**
@@ -474,62 +479,80 @@ public class JavaExample implements WindowListener {
         gbc.gridwidth = 3;
         gbc.fill = GridBagConstraints.BOTH;
         mainPanel.add(linkerPanel, gbc);
-        group1Panel = new JPanel();
-        group1Panel.setLayout(new GridBagLayout());
-        group1Panel.setBackground(new Color(-7896643));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.BOTH;
-        linkerPanel.add(group1Panel, gbc);
-        group2Panel = new JPanel();
-        group2Panel.setLayout(new GridBagLayout());
-        group2Panel.setBackground(new Color(-8139));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.BOTH;
-        linkerPanel.add(group2Panel, gbc);
-        group3Panel = new JPanel();
-        group3Panel.setLayout(new GridBagLayout());
-        group3Panel.setBackground(new Color(-7743485));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 3;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.BOTH;
-        linkerPanel.add(group3Panel, gbc);
-        group4Panel = new JPanel();
-        group4Panel.setLayout(new GridBagLayout());
-        group4Panel.setBackground(new Color(-105886));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 4;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.BOTH;
-        linkerPanel.add(group4Panel, gbc);
-        group5Panel = new JPanel();
-        group5Panel.setLayout(new GridBagLayout());
-        group5Panel.setBackground(new Color(-13783809));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 5;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.BOTH;
-        linkerPanel.add(group5Panel, gbc);
-        group6Panel = new JPanel();
-        group6Panel.setLayout(new GridBagLayout());
-        group6Panel.setBackground(new Color(-24064));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 6;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.BOTH;
-        linkerPanel.add(group6Panel, gbc);
-        linkerButton = new JButton();
-        linkerButton.setLabel("Linker");
-        linkerButton.setText("Linker");
+        group1Button = new JButton();
+        group1Button.setBackground(new Color(-7896643));
+        group1Button.setForeground(new Color(-4473925));
+        group1Button.setMaximumSize(new Dimension(30, 30));
+        group1Button.setMinimumSize(new Dimension(30, 30));
+        group1Button.setName("group1");
+        group1Button.setPreferredSize(new Dimension(30, 30));
+        group1Button.setText("X");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        linkerPanel.add(linkerButton, gbc);
+        linkerPanel.add(group1Button, gbc);
+        group2Button = new JButton();
+        group2Button.setBackground(new Color(-8139));
+        group2Button.setMaximumSize(new Dimension(30, 30));
+        group2Button.setMinimumSize(new Dimension(30, 30));
+        group2Button.setName("group2");
+        group2Button.setPreferredSize(new Dimension(30, 30));
+        group2Button.setText("X");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        linkerPanel.add(group2Button, gbc);
+        group3Button = new JButton();
+        group3Button.setBackground(new Color(-7743485));
+        group3Button.setHideActionText(false);
+        group3Button.setMaximumSize(new Dimension(30, 30));
+        group3Button.setMinimumSize(new Dimension(30, 30));
+        group3Button.setName("group3");
+        group3Button.setPreferredSize(new Dimension(30, 30));
+        group3Button.setText("X");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        linkerPanel.add(group3Button, gbc);
+        group4Button = new JButton();
+        group4Button.setBackground(new Color(-105886));
+        group4Button.setMaximumSize(new Dimension(30, 30));
+        group4Button.setMinimumSize(new Dimension(30, 30));
+        group4Button.setName("group4");
+        group4Button.setPreferredSize(new Dimension(30, 30));
+        group4Button.setText("X");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 3;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        linkerPanel.add(group4Button, gbc);
+        group5Button = new JButton();
+        group5Button.setBackground(new Color(-13783809));
+        group5Button.setMaximumSize(new Dimension(30, 30));
+        group5Button.setMinimumSize(new Dimension(30, 30));
+        group5Button.setName("group5");
+        group5Button.setPreferredSize(new Dimension(30, 30));
+        group5Button.setText("X");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 4;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        linkerPanel.add(group5Button, gbc);
+        group6Button = new JButton();
+        group6Button.setBackground(new Color(-24064));
+        group6Button.setMaximumSize(new Dimension(30, 30));
+        group6Button.setMinimumSize(new Dimension(30, 30));
+        group6Button.setName("group6");
+        group6Button.setPreferredSize(new Dimension(30, 30));
+        group6Button.setText("X");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 5;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        linkerPanel.add(group6Button, gbc);
     }
 
     /**
