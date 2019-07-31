@@ -370,7 +370,7 @@ public class JavaExample implements WindowListener {
         frame.setContentPane(new JavaExample(args).mainPanel);
         frame.pack();
         frame.setSize(800, 400);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
 
