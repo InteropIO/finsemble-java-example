@@ -63,8 +63,10 @@ public class JavaExample implements WindowListener {
 
         // Add messages button handler
         messagesButton.addActionListener((e) -> this.toggleMessages());
-
         toggleMessages();
+
+        // TODO: Show when docking is supported
+        dockCheckBox.setVisible(false);
     }
 
     private void initFinsemble() {
@@ -105,6 +107,8 @@ public class JavaExample implements WindowListener {
                 appendErrorMessage(String.format("Error closing Finsemble connection:\n%s",e1.getMessage()));
             }
         }
+
+        initForm();
     }
 
     /**
@@ -122,10 +126,36 @@ public class JavaExample implements WindowListener {
         }
     }
 
+    private void sendSymbol() {
+        final String symbol = symbolTextField.getText();
+        if (symbol == null || symbol.equals("")) {
+            // Must have a symbol to send
+            symbolTextField.setText("AAPL");
+            return;
+        }
+
+        final JSONObject args = new JSONObject() {{
+            put("dataType", "symbol");
+            put("data", symbol);
+        }};
+
+        // TODO: Make callback optional
+        fsbl.getClients().getLinkerClient().publish(args, (err, res) -> {
+            if (err != null) {
+                LOGGER.log(Level.SEVERE, "Error publishing symbol", err);
+                appendErrorMessage("Error publishing symbol");
+            } else {
+                LOGGER.info("Symbol published");
+                appendMessage("Symbol published");
+            }
+        });
+    }
+
     private void initForm() {
         // Add click handlers
 
         // Send symbol
+        symbolTextField.addActionListener( e -> sendSymbol());
 
         // populate component combobox
         fsbl.getClients().getLauncherClient().getComponentList((err, res) -> {
@@ -142,6 +172,7 @@ public class JavaExample implements WindowListener {
         launchComponentButton.addActionListener((e) -> launchComponent());
 
         // dock checkbox
+        // TODO: Figure this out at somepoint
 
         // group check boxes
     }
