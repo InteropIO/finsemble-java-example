@@ -12,15 +12,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
+import java.util.logging.*;
 import java.util.stream.Collectors;
 
 public class JavaExample implements WindowListener {
@@ -39,13 +35,6 @@ public class JavaExample implements WindowListener {
     private JCheckBox dockCheckBox;
     private JButton messagesButton;
     private JTextArea messages;
-    private JButton linkerButton;
-    private JPanel group1Panel;
-    private JPanel group2Panel;
-    private JPanel group3Panel;
-    private JPanel group4Panel;
-    private JPanel group5Panel;
-    private JPanel group6Panel;
     private JPanel linkerPanel;
     private JButton group1Button;
     private JButton group2Button;
@@ -62,9 +51,11 @@ public class JavaExample implements WindowListener {
      * @param args The arguments passed to the Java application from the command line
      */
     private JavaExample(List<String> args) {
-        appendMessage(String.format(
+        LOGGER.addHandler(new MessageHandler(messages));
+
+        LOGGER.info(String.format(
                 "Finsemble Java Example starting with arguments:\n\t%s", String.join("\n\t", args)));
-        appendMessage("Initiating Finsemble connection");
+        LOGGER.info("Initiating Finsemble connection");
 
         launchArgs = args;
 
@@ -109,7 +100,6 @@ public class JavaExample implements WindowListener {
                 @Override
                 public void error(ConnectionEventGenerator from, Exception e) {
                     LOGGER.log(Level.SEVERE, "Error from Finsemble", e);
-                    appendErrorMessage(String.format("Error from Finsemble:\n%s", e.getMessage()));
                 }
             });
             fsbl.register();
@@ -124,7 +114,6 @@ public class JavaExample implements WindowListener {
                 fsbl.close();
             } catch (IOException e1) {
                 LOGGER.log(Level.SEVERE, "Error closing Finsemble connection", e1);
-                appendErrorMessage(String.format("Error closing Finsemble connection:\n%s", e1.getMessage()));
             }
         }
     }
@@ -161,10 +150,8 @@ public class JavaExample implements WindowListener {
         fsbl.getClients().getLinkerClient().publish(args, (err, res) -> {
             if (err != null) {
                 LOGGER.log(Level.SEVERE, "Error publishing symbol", err);
-                appendErrorMessage("Error publishing symbol");
             } else {
                 LOGGER.info("Symbol published");
-                appendMessage("Symbol published");
             }
         });
     }
@@ -206,9 +193,8 @@ public class JavaExample implements WindowListener {
             fsbl.getClients().getLinkerClient().unlinkFromChannel(channel, wi, (err, res) -> {
                 if (err != null) {
                     LOGGER.log(Level.SEVERE, String.format("Error unlinking from channel: %s", channel), err);
-                    appendErrorMessage(String.format(":\n%s", err));
                 } else {
-                    appendMessage(String.format("Unlinked from channel: %s", channel));
+                    LOGGER.info(String.format("Unlinked from channel: %s", channel));
                 }
             });
         } else {
@@ -217,9 +203,8 @@ public class JavaExample implements WindowListener {
             fsbl.getClients().getLinkerClient().linkToChannel(channel, wi, (err, res) -> {
                 if (err != null) {
                     LOGGER.log(Level.SEVERE, String.format("Error linking to channel: %s", channel), err);
-                    appendErrorMessage(String.format(":\n%s", err));
                 } else {
-                    appendMessage(String.format("Linked to channel: %s", channel));
+                    LOGGER.info((String.format("Linked to channel: %s", channel)));
                 }
             });
         }
@@ -229,7 +214,6 @@ public class JavaExample implements WindowListener {
         fsbl.getClients().getLauncherClient().getComponentList((err, res) -> {
             if (err != null) {
                 LOGGER.log(Level.SEVERE, "Error getting component list", err);
-                appendErrorMessage(String.format(":\n%s", err));
             } else {
                 if (res.has("data")) {
                     // Get list of component names
@@ -256,7 +240,7 @@ public class JavaExample implements WindowListener {
                     } else {
                         // If there aren't components, spawn buttons
                         launchComponentButton.setEnabled(false);
-                        appendMessage("No components to spawn, disabling Launch Component button");
+                        LOGGER.info(("No components to spawn, disabling Launch Component button"));
                     }
                 }
             }
@@ -272,17 +256,14 @@ public class JavaExample implements WindowListener {
 
         if (componentName == null) {
             LOGGER.warning("No selected component");
-            appendMessage(("WARNING: No selected component"));
             return;
         }
 
         fsbl.getClients().getLauncherClient().spawn(componentName, new JSONObject(), (err, res) -> {
             if (err != null) {
                 LOGGER.log(Level.SEVERE, String.format("Error spawning \"%s\"", componentName), err);
-                appendErrorMessage(String.format("Error spawning\n%s", err));
             } else {
                 LOGGER.info(String.format("\"%s\" spawned", componentName));
-                appendMessage(String.format("\"%s\" spawned", componentName));
             }
         });
     }
@@ -306,20 +287,6 @@ public class JavaExample implements WindowListener {
         try {
             Document doc = messages.getDocument();
             doc.insertString(0, String.format("%s\n", s), null);
-        } catch (BadLocationException exc) {
-            LOGGER.severe(exc.getMessage());
-        }
-    }
-
-    /**
-     * Adds an error message to the message box.
-     *
-     * @param s The message to add.
-     */
-    private void appendErrorMessage(String s) {
-        try {
-            Document doc = messages.getDocument();
-            doc.insertString(0, String.format("ERROR: %s\n", s), null);
         } catch (BadLocationException exc) {
             LOGGER.severe(exc.getMessage());
         }
@@ -680,4 +647,75 @@ public class JavaExample implements WindowListener {
 
     }
     //endregion
+
+    /**
+     * Handler to write log messages to the message area of the form.
+     */
+    private class MessageHandler extends Handler {
+        private final JTextArea messages;
+        MessageHandler(JTextArea messages) {
+            this.messages = messages;
+        }
+
+        /**
+         * Publish a <tt>LogRecord</tt>.
+         * <p>
+         * The logging request was made initially to a <tt>Logger</tt> object,
+         * which initialized the <tt>LogRecord</tt> and forwarded it here.
+         * <p>
+         * The <tt>Handler</tt>  is responsible for formatting the message, when and
+         * if necessary.  The formatting should include localization.
+         *
+         * @param record description of the log event. A null record is
+         *               silently ignored and is not published
+         */
+        @Override
+        public void publish(LogRecord record) {
+            final Throwable throwable = record.getThrown();
+
+            String stackTrace = "";
+            if (throwable != null) {
+                StringWriter sw = new StringWriter();
+                PrintWriter pw = new PrintWriter(sw);
+                throwable.printStackTrace(pw);
+
+                sw.append("\n");
+                stackTrace = sw.toString();
+            }
+
+            final String message = String.format(
+                    "%s: %s %s%s",
+                    record.getLevel(),
+                    record.getLoggerName(),
+                    record.getMessage(),
+                    stackTrace);
+
+            appendMessage(message);
+        }
+
+        /**
+         * Flush any buffered output.
+         */
+        @Override
+        public void flush() {
+
+        }
+
+        /**
+         * Close the <tt>Handler</tt> and free all associated resources.
+         * <p>
+         * The close method will perform a <tt>flush</tt> and then close the
+         * <tt>Handler</tt>.   After close has been called this <tt>Handler</tt>
+         * should no longer be used.  Method calls may either be silently
+         * ignored or may throw runtime exceptions.
+         *
+         * @throws SecurityException if a security manager exists and if
+         *                           the caller does not have <tt>LoggingPermission("control")</tt>.
+         */
+        @Override
+        public void close() throws SecurityException {
+
+        }
+    }
+
 }
