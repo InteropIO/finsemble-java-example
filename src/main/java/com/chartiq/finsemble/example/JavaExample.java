@@ -42,6 +42,7 @@ public class JavaExample implements WindowListener {
     private JButton group4Button;
     private JButton group5Button;
     private JButton group6Button;
+    private JLabel symbolLabel;
 
     private Finsemble fsbl;
 
@@ -160,7 +161,7 @@ public class JavaExample implements WindowListener {
         // Add click handlers
 
         // Send symbol
-        symbolTextField.addActionListener(e -> sendSymbol());
+        sendSymbolButton.addActionListener(e -> sendSymbol());
 
         // populate component combo box
         populateComboBox();
@@ -171,6 +172,8 @@ public class JavaExample implements WindowListener {
         // dock checkbox
         // TODO: Figure this out at some point
 
+        fsbl.getClients().getLinkerClient().subscribe("symbol", this::handleSymbol);
+
         // Linker
         group1Button.addActionListener(this::toggleLinker);
         group2Button.addActionListener(this::toggleLinker);
@@ -178,6 +181,17 @@ public class JavaExample implements WindowListener {
         group4Button.addActionListener(this::toggleLinker);
         group5Button.addActionListener(this::toggleLinker);
         group6Button.addActionListener(this::toggleLinker);
+    }
+
+    private void handleSymbol(JSONObject err, JSONObject res) {
+        if (err != null) {
+            LOGGER.severe(err.toString());
+        } else {
+            final String symbol = res.has("data") && res.getJSONObject("data").has("data") ?
+                    res.getJSONObject("data").getString("data") :
+                    "";
+            symbolLabel.setText(symbol);
+        }
     }
 
     private void toggleLinker(ActionEvent e) {
@@ -371,7 +385,7 @@ public class JavaExample implements WindowListener {
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         gbc.gridwidth = 3;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -381,37 +395,37 @@ public class JavaExample implements WindowListener {
         launchComponentButton.setText("Launch Component");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         gbc.gridwidth = 3;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         mainPanel.add(launchComponentButton, gbc);
-        final JLabel label1 = new JLabel();
-        Font label1Font = this.$$$getFont$$$(null, -1, 48, label1.getFont());
-        if (label1Font != null) label1.setFont(label1Font);
-        label1.setHorizontalAlignment(2);
-        label1.setHorizontalTextPosition(11);
-        label1.setInheritsPopupMenu(false);
-        label1.setText("AAPL");
+        symbolLabel = new JLabel();
+        Font symbolLabelFont = this.$$$getFont$$$(null, -1, 48, symbolLabel.getFont());
+        if (symbolLabelFont != null) symbolLabel.setFont(symbolLabelFont);
+        symbolLabel.setHorizontalAlignment(2);
+        symbolLabel.setHorizontalTextPosition(11);
+        symbolLabel.setInheritsPopupMenu(false);
+        symbolLabel.setText("AAPL");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         gbc.gridwidth = 3;
-        mainPanel.add(label1, gbc);
+        mainPanel.add(symbolLabel, gbc);
         dockCheckBox = new JCheckBox();
         dockCheckBox.setEnabled(true);
         dockCheckBox.setText("Dock");
         dockCheckBox.setVisible(false);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.WEST;
         mainPanel.add(dockCheckBox, gbc);
         symbolTextField = new JTextField();
         symbolTextField.setEditable(true);
         gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 3;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         mainPanel.add(symbolTextField, gbc);
@@ -420,7 +434,7 @@ public class JavaExample implements WindowListener {
         sendSymbolButton.setText("Send Symbol");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.BOTH;
         mainPanel.add(sendSymbolButton, gbc);
@@ -445,7 +459,7 @@ public class JavaExample implements WindowListener {
         linkerPanel.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 5;
+        gbc.gridy = 0;
         gbc.gridwidth = 3;
         gbc.fill = GridBagConstraints.BOTH;
         mainPanel.add(linkerPanel, gbc);
@@ -653,6 +667,7 @@ public class JavaExample implements WindowListener {
      */
     private class MessageHandler extends Handler {
         private final JTextArea messages;
+
         MessageHandler(JTextArea messages) {
             this.messages = messages;
         }
