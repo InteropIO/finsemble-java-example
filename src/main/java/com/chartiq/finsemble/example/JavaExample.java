@@ -243,7 +243,9 @@ public class JavaExample implements WindowListener {
                                 return !component.has("component") ||
                                         !component.getJSONObject("component").has("category") ||
                                         !component.getJSONObject("component").getString("category").equals("system");
-                            }).toArray(String[]::new);
+                            })
+                            .sorted()
+                            .toArray(String[]::new);
 
                     // Add them to the component combo
                     componentComboBox.setModel(new DefaultComboBoxModel<>(nonSystemComponents));
