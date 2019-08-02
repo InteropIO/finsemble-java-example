@@ -56,7 +56,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <editable value="false"/>
+          <editable value="true"/>
         </properties>
       </component>
       <component id="8aebe" class="javax.swing.JButton" binding="sendSymbolButton">
