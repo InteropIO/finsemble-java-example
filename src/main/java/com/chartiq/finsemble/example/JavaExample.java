@@ -70,6 +70,8 @@ public class JavaExample implements WindowListener {
 
         setFormEnable(false);
 
+        symbolTextField.setText("MSFT");
+
         // Add messages button handler
         messagesButton.addActionListener((e) -> this.toggleMessages());
         toggleMessages();
@@ -288,6 +290,7 @@ public class JavaExample implements WindowListener {
 
     private void setFormEnable(boolean enabled) {
         symbolTextField.setEnabled(enabled);
+        sendSymbolButton.setEnabled(enabled);
         componentComboBox.setEnabled(enabled);
         launchComponentButton.setEnabled(enabled);
         dockCheckBox.setEnabled(enabled);
@@ -437,7 +440,7 @@ public class JavaExample implements WindowListener {
         gbc.anchor = GridBagConstraints.WEST;
         mainPanel.add(dockCheckBox, gbc);
         symbolTextField = new JTextField();
-        symbolTextField.setEditable(false);
+        symbolTextField.setEditable(true);
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
