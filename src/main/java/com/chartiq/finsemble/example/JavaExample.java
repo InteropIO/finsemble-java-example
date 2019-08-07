@@ -3,23 +3,32 @@ package com.chartiq.finsemble.example;
 import com.chartiq.finsemble.Finsemble;
 import com.chartiq.finsemble.interfaces.ConnectionEventGenerator;
 import com.chartiq.finsemble.interfaces.ConnectionListener;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
 import org.json.JSONObject;
 
+import javax.annotation.Resource;
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.*;
 import java.util.stream.Collectors;
+import javafx.fxml.FXMLLoader;
 
-public class JavaExample implements WindowListener {
+public class JavaExample extends Application implements WindowListener {
     /**
      * Logger
      */
@@ -34,51 +43,58 @@ public class JavaExample implements WindowListener {
     private JButton launchComponentButton;
     private JCheckBox dockCheckBox;
     private JButton messagesButton;
-    private JTextArea messages;
+    private TextArea messages;
     private JPanel linkerPanel;
-    private JButton group1Button;
-    private JButton group2Button;
-    private JButton group3Button;
-    private JButton group4Button;
-    private JButton group5Button;
-    private JButton group6Button;
-    private JLabel symbolLabel;
+    @FXML
+    private Button group1Button;
+    @FXML
+    private Button group2Button;
+    @FXML
+    private Button group3Button;
+    @FXML
+    private Button group4Button;
+    @FXML
+    private Button group5Button;
+    @FXML
+    private Button group6Button;
+    @FXML
+    private Label symbolLabel;
 
     private Finsemble fsbl;
 
     /**
      * Initializes a new instance of the JavaExample class.
-     *
-     * @param args The arguments passed to the Java application from the command line
      */
-    private JavaExample(List<String> args) {
-        LOGGER.addHandler(new MessageHandler(messages));
-
-        LOGGER.info(String.format(
-                "Finsemble Java Example starting with arguments:\n\t%s", String.join("\n\t", args)));
-        LOGGER.info("Initiating Finsemble connection");
-
+    public JavaExample() {
+        // TODO: Get arguments from Application
+        final List<String> args = new ArrayList<>();
+//        LOGGER.addHandler(new MessageHandler(messages));
+//
+//        LOGGER.info(String.format(
+//                "Finsemble Java Example starting with arguments:\n\t%s", String.join("\n\t", args)));
+//        LOGGER.info("Initiating Finsemble connection");
+//
         launchArgs = args;
-
-        setFormEnable(false);
-
-        symbolTextField.setText("MSFT");
-
-        // Add messages button handler
-        messagesButton.addActionListener((e) -> this.toggleMessages());
-        toggleMessages();
-
-        group1Button.setText("");
-        group2Button.setText("");
-        group3Button.setText("");
-        group4Button.setText("");
-        group5Button.setText("");
-        group6Button.setText("");
-
-        // TODO: Show when docking is supported
-        dockCheckBox.setVisible(false);
-
-        initFinsemble();
+//
+//        setFormEnable(false);
+//
+//        symbolTextField.setText("MSFT");
+//
+//        // Add messages button handler
+//        messagesButton.addActionListener((e) -> this.toggleMessages());
+//        toggleMessages();
+//
+//        group1Button.setText("");
+//        group2Button.setText("");
+//        group3Button.setText("");
+//        group4Button.setText("");
+//        group5Button.setText("");
+//        group6Button.setText("");
+//
+//        // TODO: Show when docking is supported
+//        dockCheckBox.setVisible(false);
+//
+//        initFinsemble();
     }
 
     private void initFinsemble() {
@@ -122,6 +138,7 @@ public class JavaExample implements WindowListener {
     /**
      * Toggles the visibility of the messages panel.
      */
+    @FXML
     private void toggleMessages() {
         final boolean isVisible = messages.isVisible();
 
@@ -134,6 +151,7 @@ public class JavaExample implements WindowListener {
         }
     }
 
+    @FXML
     private void sendSymbol() {
         final String symbol = symbolTextField.getText();
         if (symbol == null || symbol.equals("")) {
@@ -173,14 +191,6 @@ public class JavaExample implements WindowListener {
         // TODO: Figure this out at some point
 
         fsbl.getClients().getLinkerClient().subscribe("symbol", this::handleSymbol);
-
-        // Linker
-        group1Button.addActionListener(this::toggleLinker);
-        group2Button.addActionListener(this::toggleLinker);
-        group3Button.addActionListener(this::toggleLinker);
-        group4Button.addActionListener(this::toggleLinker);
-        group5Button.addActionListener(this::toggleLinker);
-        group6Button.addActionListener(this::toggleLinker);
     }
 
     private void handleSymbol(JSONObject err, JSONObject res) {
@@ -194,6 +204,7 @@ public class JavaExample implements WindowListener {
         }
     }
 
+    @FXML
     private void toggleLinker(ActionEvent e) {
         final JButton btn = (JButton) e.getSource();
         final String channel = btn.getName();
@@ -267,6 +278,7 @@ public class JavaExample implements WindowListener {
     /**
      * Launches the currently selected component from the component combo box.
      */
+    @FXML
     private void launchComponent() {
         final String componentName = componentComboBox.getSelectedItem() != null ? componentComboBox.getSelectedItem().toString() : null;
 
@@ -300,12 +312,7 @@ public class JavaExample implements WindowListener {
      * @param s The message to add.
      */
     private void appendMessage(String s) {
-        try {
-            Document doc = messages.getDocument();
-            doc.insertString(0, String.format("%s\n", s), null);
-        } catch (BadLocationException exc) {
-            LOGGER.severe(exc.getMessage());
-        }
+        messages.append(String.format("\n%s", s));
     }
 
     /**
@@ -318,7 +325,7 @@ public class JavaExample implements WindowListener {
 
         initLogging(argList);
 
-        launchForm(argList);
+        launch(args);
 
         // the following statement is used to log any messages
         LOGGER.info(String.format("Starting JavaExample: %s", Arrays.toString(args)));
@@ -351,224 +358,39 @@ public class JavaExample implements WindowListener {
         }
     }
 
+    //region JavaFX Application Implementation
     /**
-     * Launches the example form based on the command line arguments.
+     * The main entry point for all JavaFX applications.
+     * The start method is called after the init method has returned,
+     * and after the system is ready for the application to begin running.
      *
-     * @param args The command line arguments.
-     */
-    private static void launchForm(List<String> args) {
-        final JFrame frame = new JFrame("JavaExample");
-        frame.setContentPane(new JavaExample(args).mainPanel);
-        frame.setSize(250, 300);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-    }
-
-    //region Description
-
-    {
-// GUI initializer generated by IntelliJ IDEA GUI Designer
-// >>> IMPORTANT!! <<<
-// DO NOT EDIT OR ADD ANY CODE HERE!
-        $$$setupUI$$$();
-    }
-
-    /**
-     * Method generated by IntelliJ IDEA GUI Designer
-     * >>> IMPORTANT!! <<<
-     * DO NOT edit this method OR call it in your code!
+     * <p>
+     * NOTE: This method is called on the JavaFX Application Thread.
+     * </p>
      *
-     * @noinspection ALL
+     * @param primaryStage the primary stage for this application, onto which
+     *                     the application scene can be set. The primary stage will be embedded in
+     *                     the browser if the application was launched as an applet.
+     *                     Applications may create other stages, if needed, but they will not be
+     *                     primary stages and will not be embedded in the browser.
      */
-    private void $$$setupUI$$$() {
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new GridBagLayout());
-        componentComboBox = new JComboBox();
-        GridBagConstraints gbc;
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.gridwidth = 3;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        mainPanel.add(componentComboBox, gbc);
-        launchComponentButton = new JButton();
-        launchComponentButton.setEnabled(false);
-        launchComponentButton.setText("Launch Component");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 5;
-        gbc.gridwidth = 3;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        mainPanel.add(launchComponentButton, gbc);
-        symbolLabel = new JLabel();
-        Font symbolLabelFont = this.$$$getFont$$$(null, -1, 48, symbolLabel.getFont());
-        if (symbolLabelFont != null) symbolLabel.setFont(symbolLabelFont);
-        symbolLabel.setHorizontalAlignment(2);
-        symbolLabel.setHorizontalTextPosition(11);
-        symbolLabel.setInheritsPopupMenu(false);
-        symbolLabel.setText("AAPL");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.gridwidth = 3;
-        mainPanel.add(symbolLabel, gbc);
-        dockCheckBox = new JCheckBox();
-        dockCheckBox.setEnabled(true);
-        dockCheckBox.setText("Dock");
-        dockCheckBox.setVisible(false);
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.anchor = GridBagConstraints.WEST;
-        mainPanel.add(dockCheckBox, gbc);
-        symbolTextField = new JTextField();
-        symbolTextField.setEditable(true);
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.gridwidth = 3;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        mainPanel.add(symbolTextField, gbc);
-        sendSymbolButton = new JButton();
-        sendSymbolButton.setEnabled(false);
-        sendSymbolButton.setText("Send Symbol");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        gbc.gridwidth = 2;
-        gbc.fill = GridBagConstraints.BOTH;
-        mainPanel.add(sendSymbolButton, gbc);
-        messagesButton = new JButton();
-        messagesButton.setEnabled(true);
-        messagesButton.setFocusable(false);
-        messagesButton.setText("Messages");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 6;
-        gbc.gridwidth = 3;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        mainPanel.add(messagesButton, gbc);
-        messages = new JTextArea();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 7;
-        gbc.gridwidth = 3;
-        gbc.fill = GridBagConstraints.BOTH;
-        mainPanel.add(messages, gbc);
-        linkerPanel = new JPanel();
-        linkerPanel.setLayout(new GridBagLayout());
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 3;
-        gbc.fill = GridBagConstraints.BOTH;
-        mainPanel.add(linkerPanel, gbc);
-        group1Button = new JButton();
-        group1Button.setBackground(new Color(-7896643));
-        group1Button.setForeground(new Color(-4473925));
-        group1Button.setMaximumSize(new Dimension(30, 30));
-        group1Button.setMinimumSize(new Dimension(30, 30));
-        group1Button.setName("group1");
-        group1Button.setPreferredSize(new Dimension(30, 30));
-        group1Button.setText("X");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        linkerPanel.add(group1Button, gbc);
-        group2Button = new JButton();
-        group2Button.setBackground(new Color(-8139));
-        group2Button.setMaximumSize(new Dimension(30, 30));
-        group2Button.setMinimumSize(new Dimension(30, 30));
-        group2Button.setName("group2");
-        group2Button.setPreferredSize(new Dimension(30, 30));
-        group2Button.setText("X");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        linkerPanel.add(group2Button, gbc);
-        group3Button = new JButton();
-        group3Button.setBackground(new Color(-7743485));
-        group3Button.setHideActionText(false);
-        group3Button.setMaximumSize(new Dimension(30, 30));
-        group3Button.setMinimumSize(new Dimension(30, 30));
-        group3Button.setName("group3");
-        group3Button.setPreferredSize(new Dimension(30, 30));
-        group3Button.setText("X");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        linkerPanel.add(group3Button, gbc);
-        group4Button = new JButton();
-        group4Button.setBackground(new Color(-105886));
-        group4Button.setMaximumSize(new Dimension(30, 30));
-        group4Button.setMinimumSize(new Dimension(30, 30));
-        group4Button.setName("group4");
-        group4Button.setPreferredSize(new Dimension(30, 30));
-        group4Button.setText("X");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 3;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        linkerPanel.add(group4Button, gbc);
-        group5Button = new JButton();
-        group5Button.setBackground(new Color(-13783809));
-        group5Button.setMaximumSize(new Dimension(30, 30));
-        group5Button.setMinimumSize(new Dimension(30, 30));
-        group5Button.setName("group5");
-        group5Button.setPreferredSize(new Dimension(30, 30));
-        group5Button.setText("X");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 4;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        linkerPanel.add(group5Button, gbc);
-        group6Button = new JButton();
-        group6Button.setBackground(new Color(-24064));
-        group6Button.setMaximumSize(new Dimension(30, 30));
-        group6Button.setMinimumSize(new Dimension(30, 30));
-        group6Button.setName("group6");
-        group6Button.setPreferredSize(new Dimension(30, 30));
-        group6Button.setText("X");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 5;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        linkerPanel.add(group6Button, gbc);
-    }
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        final URL resource = JavaExample.class.getResource("JavaExample.fxml");
 
-    /**
-     * @noinspection ALL
-     */
-    private Font $$$getFont$$$(String fontName, int style, int size, Font currentFont) {
-        if (currentFont == null) return null;
-        String resultName;
-        if (fontName == null) {
-            resultName = currentFont.getName();
-        } else {
-            Font testFont = new Font(fontName, Font.PLAIN, 10);
-            if (testFont.canDisplay('a') && testFont.canDisplay('1')) {
-                resultName = fontName;
-            } else {
-                resultName = currentFont.getName();
-            }
+        try {
+            final Parent root = FXMLLoader.load(resource);
+            primaryStage.setTitle("JavaExample");
+            primaryStage.setScene(new Scene(root, 265, 400));
+            primaryStage.show();
+        } catch (Throwable e) {
+            System.err.println("error");
         }
-        return new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
-    }
 
-    /**
-     * @noinspection ALL
-     */
-    public JComponent $$$getRootComponent$$$() {
-        return mainPanel;
     }
+    //endregion
 
     //region WindowListener implementation
-
     /**
      * Invoked the first time a window is made visible.
      *
@@ -734,5 +556,4 @@ public class JavaExample implements WindowListener {
 
         }
     }
-
 }
