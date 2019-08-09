@@ -4,18 +4,18 @@ import com.chartiq.finsemble.Finsemble;
 import com.chartiq.finsemble.interfaces.ConnectionEventGenerator;
 import com.chartiq.finsemble.interfaces.ConnectionListener;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import org.json.JSONObject;
-
-import javax.annotation.Resource;
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -34,17 +34,22 @@ public class JavaExample extends Application implements WindowListener {
      */
     private static final Logger LOGGER = Logger.getLogger(JavaExample.class.getName());
 
-    private final List<String> launchArgs;
-
-    private JPanel mainPanel;
-    private JButton sendSymbolButton;
-    private JTextField symbolTextField;
-    private JComboBox componentComboBox;
-    private JButton launchComponentButton;
-    private JCheckBox dockCheckBox;
-    private JButton messagesButton;
+    @FXML
+    private Button sendSymbolButton;
+    @FXML
+    private TextField symbolTextField;
+    @FXML
+    private ComboBox<String> componentComboBox;
+    @FXML
+    private Button launchComponentButton;
+    @FXML
+    private CheckBox dockCheckBox;
+    @FXML
+    private Button messagesButton;
+    @FXML
     private TextArea messages;
-    private JPanel linkerPanel;
+    @FXML
+    private Panel linkerPanel;
     @FXML
     private Button group1Button;
     @FXML
@@ -60,49 +65,30 @@ public class JavaExample extends Application implements WindowListener {
     @FXML
     private Label symbolLabel;
 
+    /**
+     * The list of arguments passed in by Finsemble
+     */
+    private List<String> launchArgs;
+
+    /**
+     * The finsemble connection
+     */
     private Finsemble fsbl;
+
+    /**
+     * The window object managed by Finsemble
+     */
+    private Window window;
 
     /**
      * Initializes a new instance of the JavaExample class.
      */
     public JavaExample() {
-        // TODO: Get arguments from Application
-        final List<String> args = new ArrayList<>();
-//        LOGGER.addHandler(new MessageHandler(messages));
-//
-//        LOGGER.info(String.format(
-//                "Finsemble Java Example starting with arguments:\n\t%s", String.join("\n\t", args)));
-//        LOGGER.info("Initiating Finsemble connection");
-//
-        launchArgs = args;
-//
-//        setFormEnable(false);
-//
-//        symbolTextField.setText("MSFT");
-//
-//        // Add messages button handler
-//        messagesButton.addActionListener((e) -> this.toggleMessages());
-//        toggleMessages();
-//
-//        group1Button.setText("");
-//        group2Button.setText("");
-//        group3Button.setText("");
-//        group4Button.setText("");
-//        group5Button.setText("");
-//        group6Button.setText("");
-//
-//        // TODO: Show when docking is supported
-//        dockCheckBox.setVisible(false);
-//
-//        initFinsemble();
     }
 
     private void initFinsemble() {
-        // Get frame for registration with Finsemble
-        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
-
         // TODO: populate this with a way to test the API
-        fsbl = new Finsemble(launchArgs, frame);
+        fsbl = new Finsemble(launchArgs, window);
         try {
             fsbl.connect();
             appendMessage("Connected to Finsemble");
@@ -122,7 +108,6 @@ public class JavaExample extends Application implements WindowListener {
             fsbl.register();
             appendMessage("Window registered with Finsemble");
 
-            initForm();
             setFormEnable(true);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Error initializing Finsemble connection", ex);
@@ -173,24 +158,6 @@ public class JavaExample extends Application implements WindowListener {
                 LOGGER.info("Symbol published");
             }
         });
-    }
-
-    private void initForm() {
-        // Add click handlers
-
-        // Send symbol
-        sendSymbolButton.addActionListener(e -> sendSymbol());
-
-        // populate component combo box
-        populateComboBox();
-
-        // Add launch component button handler
-        launchComponentButton.addActionListener(e -> launchComponent());
-
-        // dock checkbox
-        // TODO: Figure this out at some point
-
-        fsbl.getClients().getLinkerClient().subscribe("symbol", this::handleSymbol);
     }
 
     private void handleSymbol(JSONObject err, JSONObject res) {
@@ -259,14 +226,13 @@ public class JavaExample extends Application implements WindowListener {
                             .toArray(String[]::new);
 
                     // Add them to the component combo
-                    componentComboBox.setModel(new DefaultComboBoxModel<>(nonSystemComponents));
-
-                    if (componentComboBox.getItemCount() > 0) {
+                    componentComboBox.setItems(FXCollections.observableArrayList(nonSystemComponents));
+                    if (componentComboBox.getItems().size() > 0) {
                         // If there are components, select the first
-                        componentComboBox.setSelectedIndex(0);
+                        componentComboBox.getSelectionModel().select(0);
                     } else {
-                        // If there aren't components, spawn buttons
-                        launchComponentButton.setEnabled(false);
+                        // If there aren't components, disable spawn buttons
+                        launchComponentButton.setDisable(true);
                         LOGGER.info(("No components to spawn, disabling Launch Component button"));
                     }
                 }
@@ -280,7 +246,7 @@ public class JavaExample extends Application implements WindowListener {
      */
     @FXML
     private void launchComponent() {
-        final String componentName = componentComboBox.getSelectedItem() != null ? componentComboBox.getSelectedItem().toString() : null;
+        final String componentName = componentComboBox.getValue() != null ? componentComboBox.getValue() : null;
 
         if (componentName == null) {
             LOGGER.warning("No selected component");
@@ -296,13 +262,12 @@ public class JavaExample extends Application implements WindowListener {
         });
     }
 
-
     private void setFormEnable(boolean enabled) {
         symbolTextField.setEnabled(enabled);
-        sendSymbolButton.setEnabled(enabled);
-        componentComboBox.setEnabled(enabled);
-        launchComponentButton.setEnabled(enabled);
-        dockCheckBox.setEnabled(enabled);
+        sendSymbolButton.setDisable(!enabled);
+        componentComboBox.setDisable(!enabled);
+        launchComponentButton.setDisable(!enabled);
+        dockCheckBox.setDisable(!enabled);
         linkerPanel.setEnabled(enabled);
     }
 
@@ -312,7 +277,9 @@ public class JavaExample extends Application implements WindowListener {
      * @param s The message to add.
      */
     private void appendMessage(String s) {
-        messages.append(String.format("\n%s", s));
+        if (messages != null) {
+            messages.append(String.format("\n%s", s));
+        }
     }
 
     /**
@@ -375,18 +342,57 @@ public class JavaExample extends Application implements WindowListener {
      *                     primary stages and will not be embedded in the browser.
      */
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         final URL resource = JavaExample.class.getResource("JavaExample.fxml");
+
+        // TODO: Get arguments from Application
+        final List<String> args = getParameters().getRaw();
+        LOGGER.info(String.format(
+                "Finsemble Java Example starting with arguments:\n\t%s", String.join("\n\t", args)));
+        launchArgs = args;
 
         try {
             final Parent root = FXMLLoader.load(resource);
+            Scene scene = new Scene(root);
+            this.window = scene.getWindow();
             primaryStage.setTitle("JavaExample");
             primaryStage.setScene(new Scene(root, 265, 400));
             primaryStage.show();
-        } catch (Throwable e) {
-            System.err.println("error");
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Error in start", e);
         }
 
+    }
+
+    @FXML
+    public void initialize() {
+        LOGGER.addHandler(new MessageHandler());
+
+        LOGGER.info("Initiating Finsemble connection");
+
+        setFormEnable(false);
+
+        symbolTextField.setText("MSFT");
+
+        toggleMessages();
+
+        group1Button.setText("");
+        group2Button.setText("");
+        group3Button.setText("");
+        group4Button.setText("");
+        group5Button.setText("");
+        group6Button.setText("");
+
+        // TODO: Show when docking is supported
+        dockCheckBox.setVisible(false);
+
+        // populate component combo box
+        populateComboBox();
+
+        // dock checkbox
+        // TODO: Figure this out at some point
+
+        fsbl.getClients().getLinkerClient().subscribe("symbol", this::handleSymbol);
     }
     //endregion
 
@@ -490,12 +496,6 @@ public class JavaExample extends Application implements WindowListener {
      * Handler to write log messages to the message area of the form.
      */
     private class MessageHandler extends Handler {
-        private final JTextArea messages;
-
-        MessageHandler(JTextArea messages) {
-            this.messages = messages;
-        }
-
         /**
          * Publish a <tt>LogRecord</tt>.
          * <p>
