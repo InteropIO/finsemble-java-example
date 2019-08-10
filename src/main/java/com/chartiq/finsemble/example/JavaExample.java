@@ -7,7 +7,6 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -19,9 +18,6 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import org.json.JSONObject;
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
@@ -32,7 +28,7 @@ import java.util.stream.Collectors;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
 
-public class JavaExample extends Application implements WindowListener {
+public class JavaExample extends Application {
     /**
      * Logger
      */
@@ -72,11 +68,6 @@ public class JavaExample extends Application implements WindowListener {
     private Label symbolLabel;
 
     /**
-     * The list of arguments passed in by Finsemble
-     */
-    private List<String> launchArgs;
-
-    /**
      * The finsemble connection
      */
     private Finsemble fsbl;
@@ -92,9 +83,17 @@ public class JavaExample extends Application implements WindowListener {
     public JavaExample() {
     }
 
-    private void initFinsemble() {
+    /**
+     * Connect to Finsemble.
+     */
+    private void connect() {
         // TODO: populate this with a way to test the API
-        fsbl = new Finsemble(launchArgs, window);
+        // Get arguments from Application
+        final List<String> args = getParameters().getRaw();
+        LOGGER.info(String.format(
+                "Finsemble Java Example starting with arguments:\n\t%s", String.join("\n\t", args)));
+
+        fsbl = new Finsemble(args, window);
         try {
             fsbl.connect();
             appendMessage("Connected to Finsemble");
@@ -260,7 +259,7 @@ public class JavaExample extends Application implements WindowListener {
      */
     @FXML
     private void launchComponent() {
-        final String componentName = componentComboBox.getValue() != null ? componentComboBox.getValue() : null;
+        final String componentName = componentComboBox.getValue();
 
         if (componentName == null) {
             LOGGER.warning("No selected component");
@@ -359,12 +358,6 @@ public class JavaExample extends Application implements WindowListener {
     public void start(Stage primaryStage) {
         final URL resource = JavaExample.class.getResource("JavaExample.fxml");
 
-        // TODO: Get arguments from Application
-        final List<String> args = getParameters().getRaw();
-        LOGGER.info(String.format(
-                "Finsemble Java Example starting with arguments:\n\t%s", String.join("\n\t", args)));
-        launchArgs = args;
-
         try {
             final AnchorPane anchorPane = FXMLLoader.load(resource);
             primaryStage.setTitle("JavaExample");
@@ -400,102 +393,8 @@ public class JavaExample extends Application implements WindowListener {
 
         // TODO: Show when docking is supported
         dockCheckBox.setVisible(false);
-    }
-    //endregion
 
-    //region WindowListener implementation
-    /**
-     * Invoked the first time a window is made visible.
-     *
-     * @param e The window event
-     */
-    @Override
-    public void windowOpened(WindowEvent e) {
-        initFinsemble();
-    }
-
-    /**
-     * Invoked when the user attempts to close the window
-     * from the window's system menu.
-     *
-     * @param e The window event
-     */
-    @Override
-    public void windowClosing(WindowEvent e) {
-
-    }
-
-    /**
-     * Invoked when a window has been closed as the result
-     * of calling dispose on the window.
-     *
-     * @param e The window event
-     */
-    @Override
-    public void windowClosed(WindowEvent e) {
-        if (fsbl != null) {
-            try {
-                fsbl.close();
-            } catch (Exception ex) {
-                // Do nothing
-                fsbl = null;
-            }
-        }
-    }
-
-    /**
-     * Invoked when a window is changed from a normal to a
-     * minimized state. For many platforms, a minimized window
-     * is displayed as the icon specified in the window's
-     * iconImage property.
-     *
-     * @param e The window event
-     * @see Frame#setIconImage
-     */
-    @Override
-    public void windowIconified(WindowEvent e) {
-
-    }
-
-    /**
-     * Invoked when a window is changed from a minimized
-     * to a normal state.
-     *
-     * @param e The window event
-     */
-    @Override
-    public void windowDeiconified(WindowEvent e) {
-
-    }
-
-    /**
-     * Invoked when the Window is set to be the active Window. Only a Frame or
-     * a Dialog can be the active Window. The native windowing system may
-     * denote the active Window or its children with special decorations, such
-     * as a highlighted title bar. The active Window is always either the
-     * focused Window, or the first Frame or Dialog that is an owner of the
-     * focused Window.
-     *
-     * @param e The window event
-     */
-    @Override
-    public void windowActivated(WindowEvent e) {
-
-    }
-
-    /**
-     * Invoked when a Window is no longer the active Window. Only a Frame or a
-     * Dialog can be the active Window. The native windowing system may denote
-     * the active Window or its children with special decorations, such as a
-     * highlighted title bar. The active Window is always either the focused
-     * Window, or the first Frame or Dialog that is an owner of the focused
-     * Window.
-     *
-     * @param e The window event
-     */
-    @Override
-    public void windowDeactivated(WindowEvent e) {
-
+        connect();
     }
     //endregion
 
@@ -522,17 +421,19 @@ public class JavaExample extends Application implements WindowListener {
             String stackTrace = "";
             if (throwable != null) {
                 StringWriter sw = new StringWriter();
+                sw.append("\n");
+
                 PrintWriter pw = new PrintWriter(sw);
                 throwable.printStackTrace(pw);
 
-                sw.append("\n");
                 stackTrace = sw.toString();
             }
 
             final String message = String.format(
-                    "%s: %s %s%s",
+                    "%s: %s.%s %s%s",
                     record.getLevel(),
-                    record.getLoggerName(),
+                    record.getSourceClassName().substring(record.getSourceClassName().lastIndexOf(".")),
+                    record.getSourceMethodName(),
                     record.getMessage(),
                     stackTrace);
 
