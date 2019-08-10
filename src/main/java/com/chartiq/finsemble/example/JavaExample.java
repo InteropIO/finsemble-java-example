@@ -12,6 +12,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import org.json.JSONObject;
@@ -27,6 +30,7 @@ import java.util.List;
 import java.util.logging.*;
 import java.util.stream.Collectors;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.TextField;
 
 public class JavaExample extends Application implements WindowListener {
     /**
@@ -34,6 +38,8 @@ public class JavaExample extends Application implements WindowListener {
      */
     private static final Logger LOGGER = Logger.getLogger(JavaExample.class.getName());
 
+    @FXML
+    private AnchorPane mainPanel;
     @FXML
     private Button sendSymbolButton;
     @FXML
@@ -49,7 +55,7 @@ public class JavaExample extends Application implements WindowListener {
     @FXML
     private TextArea messages;
     @FXML
-    private Panel linkerPanel;
+    private AnchorPane linkerPanel;
     @FXML
     private Button group1Button;
     @FXML
@@ -107,6 +113,14 @@ public class JavaExample extends Application implements WindowListener {
             });
             fsbl.register();
             appendMessage("Window registered with Finsemble");
+
+            // populate component combo box
+            populateComboBox();
+
+            // dock checkbox
+            // TODO: Figure this out at some point
+
+            fsbl.getClients().getLinkerClient().subscribe("symbol", this::handleSymbol);
 
             setFormEnable(true);
         } catch (Exception ex) {
@@ -263,12 +277,12 @@ public class JavaExample extends Application implements WindowListener {
     }
 
     private void setFormEnable(boolean enabled) {
-        symbolTextField.setEnabled(enabled);
+        symbolTextField.setDisable(!enabled);
         sendSymbolButton.setDisable(!enabled);
         componentComboBox.setDisable(!enabled);
         launchComponentButton.setDisable(!enabled);
         dockCheckBox.setDisable(!enabled);
-        linkerPanel.setEnabled(enabled);
+        linkerPanel.setDisable(!enabled);
     }
 
     /**
@@ -278,7 +292,7 @@ public class JavaExample extends Application implements WindowListener {
      */
     private void appendMessage(String s) {
         if (messages != null) {
-            messages.append(String.format("\n%s", s));
+            messages.appendText(String.format("\n%s", s));
         }
     }
 
@@ -352,12 +366,13 @@ public class JavaExample extends Application implements WindowListener {
         launchArgs = args;
 
         try {
-            final Parent root = FXMLLoader.load(resource);
-            Scene scene = new Scene(root);
-            this.window = scene.getWindow();
+            final AnchorPane anchorPane = FXMLLoader.load(resource);
             primaryStage.setTitle("JavaExample");
-            primaryStage.setScene(new Scene(root, 265, 400));
+            Scene scene = new Scene(anchorPane, 265, 400);
+            primaryStage.setScene(scene);
             primaryStage.show();
+
+            this.window = scene.getWindow();
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Error in start", e);
         }
@@ -385,14 +400,6 @@ public class JavaExample extends Application implements WindowListener {
 
         // TODO: Show when docking is supported
         dockCheckBox.setVisible(false);
-
-        // populate component combo box
-        populateComboBox();
-
-        // dock checkbox
-        // TODO: Figure this out at some point
-
-        fsbl.getClients().getLinkerClient().subscribe("symbol", this::handleSymbol);
     }
     //endregion
 
