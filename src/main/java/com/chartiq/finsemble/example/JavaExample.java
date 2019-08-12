@@ -34,8 +34,12 @@ public class JavaExample extends Application {
      */
     private static final Logger LOGGER = Logger.getLogger(JavaExample.class.getName());
 
-    @FXML
-    private AnchorPane mainPanel;
+    /**
+     * Arguments passed via the command line
+     */
+    private static List<String> args;
+
+    //region FXML controls
     @FXML
     private Button sendSymbolButton;
     @FXML
@@ -66,6 +70,7 @@ public class JavaExample extends Application {
     private Button group6Button;
     @FXML
     private Label symbolLabel;
+    //endregion
 
     /**
      * The finsemble connection
@@ -88,11 +93,6 @@ public class JavaExample extends Application {
      */
     private void connect() {
         // TODO: populate this with a way to test the API
-        // Get arguments from Application
-        final List<String> args = getParameters().getRaw();
-        LOGGER.info(String.format(
-                "Finsemble Java Example starting with arguments:\n\t%s", String.join("\n\t", args)));
-
         fsbl = new Finsemble(args, window);
         try {
             fsbl.connect();
@@ -356,6 +356,11 @@ public class JavaExample extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
+        // Get arguments from Application
+        args = getParameters().getRaw();
+
+        LOGGER.info(String.format(
+                "Finsemble Java Example starting with arguments:\n\t%s", String.join("\n\t", args)));
         final URL resource = JavaExample.class.getResource("JavaExample.fxml");
 
         try {
