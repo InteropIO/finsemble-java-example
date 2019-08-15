@@ -7,16 +7,15 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import org.json.JSONObject;
+
+import javax.annotation.Resources;
 import javax.swing.*;
 import java.io.*;
 import java.net.URL;
@@ -25,8 +24,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.*;
 import java.util.stream.Collectors;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.TextField;
 
 public class JavaExample extends Application {
     /**
@@ -92,6 +89,11 @@ public class JavaExample extends Application {
      * Connect to Finsemble.
      */
     private void connect() {
+        if (fsbl != null) {
+            // Has already connected once, and reconnecting doesn't work.
+            return;
+        }
+
         // TODO: populate this with a way to test the API
         fsbl = new Finsemble(args, window);
         try {
@@ -304,11 +306,13 @@ public class JavaExample extends Application {
         final List<String> argList = new ArrayList<>(Arrays.asList(args));
 
         initLogging(argList);
+        // the following statement is used to log any messages
+        LOGGER.info(String.format("Starting JavaExample: %s", Arrays.toString(args)));
 
         launch(args);
 
         // the following statement is used to log any messages
-        LOGGER.info(String.format("Starting JavaExample: %s", Arrays.toString(args)));
+        LOGGER.info("Started JavaExample");
     }
 
     private static void initLogging(List<String> args) {
@@ -356,6 +360,7 @@ public class JavaExample extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
+        LOGGER.info("Start method called");
         // Get arguments from Application
         args = getParameters().getRaw();
 
@@ -365,20 +370,29 @@ public class JavaExample extends Application {
 
         try {
             final AnchorPane anchorPane = FXMLLoader.load(resource);
+            LOGGER.info("Parent loaded from resource");
             primaryStage.setTitle("JavaExample");
             Scene scene = new Scene(anchorPane, 265, 400);
+            LOGGER.info("Scene created");
             primaryStage.setScene(scene);
+
+            // Connect to finsemble after the window is shown
+            primaryStage.setOnShown((e) -> connect());
+
+            LOGGER.info("Showing window");
             primaryStage.show();
 
+            LOGGER.info("Getting window");
             this.window = scene.getWindow();
+
+            LOGGER.info("Started successfully");
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Error in start", e);
         }
-
     }
 
     @FXML
-    public void initialize() {
+    protected void initialize() {
         LOGGER.addHandler(new MessageHandler());
 
         LOGGER.info("Initiating Finsemble connection");
@@ -398,8 +412,6 @@ public class JavaExample extends Application {
 
         // TODO: Show when docking is supported
         dockCheckBox.setVisible(false);
-
-        connect();
     }
     //endregion
 
