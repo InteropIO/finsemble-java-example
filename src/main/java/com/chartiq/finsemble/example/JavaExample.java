@@ -13,9 +13,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import javafx.stage.WindowEvent;
 import org.json.JSONObject;
 
-import javax.annotation.Resources;
 import javax.swing.*;
 import java.io.*;
 import java.net.URL;
@@ -377,7 +377,7 @@ public class JavaExample extends Application {
             primaryStage.setScene(scene);
 
             // Connect to finsemble after the window is shown
-            primaryStage.setOnShown((e) -> connect());
+            primaryStage.setOnShown(this::onShownHandler);
 
             LOGGER.info("Showing window");
             primaryStage.show();
@@ -389,6 +389,11 @@ public class JavaExample extends Application {
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Error in start", e);
         }
+    }
+
+    private void onShownHandler(WindowEvent e) {
+        LOGGER.info(String.format("Starting JavaExample: %s", args));
+        connect();
     }
 
     @FXML
