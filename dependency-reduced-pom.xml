@@ -60,13 +60,13 @@
                 <fileVersion>1.0.0.0</fileVersion>
                 <txtFileVersion>${project.version}</txtFileVersion>
                 <fileDescription>${project.name}</fileDescription>
-                <copyright>2012 howtodoinjava.com</copyright>
+                <copyright>2019 ChartIQ</copyright>
                 <productVersion>1.0.0.0</productVersion>
                 <txtProductVersion>1.0.0.0</txtProductVersion>
                 <productName>${project.name}</productName>
-                <companyName>howtodoinjava.com</companyName>
-                <internalName>howtodoinjava</internalName>
-                <originalFilename>howtodoinjava.exe</originalFilename>
+                <companyName>ChartIQ</companyName>
+                <internalName>Finsemble Java Example</internalName>
+                <originalFilename>FinsembleJavaExample.exe</originalFilename>
               </versionInfo>
             </configuration>
           </execution>
