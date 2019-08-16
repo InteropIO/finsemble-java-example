@@ -7,9 +7,11 @@ import javafx.geometry.Bounds;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -38,6 +40,8 @@ public class WindowTitleBar extends AnchorPane {
     @FXML
     private Button maximizeButton;
     //endregion
+
+    private final Delta dragDelta = new Delta();
 
     // TODO: How to control parent window
     private Stage primaryStage;
@@ -69,6 +73,10 @@ public class WindowTitleBar extends AnchorPane {
         group6.setVisible(false);
         dockingButton.setVisible(false);
         // TODO: Get initial group state from component state and update which are displayed
+
+        // TODO: Is this the right place to do this?
+        // TODO: How do I get the primary stage?
+        primaryStage.initStyle(StageStyle.UNDECORATED);
     }
 
     @FXML
@@ -100,7 +108,6 @@ public class WindowTitleBar extends AnchorPane {
             maximizeButton.setText("#");
             maximizeButton.setTooltip(new Tooltip("Restore"));
         }
-
     }
 
     @FXML
@@ -115,6 +122,20 @@ public class WindowTitleBar extends AnchorPane {
         // TODO: Add docking behavior
     }
 
+    //region Window movement
+    // TODO: Validate window movement
+    @FXML
+    public void onMouseClicked(MouseEvent e) {
+        dragDelta.x = primaryStage.getX() - e.getScreenX();
+        dragDelta.y = primaryStage.getY() - e.getScreenY();
+    }
+
+    @FXML
+    public void onMouseMove(MouseEvent e) {
+        primaryStage.setX(e.getScreenX() + dragDelta.x);
+        primaryStage.setY(e.getScreenY() + dragDelta.y);
+    }
+
     public void setWindowTitle(String title) {
         windowTitle.setText(title);
     }
@@ -122,4 +143,13 @@ public class WindowTitleBar extends AnchorPane {
     public void setFinsemble(Finsemble fsbl) {
         this.FSBL = fsbl;
     }
+
+    /**
+     * Class used by window move to calculate window move delta
+     */
+    private class Delta {
+        double x;
+        double y;
+    }
+    //endregion
 }
