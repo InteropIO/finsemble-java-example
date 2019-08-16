@@ -4,8 +4,6 @@
 
 The finsemble-jar project must be built before it can be run. 
 
-**NOTE:** The project was created using (IntelliJ IDEA)[https://www.jetbrains.com/idea/download], but can be built with maven.
-
 Pass the following parameters:
 ```
 foo bar baz finsembleWindowName=FinsembleJar-11-126-Finsemble componentType=FinsembleJar uuid=uuid1545252286933_4444 left=316 top=89 width=800 height=600 iac=true serverAddress=ws://127.0.0.1:3376
@@ -15,7 +13,7 @@ foo bar baz finsembleWindowName=FinsembleJar-11-126-Finsemble componentType=Fins
 
 This can be run with the following command from the project root:
 ``` BASH
-java -jar <path to>/finsemble-java-example/out/artifacts/finesmble_java_example_jar
+./target/FinsembleJavaExample.exe
 ```
 
 ## Configuration for testing 
@@ -26,10 +24,10 @@ Copy the _config.json_ included in the project to _src/components/java-example/j
         "moduleRoot": "http://localhost:3375/finsemble",
         "servicesRoot": "http://localhost:3375/finsemble/services",
 		"notificationURL": "http://localhost:3375/components/notification/notification.html",
-		"finsembleJavaExampleRoot": "<path to>/finsemble-java-example/out/artifacts/finesmble_java_example_jar",
+		"avaExampleRoot": "<path to finsemble-java-example root>/target",
         "importConfig": [
 			"$applicationRoot/configs/application/config.json",
-            "$applicationRoot/components/java-example/java-example.json"
+            "$applicationRoot/components/native/java-example.json"
         ],
         "IAC": {
             "serverAddress" : "ws://127.0.0.1:3376"

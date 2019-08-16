@@ -3,9 +3,10 @@
         "Java Example": {
             "window": {
                 "id": "JavaExample",
-                "native": true,
-                "path": "$finsembleJavaExampleRoot/",
+                "windowType": "FinsembleNativeWindow",
+                "path": "$javaExampleRoot/FinsembleJavaExample.exe",
                 "url": "",
+                "arguments": "",
                 "defaultHeight": 600,
                 "autoShow": true,
                 "alwaysOnTop": false,
@@ -15,6 +16,7 @@
                 "addToWorkspace": true
             },
             "component": {
+                "spawnOnStartup": false
             },
             "foreign": {
                 "services": {
@@ -29,7 +31,10 @@
                     "Window Manager": {
                         "persistWindowState": false,
                         "FSBLHeader": true
-                    }
+                    },
+					"Toolbar": {
+						"iconURL": "$applicationRoot/assets/img/notepad.png"
+					}
                 }
             }
         }
