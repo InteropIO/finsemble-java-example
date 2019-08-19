@@ -9,17 +9,14 @@ import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
+import java.util.logging.*;
 import java.util.stream.Collectors;
 
 public class JavaExample implements WindowListener {
@@ -38,14 +35,14 @@ public class JavaExample implements WindowListener {
     private JCheckBox dockCheckBox;
     private JButton messagesButton;
     private JTextArea messages;
-    private JButton linkerButton;
-    private JPanel group1Panel;
-    private JPanel group2Panel;
-    private JPanel group3Panel;
-    private JPanel group4Panel;
-    private JPanel group5Panel;
-    private JPanel group6Panel;
     private JPanel linkerPanel;
+    private JButton group1Button;
+    private JButton group2Button;
+    private JButton group3Button;
+    private JButton group4Button;
+    private JButton group5Button;
+    private JButton group6Button;
+    private JLabel symbolLabel;
 
     private Finsemble fsbl;
 
@@ -55,28 +52,28 @@ public class JavaExample implements WindowListener {
      * @param args The arguments passed to the Java application from the command line
      */
     private JavaExample(List<String> args) {
-        appendMessage(String.format(
+        LOGGER.addHandler(new MessageHandler(messages));
+
+        LOGGER.info(String.format(
                 "Finsemble Java Example starting with arguments:\n\t%s", String.join("\n\t", args)));
-        appendMessage("Initiating Finsemble connection");
+        LOGGER.info("Initiating Finsemble connection");
 
         launchArgs = args;
 
         setFormEnable(false);
 
+        symbolTextField.setText("MSFT");
+
         // Add messages button handler
         messagesButton.addActionListener((e) -> this.toggleMessages());
         toggleMessages();
 
-        // TODO: Hiding linker panel until linker is figured out
-        linkerPanel.setVisible(false);
-
-        // Hide linker pips initially to be shown later
-        group1Panel.setVisible(false);
-        group2Panel.setVisible(false);
-        group3Panel.setVisible(false);
-        group4Panel.setVisible(false);
-        group5Panel.setVisible(false);
-        group6Panel.setVisible(false);
+        group1Button.setText("");
+        group2Button.setText("");
+        group3Button.setText("");
+        group4Button.setText("");
+        group5Button.setText("");
+        group6Button.setText("");
 
         // TODO: Show when docking is supported
         dockCheckBox.setVisible(false);
@@ -104,7 +101,6 @@ public class JavaExample implements WindowListener {
                 @Override
                 public void error(ConnectionEventGenerator from, Exception e) {
                     LOGGER.log(Level.SEVERE, "Error from Finsemble", e);
-                    appendErrorMessage(String.format("Error from Finsemble:\n%s", e.getMessage()));
                 }
             });
             fsbl.register();
@@ -119,7 +115,6 @@ public class JavaExample implements WindowListener {
                 fsbl.close();
             } catch (IOException e1) {
                 LOGGER.log(Level.SEVERE, "Error closing Finsemble connection", e1);
-                appendErrorMessage(String.format("Error closing Finsemble connection:\n%s", e1.getMessage()));
             }
         }
     }
@@ -156,10 +151,8 @@ public class JavaExample implements WindowListener {
         fsbl.getClients().getLinkerClient().publish(args, (err, res) -> {
             if (err != null) {
                 LOGGER.log(Level.SEVERE, "Error publishing symbol", err);
-                appendErrorMessage("Error publishing symbol");
             } else {
                 LOGGER.info("Symbol published");
-                appendMessage("Symbol published");
             }
         });
     }
@@ -168,13 +161,73 @@ public class JavaExample implements WindowListener {
         // Add click handlers
 
         // Send symbol
-        symbolTextField.addActionListener(e -> sendSymbol());
+        sendSymbolButton.addActionListener(e -> sendSymbol());
 
         // populate component combo box
+        populateComboBox();
+
+        // Add launch component button handler
+        launchComponentButton.addActionListener(e -> launchComponent());
+
+        // dock checkbox
+        // TODO: Figure this out at some point
+
+        fsbl.getClients().getLinkerClient().subscribe("symbol", this::handleSymbol);
+
+        // Linker
+        group1Button.addActionListener(this::toggleLinker);
+        group2Button.addActionListener(this::toggleLinker);
+        group3Button.addActionListener(this::toggleLinker);
+        group4Button.addActionListener(this::toggleLinker);
+        group5Button.addActionListener(this::toggleLinker);
+        group6Button.addActionListener(this::toggleLinker);
+    }
+
+    private void handleSymbol(JSONObject err, JSONObject res) {
+        if (err != null) {
+            LOGGER.severe(err.toString());
+        } else {
+            final String symbol = res.has("data") && res.getJSONObject("data").has("data") ?
+                    res.getJSONObject("data").getString("data") :
+                    "";
+            symbolLabel.setText(symbol);
+        }
+    }
+
+    private void toggleLinker(ActionEvent e) {
+        final JButton btn = (JButton) e.getSource();
+        final String channel = btn.getName();
+        final boolean selected = btn.getText().equals("X");
+
+        final JSONObject wi = fsbl.getClients().getWindowClient().getWindowIdentifier();
+
+        if (selected) {
+            // unlink
+            btn.setText("");
+            fsbl.getClients().getLinkerClient().unlinkFromChannel(channel, wi, (err, res) -> {
+                if (err != null) {
+                    LOGGER.log(Level.SEVERE, String.format("Error unlinking from channel: %s", channel), err);
+                } else {
+                    LOGGER.info(String.format("Unlinked from channel: %s", channel));
+                }
+            });
+        } else {
+            // link
+            btn.setText("X");
+            fsbl.getClients().getLinkerClient().linkToChannel(channel, wi, (err, res) -> {
+                if (err != null) {
+                    LOGGER.log(Level.SEVERE, String.format("Error linking to channel: %s", channel), err);
+                } else {
+                    LOGGER.info((String.format("Linked to channel: %s", channel)));
+                }
+            });
+        }
+    }
+
+    private void populateComboBox() {
         fsbl.getClients().getLauncherClient().getComponentList((err, res) -> {
             if (err != null) {
                 LOGGER.log(Level.SEVERE, "Error getting component list", err);
-                appendErrorMessage(String.format(":\n%s", err));
             } else {
                 if (res.has("data")) {
                     // Get list of component names
@@ -190,7 +243,9 @@ public class JavaExample implements WindowListener {
                                 return !component.has("component") ||
                                         !component.getJSONObject("component").has("category") ||
                                         !component.getJSONObject("component").getString("category").equals("system");
-                            }).toArray(String[]::new);
+                            })
+                            .sorted()
+                            .toArray(String[]::new);
 
                     // Add them to the component combo
                     componentComboBox.setModel(new DefaultComboBoxModel<>(nonSystemComponents));
@@ -201,61 +256,13 @@ public class JavaExample implements WindowListener {
                     } else {
                         // If there aren't components, spawn buttons
                         launchComponentButton.setEnabled(false);
-                        appendMessage("No components to spawn, disabling Launch Component button");
+                        LOGGER.info(("No components to spawn, disabling Launch Component button"));
                     }
                 }
             }
         });
-
-        // Add launch component button handler
-        launchComponentButton.addActionListener(e -> launchComponent());
-
-        // dock checkbox
-        // TODO: Figure this out at some point
-
-        // Linker button
-        linkerButton.addActionListener((e) -> showLinker());
     }
 
-    private void showLinker() {
-        // TODO: Show linker
-
-//        var channelsToSend = new JArray { };
-//        if (channels != null)
-//        {
-//            foreach (var item in channels)
-//            {
-//                var channelinfo = allChannels.Where(jt => jt["name"].ToString() == item.ToString())?.First();
-//                if (channelinfo != null) channelsToSend.Add(channelinfo);
-//            }
-//        }
-//        JObject data = new JObject
-//        {
-//                ["channels"] = channelsToSend,
-//                ["windowIdentifier"] = windowClient.windowIdentifier
-//        };
-//
-//        routerClient.Query("Finsemble.LinkerWindow.SetActiveChannels", data, new JObject { }, delegate (object sender, FinsembleEventArgs e)
-//        {
-//            Application.Current.Dispatcher.Invoke((Action)delegate //main thread
-//            {
-//
-//                var wi = new JObject
-//                {
-//                        ["componentType"] = "linkerWindow"
-//                };
-//                var parameters = new JObject
-//                {
-//                        ["position"] = "relative",
-//                        ["left"] = left,
-//                        ["top"] = top,
-//                        ["spawnIfNotFound"] = false
-//                };
-//                launcherClient.ShowWindow(wi, parameters, (EventHandler<FinsembleEventArgs>)delegate (object s2, FinsembleEventArgs e2) { });
-//
-//            });
-//        });
-    }
 
     /**
      * Launches the currently selected component from the component combo box.
@@ -265,17 +272,14 @@ public class JavaExample implements WindowListener {
 
         if (componentName == null) {
             LOGGER.warning("No selected component");
-            appendMessage(("WARNING: No selected component"));
             return;
         }
 
         fsbl.getClients().getLauncherClient().spawn(componentName, new JSONObject(), (err, res) -> {
             if (err != null) {
                 LOGGER.log(Level.SEVERE, String.format("Error spawning \"%s\"", componentName), err);
-                appendErrorMessage(String.format("Error spawning\n%s", err));
             } else {
                 LOGGER.info(String.format("\"%s\" spawned", componentName));
-                appendMessage(String.format("\"%s\" spawned", componentName));
             }
         });
     }
@@ -283,10 +287,11 @@ public class JavaExample implements WindowListener {
 
     private void setFormEnable(boolean enabled) {
         symbolTextField.setEnabled(enabled);
+        sendSymbolButton.setEnabled(enabled);
         componentComboBox.setEnabled(enabled);
         launchComponentButton.setEnabled(enabled);
         dockCheckBox.setEnabled(enabled);
-        linkerButton.setEnabled(enabled);
+        linkerPanel.setEnabled(enabled);
     }
 
     /**
@@ -298,20 +303,6 @@ public class JavaExample implements WindowListener {
         try {
             Document doc = messages.getDocument();
             doc.insertString(0, String.format("%s\n", s), null);
-        } catch (BadLocationException exc) {
-            LOGGER.severe(exc.getMessage());
-        }
-    }
-
-    /**
-     * Adds an error message to the message box.
-     *
-     * @param s The message to add.
-     */
-    private void appendErrorMessage(String s) {
-        try {
-            Document doc = messages.getDocument();
-            doc.insertString(0, String.format("ERROR: %s\n", s), null);
         } catch (BadLocationException exc) {
             LOGGER.severe(exc.getMessage());
         }
@@ -368,9 +359,8 @@ public class JavaExample implements WindowListener {
     private static void launchForm(List<String> args) {
         final JFrame frame = new JFrame("JavaExample");
         frame.setContentPane(new JavaExample(args).mainPanel);
-        frame.pack();
-        frame.setSize(800, 400);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setSize(250, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
 
@@ -397,7 +387,7 @@ public class JavaExample implements WindowListener {
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         gbc.gridwidth = 3;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -407,37 +397,37 @@ public class JavaExample implements WindowListener {
         launchComponentButton.setText("Launch Component");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         gbc.gridwidth = 3;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         mainPanel.add(launchComponentButton, gbc);
-        final JLabel label1 = new JLabel();
-        Font label1Font = this.$$$getFont$$$(null, -1, 48, label1.getFont());
-        if (label1Font != null) label1.setFont(label1Font);
-        label1.setHorizontalAlignment(2);
-        label1.setHorizontalTextPosition(11);
-        label1.setInheritsPopupMenu(false);
-        label1.setText("AAPL");
+        symbolLabel = new JLabel();
+        Font symbolLabelFont = this.$$$getFont$$$(null, -1, 48, symbolLabel.getFont());
+        if (symbolLabelFont != null) symbolLabel.setFont(symbolLabelFont);
+        symbolLabel.setHorizontalAlignment(2);
+        symbolLabel.setHorizontalTextPosition(11);
+        symbolLabel.setInheritsPopupMenu(false);
+        symbolLabel.setText("AAPL");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         gbc.gridwidth = 3;
-        mainPanel.add(label1, gbc);
+        mainPanel.add(symbolLabel, gbc);
         dockCheckBox = new JCheckBox();
         dockCheckBox.setEnabled(true);
         dockCheckBox.setText("Dock");
         dockCheckBox.setVisible(false);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.WEST;
         mainPanel.add(dockCheckBox, gbc);
         symbolTextField = new JTextField();
-        symbolTextField.setEditable(false);
+        symbolTextField.setEditable(true);
         gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 3;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         mainPanel.add(symbolTextField, gbc);
@@ -446,7 +436,7 @@ public class JavaExample implements WindowListener {
         sendSymbolButton.setText("Send Symbol");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.BOTH;
         mainPanel.add(sendSymbolButton, gbc);
@@ -471,66 +461,84 @@ public class JavaExample implements WindowListener {
         linkerPanel.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 5;
+        gbc.gridy = 0;
         gbc.gridwidth = 3;
         gbc.fill = GridBagConstraints.BOTH;
         mainPanel.add(linkerPanel, gbc);
-        group1Panel = new JPanel();
-        group1Panel.setLayout(new GridBagLayout());
-        group1Panel.setBackground(new Color(-7896643));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.BOTH;
-        linkerPanel.add(group1Panel, gbc);
-        group2Panel = new JPanel();
-        group2Panel.setLayout(new GridBagLayout());
-        group2Panel.setBackground(new Color(-8139));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.BOTH;
-        linkerPanel.add(group2Panel, gbc);
-        group3Panel = new JPanel();
-        group3Panel.setLayout(new GridBagLayout());
-        group3Panel.setBackground(new Color(-7743485));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 3;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.BOTH;
-        linkerPanel.add(group3Panel, gbc);
-        group4Panel = new JPanel();
-        group4Panel.setLayout(new GridBagLayout());
-        group4Panel.setBackground(new Color(-105886));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 4;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.BOTH;
-        linkerPanel.add(group4Panel, gbc);
-        group5Panel = new JPanel();
-        group5Panel.setLayout(new GridBagLayout());
-        group5Panel.setBackground(new Color(-13783809));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 5;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.BOTH;
-        linkerPanel.add(group5Panel, gbc);
-        group6Panel = new JPanel();
-        group6Panel.setLayout(new GridBagLayout());
-        group6Panel.setBackground(new Color(-24064));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 6;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.BOTH;
-        linkerPanel.add(group6Panel, gbc);
-        linkerButton = new JButton();
-        linkerButton.setLabel("Linker");
-        linkerButton.setText("Linker");
+        group1Button = new JButton();
+        group1Button.setBackground(new Color(-7896643));
+        group1Button.setForeground(new Color(-4473925));
+        group1Button.setMaximumSize(new Dimension(30, 30));
+        group1Button.setMinimumSize(new Dimension(30, 30));
+        group1Button.setName("group1");
+        group1Button.setPreferredSize(new Dimension(30, 30));
+        group1Button.setText("X");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        linkerPanel.add(linkerButton, gbc);
+        linkerPanel.add(group1Button, gbc);
+        group2Button = new JButton();
+        group2Button.setBackground(new Color(-8139));
+        group2Button.setMaximumSize(new Dimension(30, 30));
+        group2Button.setMinimumSize(new Dimension(30, 30));
+        group2Button.setName("group2");
+        group2Button.setPreferredSize(new Dimension(30, 30));
+        group2Button.setText("X");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        linkerPanel.add(group2Button, gbc);
+        group3Button = new JButton();
+        group3Button.setBackground(new Color(-7743485));
+        group3Button.setHideActionText(false);
+        group3Button.setMaximumSize(new Dimension(30, 30));
+        group3Button.setMinimumSize(new Dimension(30, 30));
+        group3Button.setName("group3");
+        group3Button.setPreferredSize(new Dimension(30, 30));
+        group3Button.setText("X");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        linkerPanel.add(group3Button, gbc);
+        group4Button = new JButton();
+        group4Button.setBackground(new Color(-105886));
+        group4Button.setMaximumSize(new Dimension(30, 30));
+        group4Button.setMinimumSize(new Dimension(30, 30));
+        group4Button.setName("group4");
+        group4Button.setPreferredSize(new Dimension(30, 30));
+        group4Button.setText("X");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 3;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        linkerPanel.add(group4Button, gbc);
+        group5Button = new JButton();
+        group5Button.setBackground(new Color(-13783809));
+        group5Button.setMaximumSize(new Dimension(30, 30));
+        group5Button.setMinimumSize(new Dimension(30, 30));
+        group5Button.setName("group5");
+        group5Button.setPreferredSize(new Dimension(30, 30));
+        group5Button.setText("X");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 4;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        linkerPanel.add(group5Button, gbc);
+        group6Button = new JButton();
+        group6Button.setBackground(new Color(-24064));
+        group6Button.setMaximumSize(new Dimension(30, 30));
+        group6Button.setMinimumSize(new Dimension(30, 30));
+        group6Button.setName("group6");
+        group6Button.setPreferredSize(new Dimension(30, 30));
+        group6Button.setText("X");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 5;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        linkerPanel.add(group6Button, gbc);
     }
 
     /**
@@ -655,4 +663,76 @@ public class JavaExample implements WindowListener {
 
     }
     //endregion
+
+    /**
+     * Handler to write log messages to the message area of the form.
+     */
+    private class MessageHandler extends Handler {
+        private final JTextArea messages;
+
+        MessageHandler(JTextArea messages) {
+            this.messages = messages;
+        }
+
+        /**
+         * Publish a <tt>LogRecord</tt>.
+         * <p>
+         * The logging request was made initially to a <tt>Logger</tt> object,
+         * which initialized the <tt>LogRecord</tt> and forwarded it here.
+         * <p>
+         * The <tt>Handler</tt>  is responsible for formatting the message, when and
+         * if necessary.  The formatting should include localization.
+         *
+         * @param record description of the log event. A null record is
+         *               silently ignored and is not published
+         */
+        @Override
+        public void publish(LogRecord record) {
+            final Throwable throwable = record.getThrown();
+
+            String stackTrace = "";
+            if (throwable != null) {
+                StringWriter sw = new StringWriter();
+                PrintWriter pw = new PrintWriter(sw);
+                throwable.printStackTrace(pw);
+
+                sw.append("\n");
+                stackTrace = sw.toString();
+            }
+
+            final String message = String.format(
+                    "%s: %s %s%s",
+                    record.getLevel(),
+                    record.getLoggerName(),
+                    record.getMessage(),
+                    stackTrace);
+
+            appendMessage(message);
+        }
+
+        /**
+         * Flush any buffered output.
+         */
+        @Override
+        public void flush() {
+
+        }
+
+        /**
+         * Close the <tt>Handler</tt> and free all associated resources.
+         * <p>
+         * The close method will perform a <tt>flush</tt> and then close the
+         * <tt>Handler</tt>.   After close has been called this <tt>Handler</tt>
+         * should no longer be used.  Method calls may either be silently
+         * ignored or may throw runtime exceptions.
+         *
+         * @throws SecurityException if a security manager exists and if
+         *                           the caller does not have <tt>LoggingPermission("control")</tt>.
+         */
+        @Override
+        public void close() throws SecurityException {
+
+        }
+    }
+
 }
