@@ -58,26 +58,6 @@ public class JavaExample {
         LOGGER.info("Initiating Finsemble connection");
 
         launchArgs = args;
-
-        setFormEnable(false);
-
-        symbolTextField.setText("MSFT");
-
-        // Add messages button handler
-        messagesButton.addActionListener((e) -> this.toggleMessages());
-        toggleMessages();
-
-        group1Button.setText("");
-        group2Button.setText("");
-        group3Button.setText("");
-        group4Button.setText("");
-        group5Button.setText("");
-        group6Button.setText("");
-
-        // TODO: Show when docking is supported
-        dockCheckBox.setVisible(false);
-
-        initFinsemble();
     }
 
     private void initFinsemble() {
@@ -154,6 +134,26 @@ public class JavaExample {
     }
 
     private void initForm() {
+        setFormEnable(false);
+
+        symbolTextField.setText("MSFT");
+
+        // Add messages button handler
+        messagesButton.addActionListener((e) -> this.toggleMessages());
+        toggleMessages();
+
+        group1Button.setText("");
+        group2Button.setText("");
+        group3Button.setText("");
+        group4Button.setText("");
+        group5Button.setText("");
+        group6Button.setText("");
+
+        // TODO: Show when docking is supported
+        dockCheckBox.setVisible(false);
+
+        initFinsemble();
+
         // Add click handlers
 
         // Send symbol
