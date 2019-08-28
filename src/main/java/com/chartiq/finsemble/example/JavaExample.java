@@ -376,9 +376,6 @@ public class JavaExample extends Application {
             LOGGER.info("Scene created");
             primaryStage.setScene(scene);
 
-            // Connect to finsemble after the window is shown
-            primaryStage.setOnShown(this::onShownHandler);
-
             LOGGER.info("Showing window");
             primaryStage.show();
 
@@ -389,11 +386,6 @@ public class JavaExample extends Application {
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Error in start", e);
         }
-    }
-
-    private void onShownHandler(WindowEvent e) {
-        LOGGER.info(String.format("Starting JavaExample: %s", args));
-        connect();
     }
 
     @FXML
@@ -417,6 +409,8 @@ public class JavaExample extends Application {
 
         // TODO: Show when docking is supported
         dockCheckBox.setVisible(false);
+
+        connect();
     }
     //endregion
 
