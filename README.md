@@ -4,8 +4,6 @@
 
 The finsemble-jar project must be built before it can be run. 
 
-**NOTE:** The project was created using (IntelliJ IDEA)[https://www.jetbrains.com/idea/download], but can be built with maven.
-
 Pass the following parameters:
 ```
 foo bar baz finsembleWindowName=FinsembleJar-11-126-Finsemble componentType=FinsembleJar uuid=uuid1545252286933_4444 left=316 top=89 width=800 height=600 iac=true serverAddress=ws://127.0.0.1:3376
@@ -15,7 +13,7 @@ foo bar baz finsembleWindowName=FinsembleJar-11-126-Finsemble componentType=Fins
 
 This can be run with the following command from the project root:
 ``` BASH
-java -jar <path to>/finsemble-java-example/out/artifacts/finesmble_java_example_jar
+./target/FinsembleJavaExample.exe
 ```
 
 ## Configuration for testing 
@@ -26,16 +24,49 @@ Copy the _config.json_ included in the project to _src/components/java-example/j
         "moduleRoot": "http://localhost:3375/finsemble",
         "servicesRoot": "http://localhost:3375/finsemble/services",
 		"notificationURL": "http://localhost:3375/components/notification/notification.html",
-		"finsembleJavaExampleRoot": "<path to>/finsemble-java-example/out/artifacts/finesmble_java_example_jar",
+		"avaExampleRoot": "<path to finsemble-java-example root>/target",
         "importConfig": [
 			"$applicationRoot/configs/application/config.json",
-            "$applicationRoot/components/java-example/java-example.json"
+            "$applicationRoot/components/native/java-example.json"
         ],
         "IAC": {
             "serverAddress" : "ws://127.0.0.1:3376"
         }
     }
 ```
+
+## Configuration for sample testing
+
+Copy the _FinsembleJavaExample.zip_ from _target_ to the _hosted_ folder in the seed project. Set up the configuration as described above, but edit _java-example.json_ to use an alias instead of a path:
+
+``` json
+                "windowType": "FinsembleNativeWindow",
+                "//path": "$javaExampleRoot/FinsembleJavaExample.exe",
+                "alias": "finsembleJavaExample",
+                "url": "",
+```
+
+Add the Finsemble Java Example to `appAssets` in _configs/openfin/manifest-local.json_.
+
+``` json
+/* ... */
+    "appAssets": [
+        {
+            "src": "https://assets.finsemble.com/assimilation/assimilation_3.10.0.1.zip",
+            "version": "3.10.0",
+            "alias": "assimilation",
+            "target": "AssimilationMain.exe"
+        },
+        {
+            "src": "http://localhost:3375/hosted/FinsembleJavaExample.zip",
+            "version": "3.10.0",
+            "alias": "finsembleJavaExample",
+            "target": "FinsembleJavaExample.exe"
+        }
+    ],
+/* ... */
+```
+
 
 ## Enable logging
 This project includes an example _logging.properties_ file to enable logging for the project. To use this file, add the following argument to the command line to launch the example:
