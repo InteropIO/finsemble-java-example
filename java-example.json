@@ -5,6 +5,7 @@
                 "id": "JavaExample",
                 "windowType": "FinsembleNativeWindow",
                 "path": "$javaExampleRoot/FinsembleJavaExample.exe",
+                "\\alias": "finsembleJavaExample",
                 "url": "",
                 "arguments": "",
                 "defaultHeight": 600,
