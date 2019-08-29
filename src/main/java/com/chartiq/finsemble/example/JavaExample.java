@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -25,7 +26,7 @@ import java.util.List;
 import java.util.logging.*;
 import java.util.stream.Collectors;
 
-public class JavaExample extends Application {
+public class JavaExample {
     /**
      * Logger
      */
@@ -34,7 +35,7 @@ public class JavaExample extends Application {
     /**
      * Arguments passed via the command line
      */
-    private static List<String> args;
+    private List<String> args;
 
     //region FXML controls
     @FXML
@@ -86,15 +87,31 @@ public class JavaExample extends Application {
     }
 
     /**
+     * Sets the arguments passed to Finsemble.
+     * @param args The arguments
+     */
+    public void setArguments(List<String> args) {
+        this.args = args;
+    }
+
+    /**
+     * Sets the window used by Finsemble for registration
+     * @param window The window
+     */
+    public void setWindow(Window window) {
+        this.window = window;
+    }
+
+    /**
      * Connect to Finsemble.
      */
-    private void connect() {
+    public void connect() {
         if (fsbl != null) {
             // Has already connected once, and reconnecting doesn't work.
             return;
         }
 
-        // TODO: populate this with a way to test the API
+        // TODO: When we get to this point window is still null, so the window isn't registered with finsemble.
         fsbl = new Finsemble(args, window);
         try {
             fsbl.connect();
@@ -297,97 +314,6 @@ public class JavaExample extends Application {
         }
     }
 
-    /**
-     * The main function of the application.
-     *
-     * @param args The command line arguments.
-     */
-    public static void main(String[] args) {
-        final List<String> argList = new ArrayList<>(Arrays.asList(args));
-
-        initLogging(argList);
-        // the following statement is used to log any messages
-        LOGGER.info(String.format("Starting JavaExample: %s", Arrays.toString(args)));
-
-        launch(args);
-
-        // the following statement is used to log any messages
-        LOGGER.info("Started JavaExample");
-    }
-
-    private static void initLogging(List<String> args) {
-        if (System.getProperty("java.util.logging.config.file") != null) {
-            // Config file property has been set, no further initialization needed.
-            return;
-        }
-
-        // Check whether logging file has been specified
-        final List<String> properties = args
-                .stream()
-                .filter(arg -> arg.startsWith("-Djava.util.logging.config.file"))
-                .collect(Collectors.toList());
-
-        if ((properties.size() == 0) || !properties.get(0).contains("=")) {
-            // No logging properties specified
-            return;
-        }
-
-        // Get filename from parameter
-        final String loggingPropertiesPath = properties.get(0).split("=")[1];
-        try {
-            final InputStream inputStream = new FileInputStream(loggingPropertiesPath);
-            LogManager.getLogManager().readConfiguration(inputStream);
-        } catch (final IOException e) {
-            LOGGER.log(Level.SEVERE, "Could not load default logging.properties file", e);
-        }
-    }
-
-    //region JavaFX Application Implementation
-    /**
-     * The main entry point for all JavaFX applications.
-     * The start method is called after the init method has returned,
-     * and after the system is ready for the application to begin running.
-     *
-     * <p>
-     * NOTE: This method is called on the JavaFX Application Thread.
-     * </p>
-     *
-     * @param primaryStage the primary stage for this application, onto which
-     *                     the application scene can be set. The primary stage will be embedded in
-     *                     the browser if the application was launched as an applet.
-     *                     Applications may create other stages, if needed, but they will not be
-     *                     primary stages and will not be embedded in the browser.
-     */
-    @Override
-    public void start(Stage primaryStage) {
-        LOGGER.info("Start method called");
-        // Get arguments from Application
-        args = getParameters().getRaw();
-
-        LOGGER.info(String.format(
-                "Finsemble Java Example starting with arguments:\n\t%s", String.join("\n\t", args)));
-        final URL resource = JavaExample.class.getResource("JavaExample.fxml");
-
-        try {
-            final AnchorPane anchorPane = FXMLLoader.load(resource);
-            LOGGER.info("Parent loaded from resource");
-            primaryStage.setTitle("JavaExample");
-            Scene scene = new Scene(anchorPane, 265, 400);
-            LOGGER.info("Scene created");
-            primaryStage.setScene(scene);
-
-            LOGGER.info("Showing window");
-            primaryStage.show();
-
-            LOGGER.info("Getting window");
-            this.window = scene.getWindow();
-
-            LOGGER.info("Started successfully");
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Error in start", e);
-        }
-    }
-
     @FXML
     protected void initialize() {
         LOGGER.addHandler(new MessageHandler());
@@ -409,10 +335,7 @@ public class JavaExample extends Application {
 
         // TODO: Show when docking is supported
         dockCheckBox.setVisible(false);
-
-        connect();
     }
-    //endregion
 
     /**
      * Handler to write log messages to the message area of the form.
