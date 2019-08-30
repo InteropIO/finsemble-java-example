@@ -1,27 +1,22 @@
 package com.chartiq.finsemble.example;
 
-import com.chartiq.finsemble.Finsemble;
-import com.chartiq.finsemble.interfaces.ConnectionEventGenerator;
-import com.chartiq.finsemble.interfaces.ConnectionListener;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import org.json.JSONObject;
 
-import javax.swing.*;
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.*;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class JavaExampleApplication extends Application {
@@ -90,7 +85,6 @@ public class JavaExampleApplication extends Application {
         try {
             final AnchorPane anchorPane = loader.load();
             JavaExample controller = loader.getController();
-            controller.setArguments(args);
 
             LOGGER.info("Parent loaded from resource");
             primaryStage.setTitle("JavaExample");
@@ -102,12 +96,17 @@ public class JavaExampleApplication extends Application {
             LOGGER.info("Showing window");
             primaryStage.show();
 
+            controller.setArguments(args);
             final Window window = scene.getWindow();
             controller.setWindow(window);
-            controller.connect();
+
+            final Thread connectThread = new Thread(() -> controller.connect());
+            connectThread.start();
+
+            window.setOnCloseRequest((e) -> connectThread.interrupt());
 
             LOGGER.info("Started successfully");
-        } catch (IOException e) {
+        } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error in start", e);
         }
     }
