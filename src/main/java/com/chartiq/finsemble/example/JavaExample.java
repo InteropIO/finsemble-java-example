@@ -3,28 +3,24 @@ package com.chartiq.finsemble.example;
 import com.chartiq.finsemble.Finsemble;
 import com.chartiq.finsemble.interfaces.ConnectionEventGenerator;
 import com.chartiq.finsemble.interfaces.ConnectionListener;
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import javafx.stage.Window;
-import javafx.stage.WindowEvent;
 import org.json.JSONObject;
 
 import javax.swing.*;
-import java.io.*;
-import java.net.URL;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.logging.*;
-import java.util.stream.Collectors;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 
 public class JavaExample {
     /**
