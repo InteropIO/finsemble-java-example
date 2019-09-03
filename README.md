@@ -35,18 +35,9 @@ Copy the _config.json_ included in the project to _src/components/java-example/j
     }
 ```
 
-## Configuration for sample testing
+## Configuration for asset testing
 
-Copy the _FinsembleJavaExample.zip_ from _target_ to the _hosted_ folder in the seed project. Set up the configuration as described above, but edit _java-example.json_ to use an alias instead of a path:
-
-``` json
-                "windowType": "FinsembleNativeWindow",
-                "//path": "$javaExampleRoot/FinsembleJavaExample.exe",
-                "alias": "finsembleJavaExample",
-                "url": "",
-```
-
-Add the Finsemble Java Example to `appAssets` in _configs/openfin/manifest-local.json_.
+Copy the _FinsembleJavaExample.zip_ from _target_ to the _hosted_ folder in the seed project. Add the _FinsembleJavaExample.zip_ entry to `appAssets` in _configs/openfin/manifest-local.json_.
 
 ``` json
 /* ... */
