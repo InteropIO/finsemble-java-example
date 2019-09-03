@@ -13,13 +13,9 @@ import org.json.JSONObject;
 
 import javax.swing.*;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
 import java.util.logging.Level;
-import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 public class JavaExample {
@@ -86,7 +82,7 @@ public class JavaExample {
      * Sets the arguments passed to Finsemble.
      * @param args The arguments
      */
-    public void setArguments(List<String> args) {
+    void setArguments(List<String> args) {
         this.args = args;
     }
 
@@ -94,20 +90,22 @@ public class JavaExample {
      * Sets the window used by Finsemble for registration
      * @param window The window
      */
-    public void setWindow(Window window) {
+    void setWindow(Window window) {
         this.window = window;
     }
 
     /**
      * Connect to Finsemble.
      */
-    public void connect() {
+    void connect() {
         if (fsbl != null) {
             // Has already connected once, and reconnecting doesn't work.
             return;
         }
 
-        // TODO: When we get to this point window is still null, so the window isn't registered with finsemble.
+        // the following statement is used to log any messages
+        LOGGER.info(String.format("Starting JavaExample: %s", String.join(", ", args)));
+
         fsbl = new Finsemble(args, window);
         try {
             fsbl.connect();
@@ -132,7 +130,7 @@ public class JavaExample {
             populateComboBox();
 
             // dock checkbox
-            // TODO: Figure this out at some point
+            // TODO: Figure out docking
 
             fsbl.getClients().getLinkerClient().subscribe("symbol", this::handleSymbol);
 
@@ -178,7 +176,7 @@ public class JavaExample {
             put("data", symbol);
         }};
 
-        // TODO: Make callback optional
+        // TODO: Make callbacks optional where possible
         fsbl.getClients().getLinkerClient().publish(args, (err, res) -> {
             if (err != null) {
                 LOGGER.log(Level.SEVERE, "Error publishing symbol", err);
@@ -304,7 +302,7 @@ public class JavaExample {
      *
      * @param s The message to add.
      */
-    private void appendMessage(String s) {
+    void appendMessage(String s) {
         if (messages != null) {
             messages.appendText(String.format("\n%s", s));
         }
@@ -312,8 +310,6 @@ public class JavaExample {
 
     @FXML
     protected void initialize() {
-        LOGGER.addHandler(new MessageHandler());
-
         LOGGER.info("Initiating Finsemble connection");
 
         setFormEnable(false);
@@ -329,74 +325,7 @@ public class JavaExample {
         group5Button.setText("");
         group6Button.setText("");
 
-        // TODO: Show when docking is supported
+        // TODO: Show docking checkbox when docking is supported
         dockCheckBox.setVisible(false);
-    }
-
-    /**
-     * Handler to write log messages to the message area of the form.
-     */
-    private class MessageHandler extends Handler {
-        /**
-         * Publish a <tt>LogRecord</tt>.
-         * <p>
-         * The logging request was made initially to a <tt>Logger</tt> object,
-         * which initialized the <tt>LogRecord</tt> and forwarded it here.
-         * <p>
-         * The <tt>Handler</tt>  is responsible for formatting the message, when and
-         * if necessary.  The formatting should include localization.
-         *
-         * @param record description of the log event. A null record is
-         *               silently ignored and is not published
-         */
-        @Override
-        public void publish(LogRecord record) {
-            final Throwable throwable = record.getThrown();
-
-            String stackTrace = "";
-            if (throwable != null) {
-                StringWriter sw = new StringWriter();
-                sw.append("\n");
-
-                PrintWriter pw = new PrintWriter(sw);
-                throwable.printStackTrace(pw);
-
-                stackTrace = sw.toString();
-            }
-
-            final String message = String.format(
-                    "%s: %s.%s %s%s",
-                    record.getLevel(),
-                    record.getSourceClassName().substring(record.getSourceClassName().lastIndexOf(".")),
-                    record.getSourceMethodName(),
-                    record.getMessage(),
-                    stackTrace);
-
-            appendMessage(message);
-        }
-
-        /**
-         * Flush any buffered output.
-         */
-        @Override
-        public void flush() {
-
-        }
-
-        /**
-         * Close the <tt>Handler</tt> and free all associated resources.
-         * <p>
-         * The close method will perform a <tt>flush</tt> and then close the
-         * <tt>Handler</tt>.   After close has been called this <tt>Handler</tt>
-         * should no longer be used.  Method calls may either be silently
-         * ignored or may throw runtime exceptions.
-         *
-         * @throws SecurityException if a security manager exists and if
-         *                           the caller does not have <tt>LoggingPermission("control")</tt>.
-         */
-        @Override
-        public void close() throws SecurityException {
-
-        }
     }
 }

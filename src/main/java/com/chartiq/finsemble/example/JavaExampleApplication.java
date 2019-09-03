@@ -28,7 +28,7 @@ public class JavaExampleApplication extends Application {
     /**
      * Arguments passed via the command line
      */
-    private static List<String> args;
+    private static final MessageHandler messageHandler = new MessageHandler();
 
     /**
      * Initializes a new instance of the JavaExample class.
@@ -76,19 +76,17 @@ public class JavaExampleApplication extends Application {
         LOGGER.info("Start method called");
 
         // Get arguments from Application
-        args = getParameters().getRaw();
+        final List<String> args = getParameters().getRaw();
 
         LOGGER.info(String.format(
                 "Finsemble Java Example starting with arguments:\n\t%s", String.join("\n\t", args)));
         final URL resource = JavaExampleApplication.class.getResource("JavaExample.fxml");
-        FXMLLoader loader = new FXMLLoader(resource);
+        final FXMLLoader loader = new FXMLLoader(resource);
         try {
             final AnchorPane anchorPane = loader.load();
-            JavaExample controller = loader.getController();
-
             LOGGER.info("Parent loaded from resource");
             primaryStage.setTitle("JavaExample");
-            Scene scene = new Scene(anchorPane, 265, 400);
+            final Scene scene = new Scene(anchorPane, 265, 400);
 
             LOGGER.info("Scene created");
             primaryStage.setScene(scene);
@@ -96,11 +94,14 @@ public class JavaExampleApplication extends Application {
             LOGGER.info("Showing window");
             primaryStage.show();
 
+            // Updated controller
+            final JavaExample controller = loader.getController();
             controller.setArguments(args);
             final Window window = scene.getWindow();
             controller.setWindow(window);
+            messageHandler.setJavaExample(controller);
 
-            final Thread connectThread = new Thread(() -> controller.connect());
+            final Thread connectThread = new Thread(controller::connect);
             connectThread.start();
 
             window.setOnCloseRequest((e) -> connectThread.interrupt());
@@ -113,6 +114,8 @@ public class JavaExampleApplication extends Application {
     //endregion
 
     private static void initLogging(List<String> args) {
+        LOGGER.addHandler(messageHandler);
+
         if (System.getProperty("java.util.logging.config.file") != null) {
             // Config file property has been set, no further initialization needed.
             return;
