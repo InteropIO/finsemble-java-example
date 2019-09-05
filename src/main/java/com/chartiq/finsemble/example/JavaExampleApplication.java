@@ -102,9 +102,8 @@ public class JavaExampleApplication extends Application {
             messageHandler.setJavaExample(controller);
 
             final Thread connectThread = new Thread(controller::connect);
+            connectThread.setDaemon(true);
             connectThread.start();
-
-            window.setOnCloseRequest((e) -> connectThread.interrupt());
 
             LOGGER.info("Started successfully");
         } catch (Exception e) {
