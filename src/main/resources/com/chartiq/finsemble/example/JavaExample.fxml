@@ -9,30 +9,25 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPanel" prefHeight="362.0" prefWidth="265.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.chartiq.finsemble.example.JavaExample">
-   <children>
-      <TextField fx:id="symbolTextField" layoutY="38.0" prefHeight="25.0" prefWidth="164.0" promptText="Enter Symbol" text="AAPL" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="96.0" AnchorPane.topAnchor="38.0" />
-      <Button fx:id="sendSymbolButton" layoutX="179.0" layoutY="38.0" mnemonicParsing="false" onAction="#sendSymbol" text="Send Symbol" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="38.0" />
-      <Label fx:id="symbolLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="65.0" text="AAPL" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="65.0">
-         <font>
+<AnchorPane prefHeight="362.0" prefWidth="265.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.chartiq.finsemble.example.JavaExample">
+    <TextField fx:id="symbolTextField" layoutY="38.0" prefHeight="25.0" prefWidth="164.0" promptText="Enter Symbol" text="AAPL" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="96.0" AnchorPane.topAnchor="38.0" />
+    <Button fx:id="sendSymbolButton" layoutX="179.0" layoutY="38.0" mnemonicParsing="false" onAction="#sendSymbol" text="Send Symbol" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="38.0" />
+    <Label fx:id="symbolLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="65.0" text="AAPL" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="65.0">
+        <font>
             <Font size="96.0" />
-         </font>
-      </Label>
-      <ComboBox fx:id="componentComboBox" layoutY="206.0" promptText="Select a component to launch" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="206.0" />
-      <Button fx:id="launchComponentButton" layoutY="231.0" mnemonicParsing="false" onAction="#launchComponent" text="Launch Component" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="236.0" />
-      <TextArea id="messages" fx:id="messages" editable="false" layoutY="296.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="296.0" />
-      <Button fx:id="messagesButton" layoutX="5.0" layoutY="261.0" mnemonicParsing="false" onAction="#toggleMessages" text="Hide messages" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="266.0" />
-      <AnchorPane fx:id="linkerPanel" layoutY="-2.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="32.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Button fx:id="group2Button" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#toggleLinker" prefWidth="32.0" style="-fx-background-color: #FFE035; -fx-border-color: #FFD803;" text="X" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <Button fx:id="group1Button" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#toggleLinker" prefWidth="32.0" style="-fx-background-color: #8781BD; -fx-border-color: #797381;" text="X" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="0.0" />
-            <Button fx:id="group3Button" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#toggleLinker" prefWidth="32.0" style="-fx-background-color: #89D803; -fx-border-color: #71CE47;" text="X" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="64.0" AnchorPane.topAnchor="0.0" />
-            <Button fx:id="group4Button" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#toggleLinker" prefWidth="32.0" style="-fx-background-color: #FE6262; -fx-border-color: #F83B3B;" text="X" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="96.0" AnchorPane.topAnchor="0.0" />
-            <Button fx:id="group5Button" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#toggleLinker" prefWidth="32.0" style="-fx-background-color: #2DACFF; -fx-border-color: #039BFF;" text="X" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="128.0" AnchorPane.topAnchor="0.0" />
-            <Button fx:id="group6Button" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#toggleLinker" prefWidth="32.0" style="-fx-background-color: #FFA200; -fx-border-color: #FFA200;" text="X" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="160.0" AnchorPane.topAnchor="0.0" />
-            <CheckBox layoutX="192.0" layoutY="9.0" mnemonicParsing="false" text="Docking" visible="false" AnchorPane.bottomAnchor="7.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="8.0" />
-            <CheckBox fx:id="dockCheckBox" layoutX="195.0" layoutY="10.0" mnemonicParsing="false" text="Docking" AnchorPane.bottomAnchor="7.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="8.0" />
-         </children>
-      </AnchorPane>
-   </children>
+        </font>
+    </Label>
+    <ComboBox fx:id="componentComboBox" layoutY="206.0" promptText="Select a component to launch" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="206.0" />
+    <Button fx:id="launchComponentButton" layoutY="231.0" mnemonicParsing="false" onAction="#launchComponent" text="Launch Component" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="236.0" />
+    <TextArea id="messages" fx:id="messages" editable="false" layoutY="296.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="296.0" />
+    <Button fx:id="messagesButton" layoutX="5.0" layoutY="261.0" mnemonicParsing="false" onAction="#toggleMessages" text="Hide messages" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="266.0" />
+    <AnchorPane fx:id="linkerPanel" layoutY="-2.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="32.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <Button fx:id="group1Button" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#toggleLinker" prefWidth="32.0" style="-fx-background-color: #8781BD; -fx-border-color: #797381;" text="X" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+        <Button fx:id="group2Button" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#toggleLinker" prefWidth="32.0" style="-fx-background-color: #FFE035; -fx-border-color: #FFD803;" text="X" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="0.0" />
+        <Button fx:id="group3Button" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#toggleLinker" prefWidth="32.0" style="-fx-background-color: #89D803; -fx-border-color: #71CE47;" text="X" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="64.0" AnchorPane.topAnchor="0.0" />
+        <Button fx:id="group4Button" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#toggleLinker" prefWidth="32.0" style="-fx-background-color: #FE6262; -fx-border-color: #F83B3B;" text="X" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="96.0" AnchorPane.topAnchor="0.0" />
+        <Button fx:id="group5Button" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#toggleLinker" prefWidth="32.0" style="-fx-background-color: #2DACFF; -fx-border-color: #039BFF;" text="X" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="128.0" AnchorPane.topAnchor="0.0" />
+        <Button fx:id="group6Button" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#toggleLinker" prefWidth="32.0" style="-fx-background-color: #FFA200; -fx-border-color: #FFA200;" text="X" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="160.0" AnchorPane.topAnchor="0.0" />
+        <CheckBox fx:id="dockCheckBox" layoutX="195.0" layoutY="10.0" mnemonicParsing="false" text="Docking" visible="false" AnchorPane.bottomAnchor="7.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="8.0" />
+    </AnchorPane>
 </AnchorPane>
