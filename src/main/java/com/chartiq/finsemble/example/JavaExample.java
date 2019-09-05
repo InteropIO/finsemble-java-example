@@ -199,8 +199,8 @@ public class JavaExample {
 
     @FXML
     private void toggleLinker(ActionEvent e) {
-        final JButton btn = (JButton) e.getSource();
-        final String channel = btn.getName();
+        final Button btn = (Button) e.getSource();
+        final String channel = btn.getId().replace("Button", "");
         final boolean selected = btn.getText().equals("X");
 
         final JSONObject wi = fsbl.getClients().getWindowClient().getWindowIdentifier();
