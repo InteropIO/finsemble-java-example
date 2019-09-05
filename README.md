@@ -60,9 +60,14 @@ Copy the _FinsembleJavaExample.zip_ from _target_ to the _hosted_ folder in the 
 
 
 ## Enable logging
-This project includes an example _logging.properties_ file to enable logging for the project. To use this file, add the following argument to the command line to launch the example:
+This project includes an example _logging.properties_ file to enable logging for the project. To use this file, add the following argument to the command line to launch the example (e.g. to the `arguments` property of the component config:
 ```
--Djava.util.logging.config.file=/path/to/logging.properties
+-Djava.util.logging.config.file="C:\\Users\\andy\\Documents\\SourceCode\\finsemble-java-example\\logging.properties"
 ```
 
-**NOTE:** You may want to update `java.util.logging.FileHandler.pattern` to point to a different location. The default is in the user's home directory.
+So the arguments passed to the Java example will look like:
+```
+finsembleWindowName=FinsembleJar-11-126-Finsemble componentType=FinsembleJar uuid=uuid1545252286933_4444 left=316 top=89 width=800 height=600 iac=true serverAddress=ws://127.0.0.1:3376 -Djava.util.logging.config.file="C:\\Users\\andy\\Documents\\SourceCode\\finsemble-java-example\\logging.properties"
+```
+
+Be sure to update `"java.util.logging.config.file"` to point to the location of the _logging.properties_ file. The provided _logging.properties_ file puts the log in the system temp directory (e.g. _%TEMP%_ on Windows).
