@@ -23,6 +23,7 @@ public class JavaExample {
      * Logger
      */
     private static final Logger LOGGER = Logger.getLogger(JavaExample.class.getName());
+    private static Window window;
 
     /**
      * Arguments passed via the command line
