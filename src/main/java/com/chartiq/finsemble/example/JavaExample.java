@@ -3,6 +3,7 @@ package com.chartiq.finsemble.example;
 import com.chartiq.finsemble.Finsemble;
 import com.chartiq.finsemble.interfaces.ConnectionEventGenerator;
 import com.chartiq.finsemble.interfaces.ConnectionListener;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,7 +12,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Window;
 import org.json.JSONObject;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -193,7 +193,7 @@ public class JavaExample {
             final String symbol = res.has("data") && res.getJSONObject("data").has("data") ?
                     res.getJSONObject("data").getString("data") :
                     "";
-            symbolLabel.setText(symbol);
+            Platform.runLater(() -> symbolLabel.setText(symbol));
         }
     }
 
