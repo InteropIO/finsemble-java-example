@@ -251,16 +251,18 @@ public class JavaExample {
                             .sorted()
                             .toArray(String[]::new);
 
-                    // Add them to the component combo
-                    componentComboBox.setItems(FXCollections.observableArrayList(nonSystemComponents));
-                    if (componentComboBox.getItems().size() > 0) {
-                        // If there are components, select the first
-                        componentComboBox.getSelectionModel().select(0);
-                    } else {
-                        // If there aren't components, disable spawn buttons
-                        launchComponentButton.setDisable(true);
-                        LOGGER.info(("No components to spawn, disabling Launch Component button"));
-                    }
+                    Platform.runLater(() -> {
+                        // Add them to the component combo
+                        componentComboBox.setItems(FXCollections.observableArrayList(nonSystemComponents));
+                        if (componentComboBox.getItems().size() > 0) {
+                            // If there are components, select the first
+                            componentComboBox.getSelectionModel().select(0);
+                        } else {
+                            // If there aren't components, disable spawn buttons
+                            launchComponentButton.setDisable(true);
+                            LOGGER.info(("No components to spawn, disabling Launch Component button"));
+                        }
+                    });
                 }
             }
         });
