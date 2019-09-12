@@ -32,9 +32,9 @@
                         "persistWindowState": false,
                         "FSBLHeader": true
                     },
-					"Toolbar": {
-						"iconURL": "$applicationRoot/assets/img/notepad.png"
-					}
+                    "Toolbar": {
+                        "iconURL": "$applicationRoot/assets/img/notepad.png"
+                    }
                 }
             }
         },
@@ -70,9 +70,9 @@
                         "persistWindowState": false,
                         "FSBLHeader": true
                     },
-					"Toolbar": {
-						"iconURL": "$applicationRoot/assets/img/notepad.png"
-					}
+                    "Toolbar": {
+                        "iconURL": "$applicationRoot/assets/img/notepad.png"
+                    }
                 }
             }
         }
