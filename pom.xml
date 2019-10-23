@@ -70,7 +70,7 @@
                             <outfile>${project.build.directory}/FinsembleJavaExample.exe</outfile>
                             <downloadUrl>http://java.com/download</downloadUrl>
                             <classPath>
-                                <mainClass>com.chartiq.finsemble.example.JavaExample</mainClass>
+                                <mainClass>com.chartiq.finsemble.example.JavaExampleApplication</mainClass>
                                 <preCp>anything</preCp>
                             </classPath>
                             <jre>
