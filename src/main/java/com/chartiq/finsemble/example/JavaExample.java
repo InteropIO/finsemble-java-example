@@ -1,20 +1,26 @@
 package com.chartiq.finsemble.example;
 
 import com.chartiq.finsemble.Finsemble;
+import com.chartiq.finsemble.interfaces.CallbackListener;
 import com.chartiq.finsemble.interfaces.ConnectionEventGenerator;
 import com.chartiq.finsemble.interfaces.ConnectionListener;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Window;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -80,6 +86,7 @@ public class JavaExample {
 
     /**
      * Sets the arguments passed to Finsemble.
+     *
      * @param args The arguments
      */
     void setArguments(List<String> args) {
@@ -88,6 +95,7 @@ public class JavaExample {
 
     /**
      * Sets the window used by Finsemble for registration
+     *
      * @param window The window
      */
     void setWindow(Window window) {
@@ -135,6 +143,9 @@ public class JavaExample {
             fsbl.getClients().getLinkerClient().subscribe("symbol", this::handleSymbol);
 
             setFormEnable(true);
+
+            setDraggable();
+            setDropable();
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Error initializing Finsemble connection", ex);
             appendMessage("Error initializing Finsemble connection: " + ex.getMessage());
@@ -297,6 +308,44 @@ public class JavaExample {
         launchComponentButton.setDisable(!enabled);
         dockCheckBox.setDisable(!enabled);
         linkerPanel.setDisable(!enabled);
+    }
+
+    private void setDraggable() {
+        Map<String, Function> emitters = new HashMap<>();
+        emitters.put("symbol", this::emitterCallback);
+        fsbl.getClients().getDragAndDropClient().setEmitters(emitters);
+
+        symbolTextField.setOnDragDetected(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent event) {
+
+//                // Example to use dragStartWithData
+//                JSONObject temp = new JSONObject(){{
+//                    put("symbol",symbolTextField.getText());
+//                }};
+//                fsbl.getClients().getDragAndDropClient().dragStartWithData(symbolTextField,temp);
+
+                // Example to use dragStart
+                fsbl.getClients().getDragAndDropClient().dragStart(symbolTextField);
+
+                event.consume();
+            }
+        });
+    }
+
+    private void setDropable() {
+        Map<String, CallbackListener> receivers = new HashMap<>();
+        receivers.put("symbol", this::symbolReceiverCallback);
+        fsbl.getClients().getDragAndDropClient().addReceivers(receivers);
+    }
+
+    private void symbolReceiverCallback(JSONObject err, JSONObject res) {
+        String symbol = res.getJSONObject("data").getString("symbol");
+        Platform.runLater(() -> symbolLabel.setText(symbol));
+        appendMessage("Received Symbol Drop data: " + res.toString());
+    }
+
+    private Object emitterCallback(Object o) {
+        return symbolTextField.getText();
     }
 
     /**
