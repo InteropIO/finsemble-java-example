@@ -339,9 +339,15 @@ public class JavaExample {
     }
 
     private void symbolReceiverCallback(JSONObject err, JSONObject res) {
-        String symbol = res.getJSONObject("data").getString("symbol");
-        Platform.runLater(() -> symbolLabel.setText(symbol));
         appendMessage("Received Symbol Drop data: " + res.toString());
+        String tempSymbol = "";
+        if (res.getJSONObject("data").getJSONObject("symbol") != null)
+            tempSymbol = res.getJSONObject("data").getJSONObject("symbol").getString("symbol");
+        else
+            tempSymbol = res.getJSONObject("data").getString("symbol");
+        final String symbol = tempSymbol;
+
+        Platform.runLater(() -> symbolLabel.setText(symbol));
     }
 
     private Object emitterCallback(Object o) {
