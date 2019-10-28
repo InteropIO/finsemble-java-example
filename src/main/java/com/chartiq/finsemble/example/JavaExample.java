@@ -9,9 +9,11 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.input.*;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Window;
 import org.json.JSONObject;
 
@@ -67,6 +69,12 @@ public class JavaExample {
     @FXML
     private Label symbolLabel;
     //endregion
+
+
+    private final String DRAG_START_CHANNEL = "DragAndDropClient.dragStart";
+    private final String DRAG_END_CHANNEL = "DragAndDropClient.dragEnd";
+
+    private HBox fxScrim;
 
     /**
      * The finsemble connection
@@ -144,8 +152,10 @@ public class JavaExample {
 
             setFormEnable(true);
 
+            // Sample to enable drag and drop feature
             setDraggable();
             setDropable();
+
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Error initializing Finsemble connection", ex);
             appendMessage("Error initializing Finsemble connection: " + ex.getMessage());
@@ -311,48 +321,115 @@ public class JavaExample {
     }
 
     private void setDraggable() {
+        //Add emitters
         Map<String, Function> emitters = new HashMap<>();
         emitters.put("symbol", this::emitterCallback);
         fsbl.getClients().getDragAndDropClient().setEmitters(emitters);
 
+        //Set fx uielement to be draggable
         symbolTextField.setOnDragDetected(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
-
-//                // Example to use dragStartWithData
-//                JSONObject temp = new JSONObject(){{
-//                    put("symbol",symbolTextField.getText());
-//                }};
-//                fsbl.getClients().getDragAndDropClient().dragStartWithData(symbolTextField,temp);
-
                 // Example to use dragStart
-                fsbl.getClients().getDragAndDropClient().dragStart(symbolTextField);
+                // Either use emitter to get drag data / put data into json object yourself
+                JSONObject data = new JSONObject();
 
+                // Get drag data from emitter
+                for (Map.Entry emitter : emitters.entrySet()) {
+                    JSONObject tempObj = new JSONObject();
+                    String key = emitter.getKey().toString();
+                    Function func = (Function) emitter.getValue();
+                    data.put(key, tempObj.put(key, func.apply(null)));
+                }
+
+//                // Get drag data from textbox yourself
+//                data.put("symbol",symbolTextField.getText());
+
+                // Send the drag data to dragboard
+                fsbl.getClients().getDragAndDropClient().dragStart(data);
+                Dragboard db = symbolTextField.startDragAndDrop(TransferMode.COPY);
+                ClipboardContent content = new ClipboardContent();
+                content.putString(new JSONObject() {{
+                    put("FSBL", true);
+                    put("containsData", true);
+                    put("window", fsbl.getClients().getWindowClient().getWindowIdentifier().getString("windowName"));
+                    put("data", data);
+                }}.toString());
+                db.setContent(content);
+                if (symbolTextField.getOnDragDone() == null) {
+                    symbolTextField.setOnDragDone(new EventHandler<DragEvent>() {
+                        public void handle(DragEvent event) {
+                            fsbl.getClients().getRouterClient().transmit(DRAG_END_CHANNEL, new JSONObject());
+                            event.consume();
+                        }
+                    });
+                }
                 event.consume();
             }
         });
     }
 
+    private Object emitterCallback(Object o) {
+        return symbolTextField.getText();
+    }
+
     private void setDropable() {
+        //Must be added to enable drop feature
+        fsbl.getClients().getDragAndDropClient().setAddWindowHighlight(this::addWindowHighlight);
+        fsbl.getClients().getDragAndDropClient().setRemoveWindowHighlight(this::removeWindowHighlight);
+
+        //Set Receivers
         Map<String, CallbackListener> receivers = new HashMap<>();
         receivers.put("symbol", this::symbolReceiverCallback);
         fsbl.getClients().getDragAndDropClient().addReceivers(receivers);
     }
 
+    private void addWindowHighlight(JSONObject err, JSONObject res) {
+        Platform.runLater(() -> {
+            fxScrim = new HBox();
+            fxScrim.setId("scrim");
+            fxScrim.setMinWidth(window.getWidth());
+            fxScrim.setMinHeight(window.getHeight());
+
+            boolean canReceiveData = res.getBoolean("canReceiveData");
+            if (canReceiveData) {
+                fxScrim.setBackground(new Background(new BackgroundFill(Color.rgb(0, 0, 99, 0.5), CornerRadii.EMPTY, Insets.EMPTY)));
+                fxScrim.setOnDragOver((DragEvent dragEvent) -> {
+                    dragEvent.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+                });
+                fxScrim.setOnDragDropped((DragEvent dragEvent) -> {
+                    Dragboard db = dragEvent.getDragboard();
+                    final String dragDataStr = db.getString();
+                    final JSONObject dragDataJson = new JSONObject(dragDataStr);
+                    fsbl.getClients().getDragAndDropClient().drop(dragDataJson);
+                });
+            } else
+                fxScrim.setBackground(new Background(new BackgroundFill(Color.rgb(99, 0, 0, 0.5), CornerRadii.EMPTY, Insets.EMPTY)));
+
+            ((Pane) window.getScene().getRoot()).getChildren().add(fxScrim);
+        });
+    }
+
+
+    private void removeWindowHighlight(JSONObject err, JSONObject res) {
+        Platform.runLater(() -> {
+            ((Pane) window.getScene().getRoot()).getChildren().remove(fxScrim);
+        });
+    }
+
     private void symbolReceiverCallback(JSONObject err, JSONObject res) {
         appendMessage("Received Symbol Drop data: " + res.toString());
         String tempSymbol = "";
-        if (res.getJSONObject("data").getJSONObject("symbol") != null)
+        final Object symbolObj = res.getJSONObject("data").get("symbol");
+        if (symbolObj instanceof JSONObject)
             tempSymbol = res.getJSONObject("data").getJSONObject("symbol").getString("symbol");
-        else
+        else if (symbolObj instanceof String)
             tempSymbol = res.getJSONObject("data").getString("symbol");
+
         final String symbol = tempSymbol;
 
         Platform.runLater(() -> symbolLabel.setText(symbol));
     }
 
-    private Object emitterCallback(Object o) {
-        return symbolTextField.getText();
-    }
 
     /**
      * Adds a message to the message box.
