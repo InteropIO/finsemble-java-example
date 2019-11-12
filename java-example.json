@@ -76,7 +76,7 @@
 				}
 			}
 		},
-		"Java WinForm Example": {
+		"Java Swing Example": {
 			"window": {
 				"id": "JavaExample",
 				"windowType": "FinsembleNativeWindow",
