@@ -30,7 +30,7 @@ Copy the _java-example.json_ included in the project to _src/components/java-exa
         "moduleRoot": "http://localhost:3375/finsemble",
         "servicesRoot": "http://localhost:3375/finsemble/services",
 		"notificationURL": "http://localhost:3375/components/notification/notification.html",
-		"javaExampleRoot": "<path to finsemble-java-example root>/target",
+		"javaExampleJarPath": "<path to finsemble-java-example JAR (e.g. C:/Users/andy/Documents/SourceCode/finsemble-java-example/target/finesmble-java-example-3.11.0.rc.2-SNAPSHOT.jar)>",
         "importConfig": [
 			"$applicationRoot/configs/application/config.json",
             "$applicationRoot/components/native/java-example.json"
