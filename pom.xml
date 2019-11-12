@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ChartIQ</groupId>
-    <artifactId>finesmble-java-example</artifactId>
+    <artifactId>finsemble-java-example</artifactId>
     <version>3.11.0.rc.2-SNAPSHOT</version>
     <dependencies>
         <dependency>
