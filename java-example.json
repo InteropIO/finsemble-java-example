@@ -130,7 +130,7 @@
 				"addToWorkspace": true
 			},
 			"component": {
-				"spawnOnStartup": false
+				"spawnOnStartup": true
 			},
 			"foreign": {
 				"services": {
@@ -140,7 +140,7 @@
 				},
 				"components": {
 					"App Launcher": {
-						"launchableByUser": true
+						"launchableByUser": false
 					},
 					"Window Manager": {
 						"persistWindowState": false,
