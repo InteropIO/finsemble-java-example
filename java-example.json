@@ -4,7 +4,7 @@
 			"window": {
 				"id": "JavaExample",
 				"windowType": "FinsembleNativeWindow",
-				"path": "$javaExampleJarPath",
+				"path": "$javaExampleJarRoot/finsemble-java-example-3.11.0.rc.2-SNAPSHOT.jar",
 				"url": "",
 				"arguments": "",
 				"defaultHeight": 600,
@@ -80,9 +80,9 @@
 			"window": {
 				"id": "JavaExample",
 				"windowType": "FinsembleNativeWindow",
-				"path": "java",
+				"path": "$javaExampleJarRoot/JavaSwingExample.jar",
 				"url": "",
-				"arguments": "-cp $javaExampleJarPath com.chartiq.finsemble.example.JavaSwingExample",
+				"arguments": "",
 				"defaultHeight": 600,
 				"autoShow": true,
 				"alwaysOnTop": false,
