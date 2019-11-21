@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.logging.*;
 import java.util.stream.Collectors;
 
-public class JavaSwingExample implements WindowListener {
+public class JavaSwingExample extends JFrame implements WindowListener {
     /**
      * Logger
      */
@@ -27,22 +27,20 @@ public class JavaSwingExample implements WindowListener {
 
     private final List<String> launchArgs;
 
-    private JPanel mainPanel;
+    private Container contentPane;
     private JButton sendSymbolButton;
     private JTextField symbolTextField;
+    private JLabel symbolLabel;
     private JComboBox componentComboBox;
     private JButton launchComponentButton;
-    private JCheckBox dockCheckBox;
     private JButton messagesButton;
     private JTextArea messages;
-    private JPanel linkerPanel;
     private JButton group1Button;
     private JButton group2Button;
     private JButton group3Button;
     private JButton group4Button;
     private JButton group5Button;
     private JButton group6Button;
-    private JLabel symbolLabel;
 
     private Finsemble fsbl;
 
@@ -60,13 +58,14 @@ public class JavaSwingExample implements WindowListener {
 
         launchArgs = args;
 
+        createForm();
+
         setFormEnable(false);
 
         symbolTextField.setText("MSFT");
 
         // Add messages button handler
         messagesButton.addActionListener((e) -> this.toggleMessages());
-        toggleMessages();
 
         group1Button.setText("");
         group2Button.setText("");
@@ -75,16 +74,160 @@ public class JavaSwingExample implements WindowListener {
         group5Button.setText("");
         group6Button.setText("");
 
-        // TODO: Show when docking is supported
-        dockCheckBox.setVisible(false);
+        // TODO: Implement docking
+    }
+
+    private void createForm() {
+        setTitle("Java Swing Example");
+        setBounds(20, 20, 300, 375);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        contentPane = getContentPane();
+        contentPane.setLayout(new GridBagLayout());
+        final GridBagConstraints constraints = new GridBagConstraints();
+        constraints.insets= new Insets(10,10,0,10);
+
+        // region Linker buttons
+        group1Button = new JButton();
+        group1Button.setBackground(new Color(135,129,189));
+        group1Button.setForeground(new Color(187,187,187));
+        group1Button.setName("group1");
+        constraints.insets= new Insets(10,10,0,0);
+        constraints.ipady = 40;
+        constraints.weightx = 0.5;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        contentPane.add(group1Button, constraints);
+
+        group2Button = new JButton();
+        group2Button.setBackground(new Color(255,224,53));
+        group2Button.setForeground(new Color(187,187,187));
+        group2Button.setName("group2");
+        constraints.insets= new Insets(10,0,0,0);
+        constraints.weightx = 0.5;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 1;
+        constraints.gridy = 0;
+        contentPane.add(group2Button, constraints);
+
+        group3Button = new JButton();
+        group3Button.setBackground(new Color(137,216,3));
+        group3Button.setForeground(new Color(187,187,187));
+        group3Button.setName("group3");
+        constraints.insets= new Insets(10,0,0,0);
+        constraints.weightx = 0.5;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 2;
+        constraints.gridy = 0;
+        contentPane.add(group3Button, constraints);
+
+        group4Button = new JButton();
+        group4Button.setBackground(new Color(254,98,98));
+        group4Button.setForeground(new Color(187,187,187));
+        group4Button.setName("group4");
+        constraints.insets= new Insets(10,0,0,0);
+        constraints.weightx = 0.5;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 3;
+        constraints.gridy = 0;
+        contentPane.add(group4Button, constraints);
+
+        group5Button = new JButton();
+        group5Button.setBackground(new Color(45,172,255));
+        group5Button.setForeground(new Color(187,187,187));
+        group5Button.setName("group5");
+        constraints.insets= new Insets(10,0,0,0);
+        constraints.weightx = 0.5;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 4;
+        constraints.gridy = 0;
+        contentPane.add(group5Button, constraints);
+
+        group6Button = new JButton();
+        group6Button.setBackground(new Color(255,162,0));
+        group6Button.setForeground(new Color(187,187,187));
+        group6Button.setName("group6");
+        constraints.insets= new Insets(10,0,0,10);
+        constraints.weightx = 0.5;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 5;
+        constraints.gridy = 0;
+        contentPane.add(group6Button, constraints);
+        // endregion
+
+        // region Symbol
+        symbolTextField = new JTextField("MSFT");
+        symbolTextField.setEditable(true);
+        symbolTextField.setEnabled(false);
+        constraints.insets= new Insets(10,10,0,10);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.ipady = 10;
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        constraints.gridwidth = 6;
+        contentPane.add(symbolTextField, constraints);
+
+        sendSymbolButton = new JButton("Send Symbol");
+        sendSymbolButton.setEnabled(false);
+        constraints.ipady = 0;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 0;
+        constraints.gridy = 2;
+        constraints.gridwidth = 6;
+        contentPane.add(sendSymbolButton, constraints);
+
+        symbolLabel = new JLabel("AAPL");
+        symbolLabel.setFont(symbolLabel.getFont().deriveFont(48.0f));
+        symbolLabel.setHorizontalAlignment(JLabel.CENTER);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 0;
+        constraints.gridy = 3;
+        constraints.gridwidth = 6;
+        contentPane.add(symbolLabel, constraints);
+        // endregion
+
+        // region Launch Component
+        componentComboBox = new JComboBox();
+        componentComboBox.setEnabled(false);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 0;
+        constraints.gridy = 4;
+        constraints.gridwidth = 6;
+        contentPane.add(componentComboBox, constraints);
+
+        launchComponentButton = new JButton("Launch Component");
+        launchComponentButton.setEnabled(false);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 0;
+        constraints.gridy = 5;
+        constraints.gridwidth = 6;
+        contentPane.add(launchComponentButton, constraints);
+        // endregion
+
+        // region Messages
+        messagesButton = new JButton("Show messages");
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 0;
+        constraints.gridy = 6;
+        constraints.gridwidth = 6;
+        contentPane.add(messagesButton, constraints);
+
+        messages = new JTextArea();
+        messages.setVisible(false);
+        constraints.insets= new Insets(10,10,10,10);
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.weighty = 1;
+        constraints.gridx = 0;
+        constraints.gridy = 7;
+        constraints.gridwidth = 6;
+        contentPane.add(messages, constraints);
+        // endregion
     }
 
     private void initFinsemble() {
-        // Get frame for registration with Finsemble
-        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
-
         // TODO: populate this with a way to test the API
-        fsbl = new Finsemble(launchArgs, frame);
+        fsbl = new Finsemble(launchArgs, this);
         try {
             fsbl.connect();
             appendMessage("Connected to Finsemble");
@@ -286,8 +429,12 @@ public class JavaSwingExample implements WindowListener {
         sendSymbolButton.setEnabled(enabled);
         componentComboBox.setEnabled(enabled);
         launchComponentButton.setEnabled(enabled);
-        dockCheckBox.setEnabled(enabled);
-        linkerPanel.setEnabled(enabled);
+        group1Button.setEnabled(enabled);
+        group2Button.setEnabled(enabled);
+        group3Button.setEnabled(enabled);
+        group4Button.setEnabled(enabled);
+        group5Button.setEnabled(enabled);
+        group6Button.setEnabled(enabled);
     }
 
     /**
@@ -357,13 +504,9 @@ public class JavaSwingExample implements WindowListener {
      * @param args The command line arguments.
      */
     private static void launchForm(List<String> args) {
-        final JFrame frame = new JFrame("JavaSwingExample");
         final JavaSwingExample example = new JavaSwingExample(args);
-        frame.addWindowListener(example);
-        frame.setContentPane(example.mainPanel);
-        frame.setSize(250, 300);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        example.addWindowListener(example);
+        example.setVisible(true);
     }
 
     //region Description
