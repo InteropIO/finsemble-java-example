@@ -34,18 +34,6 @@ public class JavaHeadlessExample {
             fsbl.connect();
             LOGGER.info("Connected to Finsemble");
 
-            fsbl.addListener(new ConnectionListener() {
-                @Override
-                public void disconnected(ConnectionEventGenerator from) {
-                    LOGGER.info("Finsemble connection closed");
-                }
-
-                @Override
-                public void error(ConnectionEventGenerator from, Exception e) {
-                    LOGGER.log(Level.SEVERE, "Error from Finsemble", e);
-                }
-            });
-
             Timer timer = new Timer(true);
             timer.scheduleAtFixedRate(new TimerTask() {
                 /**
@@ -56,6 +44,20 @@ public class JavaHeadlessExample {
                     fsbl.getClients().getLogger().log("Headless example elapsed event was raised");
                 }
             }, 0, 1000);
+
+            fsbl.addListener(new ConnectionListener() {
+                @Override
+                public void disconnected(ConnectionEventGenerator from) {
+                    LOGGER.info("Finsemble connection closed");
+                    timer.cancel();
+                    System.exit(0);
+                }
+
+                @Override
+                public void error(ConnectionEventGenerator from, Exception e) {
+                    LOGGER.log(Level.SEVERE, "Error from Finsemble", e);
+                }
+            });
 
             LOGGER.info("Window registered with Finsemble");
         } catch (Exception ex) {
