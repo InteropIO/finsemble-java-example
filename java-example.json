@@ -4,7 +4,7 @@
 			"window": {
 				"id": "JavaExample",
 				"windowType": "FinsembleNativeWindow",
-				"path": "$javaExampleJarPath",
+				"path": "$javaExampleJarRoot/FinsembleJavaFXExample.jar",
 				"url": "",
 				"arguments": "",
 				"defaultHeight": 600,
@@ -76,49 +76,11 @@
 				}
 			}
 		},
-		"Java Swing Example": {
-			"window": {
-				"id": "JavaExample",
-				"windowType": "FinsembleNativeWindow",
-				"path": "java",
-				"url": "",
-				"arguments": "-cp $javaExampleJarPath com.chartiq.finsemble.example.JavaSwingExample",
-				"defaultHeight": 600,
-				"autoShow": true,
-				"alwaysOnTop": false,
-				"resizable": true,
-				"showTaskbarIcon": false,
-				"contextMenu": true,
-				"addToWorkspace": true
-			},
-			"component": {
-				"spawnOnStartup": false
-			},
-			"foreign": {
-				"services": {
-					"workspaceService": {
-						"isArrangable": true
-					}
-				},
-				"components": {
-					"App Launcher": {
-						"launchableByUser": true
-					},
-					"Window Manager": {
-						"persistWindowState": false,
-						"FSBLHeader": true
-					},
-					"Toolbar": {
-						"iconURL": "$applicationRoot/assets/img/notepad.png"
-					}
-				}
-			}
-		},
 		"Java Headless Example": {
 			"window": {
 				"id": "JavaExample",
 				"windowType": "FinsembleNativeWindow",
-				"path": "java",
+				"path": "$javaExampleJarRoot/FinsembleJavaHeadlessExample",
 				"url": "",
 				"arguments": "-cp $javaExampleJarPath com.chartiq.finsemble.example.JavaHeadlessExample",
 				"defaultHeight": 600,
