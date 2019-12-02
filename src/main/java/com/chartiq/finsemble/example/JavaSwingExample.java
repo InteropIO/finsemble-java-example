@@ -244,7 +244,7 @@ public class JavaSwingExample extends JFrame implements WindowListener {
                     LOGGER.log(Level.SEVERE, "Error from Finsemble", e);
                 }
             });
-            fsbl.register();
+
             appendMessage("Window registered with Finsemble");
 
             initForm();
