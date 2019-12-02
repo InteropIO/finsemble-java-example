@@ -1,5 +1,25 @@
 # Java native interface for Finsemble
 
+## Java Recipes
+This recipe provides an example to start a Tomcat instance with a Java servlet that connecting to finsemble core.
+The webapp contains 2 parts. A jsp page and a java servlet. The jsp page will use the java servlet and the servlet will connect to the finsemble core.
+
+To use this recipe please follow the following steps.
+1. Download Tomcat from its website base your environment.
+2. Tomcat can be started by Tomcat default scripts or windows service. If you need to start Tomcat by windows service, please install it as windows service in advanced.
+3. Add $tomcatPath in manifest.json
+4. Copy java-example.json to your seed project and include it in the manifest.json
+5. Build this project using maven and copy FinsembleJavaServletExample.war to the webapp folder under your Tomcat directory.
+    mvn package
+6. Run your seed project.
+    npm run dev
+
+Testing
+1. Build and run the seed project with the above steps
+2. Start Tomcat either by Start Tomcat Script/Start Tomcat Service.
+3. A component will automatically display after the Tomcat started.
+4. A welcome component can be spawned by clicking the button in the component spawned in step 3.
+
 ## Testing in the IDE
 
 The finsemble-jar project must be built before it can be run. 
