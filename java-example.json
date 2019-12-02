@@ -76,13 +76,51 @@
 				}
 			}
 		},
+		"Java Swing Example": {
+			"window": {
+				"id": "JavaExample",
+				"windowType": "FinsembleNativeWindow",
+				"path": "$javaExampleJarRoot/JavaSwingExample.jar",
+				"url": "",
+				"arguments": "",
+				"defaultHeight": 600,
+				"autoShow": true,
+				"alwaysOnTop": false,
+				"resizable": true,
+				"showTaskbarIcon": false,
+				"contextMenu": true,
+				"addToWorkspace": true
+			},
+			"component": {
+				"spawnOnStartup": false
+			},
+			"foreign": {
+				"services": {
+					"workspaceService": {
+						"isArrangable": true
+					}
+				},
+				"components": {
+					"App Launcher": {
+						"launchableByUser": true
+					},
+					"Window Manager": {
+						"persistWindowState": false,
+						"FSBLHeader": true
+					},
+					"Toolbar": {
+						"iconURL": "$applicationRoot/assets/img/notepad.png"
+					}
+				}
+			}
+		},
 		"Java Headless Example": {
 			"window": {
 				"id": "JavaExample",
 				"windowType": "FinsembleNativeWindow",
 				"path": "$javaExampleJarRoot/FinsembleJavaHeadlessExample",
 				"url": "",
-				"arguments": "-cp $javaExampleJarPath com.chartiq.finsemble.example.JavaHeadlessExample",
+				"arguments": "-cp $javaExampleJarRoot/finsemble-java-example-3.11.0.rc.2-SNAPSHOT.jar com.chartiq.finsemble.example.JavaHeadlessExample",
 				"defaultHeight": 600,
 				"autoShow": true,
 				"alwaysOnTop": false,
