@@ -1,19 +1,13 @@
 {
 	"components": {
-		"Java Example (local)": {
+		"Start Tomcat Script": {
 			"window": {
-				"id": "JavaExample",
-				"windowType": "FinsembleNativeWindow",
-				"path": "$javaExampleJarRoot/FinsembleJavaFXExample.jar",
+				"id": "Tomcat",
+				"windowType": "assimilation",
+				"path": "$tomcatPath/bin/catalina.bat",
 				"url": "",
-				"arguments": "",
-				"defaultHeight": 600,
-				"autoShow": true,
-				"alwaysOnTop": false,
-				"resizable": true,
-				"showTaskbarIcon": false,
-				"contextMenu": true,
-				"addToWorkspace": true
+				"arguments": "start",
+				"addToWorkspace": false
 			},
 			"component": {
 				"spawnOnStartup": false
@@ -38,20 +32,14 @@
 				}
 			}
 		},
-		"Java Example (asset)": {
+		"Stop Tomcat Script": {
 			"window": {
-				"id": "JavaExample",
-				"windowType": "FinsembleNativeWindow",
-				"alias": "finsembleJavaExample",
+				"id": "Tomcat",
+				"windowType": "assimilation",
+				"path": "$tomcatPath/bin/catalina.bat",
 				"url": "",
-				"arguments": "",
-				"defaultHeight": 600,
-				"autoShow": true,
-				"alwaysOnTop": false,
-				"resizable": true,
-				"showTaskbarIcon": false,
-				"contextMenu": true,
-				"addToWorkspace": true
+				"arguments": "stop",
+				"addToWorkspace": false
 			},
 			"component": {
 				"spawnOnStartup": false
@@ -76,23 +64,17 @@
 				}
 			}
 		},
-		"Java Headless Example": {
+		"Start Tomcat Service": {
 			"window": {
-				"id": "JavaExample",
-				"windowType": "FinsembleNativeWindow",
-				"path": "$javaExampleJarRoot/FinsembleJavaHeadlessExample",
+				"id": "Tomcat",
+				"windowType": "assimilation",
+				"path": "net",
 				"url": "",
-				"arguments": "-cp $javaExampleJarPath com.chartiq.finsemble.example.JavaHeadlessExample",
-				"defaultHeight": 600,
-				"autoShow": true,
-				"alwaysOnTop": false,
-				"resizable": true,
-				"showTaskbarIcon": false,
-				"contextMenu": true,
-				"addToWorkspace": true
+				"arguments": "start Tomcat9",
+				"addToWorkspace": false
 			},
 			"component": {
-				"spawnOnStartup": true
+				"spawnOnStartup": false
 			},
 			"foreign": {
 				"services": {
@@ -102,7 +84,7 @@
 				},
 				"components": {
 					"App Launcher": {
-						"launchableByUser": false
+						"launchableByUser": true
 					},
 					"Window Manager": {
 						"persistWindowState": false,
@@ -110,6 +92,78 @@
 					},
 					"Toolbar": {
 						"iconURL": "$applicationRoot/assets/img/notepad.png"
+					}
+				}
+			}
+		},
+		"Stop Tomcat Service": {
+			"window": {
+				"id": "Tomcat",
+				"windowType": "assimilation",
+				"path": "net",
+				"url": "",
+				"arguments": "stop Tomcat9",
+				"addToWorkspace": false
+			},
+			"component": {
+				"spawnOnStartup": false
+			},
+			"foreign": {
+				"services": {
+					"workspaceService": {
+						"isArrangable": true
+					}
+				},
+				"components": {
+					"App Launcher": {
+						"launchableByUser": true
+					},
+					"Window Manager": {
+						"persistWindowState": false,
+						"FSBLHeader": true
+					},
+					"Toolbar": {
+						"iconURL": "$applicationRoot/assets/img/notepad.png"
+					}
+				}
+			}
+		},
+		"Testing JSP": {
+			"window": {
+				"url": "http://localhost:8080/FinsembleJavaServletExample/index.jsp",
+				"affinity": "workspaceComponents",
+				"frame": false,
+				"resizable": true,
+				"autoShow": true,
+				"top": "center",
+				"left": "center",
+				"width": 400,
+				"height": 432
+			},
+			"component": {
+				"inject": false,
+				"spawnOnStartup": false,
+				"preload": "$applicationRoot/preloads/zoom.js"
+			},
+			"foreign": {
+				"services": {
+					"dockingService": {
+						"canGroup": true,
+						"isArrangable": true
+					}
+				},
+				"components": {
+					"App Launcher": {
+						"launchableByUser": true
+					},
+					"Window Manager": {
+						"showLinker": true,
+						"FSBLHeader": true,
+						"persistWindowState": true,
+						"title": "Testing JSP"
+					},
+					"Toolbar": {
+						"iconClass": "ff-component"
 					}
 				}
 			}
