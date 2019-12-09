@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,11 +20,15 @@ public class CommerzPocServlet extends HttpServlet {
     private Finsemble fsbl;
 
     public void init() throws ServletException {
-        String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-        String appConfigPath = rootPath + "/config/config.properties";
+        final String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+        final String appConfigPath = rootPath + "/config/config.properties";
+
+        // Decode URL encoded path so it can be loaded from disk (this makes it possible to load from paths with spaces.
+        final String decodedPath = decodeValue(appConfigPath);
         Properties prop = new Properties();
+
         try {
-            prop.load(new FileInputStream(appConfigPath));
+            prop.load(new FileInputStream(decodedPath));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -91,6 +97,19 @@ public class CommerzPocServlet extends HttpServlet {
             fsbl.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Decodes a URL encoded string using `UTF-8`
+     * @param value The string to decode
+     * @return The decoded string
+     */
+    private static String decodeValue(String value) {
+        try {
+            return URLDecoder.decode(value, StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException ex) {
+            throw new RuntimeException(ex.getCause());
         }
     }
 }
