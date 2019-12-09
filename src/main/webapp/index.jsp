@@ -19,6 +19,8 @@
     <div class="center">
         <button onClick="spawnSwing()">Spawn Swing By Servlet</button>
         <button onClick="spawnHtml()">Spawn HTML By Servlet</button>
+        <button onClick="spawnSwingJS()">Spawn Swing By JavaScript</button>
+        <button onClick="spawnHtmlJS()">Spawn HTML By JavaScript</button>
     </div>
   </body>
 </html>

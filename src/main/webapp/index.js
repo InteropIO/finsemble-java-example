@@ -77,6 +77,14 @@ function spawnHtml(){
     post_to_url("CommerzPocServlet",{action:'spawn',componentName:"commerz_poc_html"})
 }
 
+function spawnSwingJS(){
+    FSBL.Clients.LauncherClient.spawn("commerz_poc_swing")
+}
+
+function spawnHtmlJS(){
+    FSBL.Clients.LauncherClient.spawn("commerz_poc_html")
+}
+
 function getComponentList(){
     post_to_url("CommerzPocServlet",{action:'getComponentList'})
 }
