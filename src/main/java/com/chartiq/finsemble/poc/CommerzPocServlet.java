@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -19,8 +20,9 @@ import java.util.Properties;
 public class CommerzPocServlet extends HttpServlet {
     private Finsemble fsbl;
 
-    public void init() throws ServletException {
-        final String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+    public void init() {
+        final URL resourceURL = Thread.currentThread().getContextClassLoader().getResource("");
+        final String rootPath = resourceURL != null ? resourceURL.getPath() : "";
         final String appConfigPath = rootPath + "/config/config.properties";
 
         // Decode URL encoded path so it can be loaded from disk (this makes it possible to load from paths with spaces.
@@ -33,15 +35,22 @@ public class CommerzPocServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        String args[] = new String[]{"componentType=" + prop.getProperty("componentType"), "finsembleWindowName=" + prop.getProperty("finsembleWindowName"), "iac=" + prop.getProperty("iac"), "serverAddress=" + prop.getProperty("serverAddress")};
+        final String args[] = new String[] {
+                "componentType=" + prop.getProperty("componentType"),
+                "finsembleWindowName=" + prop.getProperty("finsembleWindowName"),
+                "iac=" + prop.getProperty("iac"),
+                "serverAddress=" + prop.getProperty("serverAddress")
+        };
         final List<String> argList = new ArrayList<>(Arrays.asList(args));
         fsbl = new Finsemble(argList);
         try {
             fsbl.connect();
             fsbl.getClients().getLogger().log("Tomcat connected!!!");
 
-            String componentName = "commerz_poc_jsp";
-            fsbl.getClients().getLauncherClient().spawn(componentName, new JSONObject(){{put("addToWorkspace", true);}}, (err, res) -> {
+            final String componentName = "commerz_poc_jsp";
+            fsbl.getClients().getLauncherClient().spawn(componentName, new JSONObject() {{
+                put("addToWorkspace", true);
+            }}, (err, res) -> {
                 if (err != null) {
                     fsbl.getClients().getLogger().error(String.format("Error spawning \"%s\"", componentName));
                 } else {
@@ -54,20 +63,20 @@ public class CommerzPocServlet extends HttpServlet {
 
     }
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        PrintWriter out = response.getWriter();
-        String action = request.getParameter("action");
+        final PrintWriter out = response.getWriter();
+        final String action = request.getParameter("action");
         switch (action) {
             case "getComponentList":
-                fsbl.getClients().getLauncherClient().getComponentList((err, res) -> {
-                    out.print(res.toString());
-                });
+                fsbl.getClients().getLauncherClient().getComponentList((err, res) -> out.print(res.toString()));
                 break;
             case "spawn":
-                String componentName = request.getParameter("componentName");
-                fsbl.getClients().getLauncherClient().spawn(componentName, new JSONObject(){{put("addToWorkspace", true);}}, (err, res) -> {
+                final String componentName = request.getParameter("componentName");
+                fsbl.getClients().getLauncherClient().spawn(componentName, new JSONObject() {{
+                    put("addToWorkspace", true);
+                }}, (err, res) -> {
                     if (err != null) {
                         fsbl.getClients().getLogger().error(String.format("Error spawning \"%s\"", componentName));
                         out.println(err.toString());
