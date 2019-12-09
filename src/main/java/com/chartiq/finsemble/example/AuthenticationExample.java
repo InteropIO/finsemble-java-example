@@ -1,9 +1,16 @@
 package com.chartiq.finsemble.example;
 
+import com.chartiq.finsemble.Finsemble;
+import org.json.JSONObject;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import  java.util.List;
 
 public class AuthenticationExample extends JFrame implements ActionListener {
     private final Container contentPane;
@@ -13,8 +20,9 @@ public class AuthenticationExample extends JFrame implements ActionListener {
     private final JTextField userNameTextField;
     private final JPasswordField passwordTextField;
     private final JButton submitButton;
+    private final Finsemble fsbl;
     
-    AuthenticationExample() {
+    AuthenticationExample(List<String> args) throws Exception {
         contentPane = getContentPane();
         contentPane.setLayout(new GridBagLayout());
 
@@ -65,22 +73,30 @@ public class AuthenticationExample extends JFrame implements ActionListener {
         setSize(300, 150);
         setVisible(true);
         setResizable(false);
+
+        fsbl = new Finsemble(args, this);
+        fsbl.connect();
     }
 
-    public static void main(String[] args) {
-        new AuthenticationExample();
+    public static void main(String[] args) throws Exception {
+        final List<String> argList = new ArrayList<>(Arrays.asList(args));
+
+        new AuthenticationExample(argList);
     }
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        String userName = userNameTextField.getText();
-        String password = passwordTextField.getText();
-        if (userName.trim().equals("admin") && password.trim().equals("admin")) {
-            messageLabel.setText(" Hello " + userName
-                    + "");
-        } else {
-            messageLabel.setText(" Invalid user.. ");
-        }
+        final String userName = userNameTextField.getText();
+        final String password = passwordTextField.getPassword().toString();
+        final JSONObject credentials = new JSONObject(){{
+           put("user", userName);
+           put("password", password);
+        }};
 
+        fsbl.getClients().getAuthenticationClient().publishAuthorization(userName, credentials);
+
+        fsbl.getClients().getAuthenticationClient().getCurrentCredentials((err, res) -> {
+            this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+        });
     }
 }
