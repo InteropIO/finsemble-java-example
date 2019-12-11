@@ -114,11 +114,11 @@
 				}
 			}
 		},
-		"Authentication Example": {
+		"Java Authentication Example": {
 			"window": {
 				"id": "JavaExample",
 				"windowType": "FinsembleNativeWindow",
-				"path": "$javaExampleJarRoot/AuthenticationExample.jar",
+				"path": "$javaExampleJarRoot/FinsembleJavaAuthenticationExample.jar",
 				"url": "",
 				"arguments": "",
 				"defaultHeight": 600,
