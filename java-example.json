@@ -116,26 +116,29 @@
 		},
 		"Java Authentication Example": {
 			"window": {
-				"id": "JavaExample",
 				"windowType": "FinsembleNativeWindow",
 				"path": "$javaExampleJarRoot/FinsembleJavaAuthenticationExample.jar",
-				"url": "",
-				"arguments": "",
-				"defaultHeight": 600,
-				"autoShow": true,
-				"alwaysOnTop": false,
-				"resizable": true,
-				"showTaskbarIcon": false,
-				"contextMenu": true,
-				"addToWorkspace": true
+				"top": "center",
+				"left": "center",
+				"width": 300,
+				"height": 150,
+				"ephemeral": true,
+				"options": {
+					"autoShow": true
+				}
 			},
 			"component": {
-				"spawnOnStartup": false
+				"neededClients": [
+					"LauncherClient",
+					"AuthenticationClient",
+					"StorageClient"
+				],
+				"category": "system"
 			},
 			"foreign": {
 				"services": {
 					"workspaceService": {
-						"isArrangable": true
+						"isArrangable": false
 					}
 				},
 				"components": {
@@ -143,11 +146,8 @@
 						"launchableByUser": true
 					},
 					"Window Manager": {
-						"persistWindowState": false,
-						"FSBLHeader": true
-					},
-					"Toolbar": {
-						"iconURL": "$applicationRoot/assets/img/notepad.png"
+						"FSBLHeader": false,
+						"persistWindowState": false
 					}
 				}
 			}
@@ -156,7 +156,7 @@
 			"window": {
 				"id": "JavaExample",
 				"windowType": "FinsembleNativeWindow",
-				"path": "$javaExampleJarRoot/FinsembleJavaHeadlessExample",
+				"path": "$javaExampleJarRoot/FinsembleJavaHeadlessExample.jar",
 				"url": "",
 				"arguments": "-cp $javaExampleJarRoot/finsemble-java-example-3.11.0.rc.2-SNAPSHOT.jar com.chartiq.finsemble.example.JavaHeadlessExample",
 				"defaultHeight": 600,
