@@ -87,7 +87,7 @@ public class AuthenticationExample extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent ae) {
         final String userName = userNameTextField.getText();
-        final String password = passwordTextField.getPassword().toString();
+        final String password = passwordTextField.getText();
         final JSONObject credentials = new JSONObject(){{
            put("user", userName);
            put("password", password);
