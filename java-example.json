@@ -114,11 +114,49 @@
 				}
 			}
 		},
+		"Java Authentication Example": {
+			"window": {
+				"windowType": "FinsembleNativeWindow",
+				"path": "$javaExampleJarRoot/FinsembleJavaAuthenticationExample.jar",
+				"top": "center",
+				"left": "center",
+				"width": 300,
+				"height": 150,
+				"ephemeral": true,
+				"options": {
+					"autoShow": true
+				}
+			},
+			"component": {
+				"neededClients": [
+					"LauncherClient",
+					"AuthenticationClient",
+					"StorageClient"
+				],
+				"category": "system"
+			},
+			"foreign": {
+				"services": {
+					"workspaceService": {
+						"isArrangable": false
+					}
+				},
+				"components": {
+					"App Launcher": {
+						"launchableByUser": true
+					},
+					"Window Manager": {
+						"FSBLHeader": false,
+						"persistWindowState": false
+					}
+				}
+			}
+		},
 		"Java Headless Example": {
 			"window": {
 				"id": "JavaExample",
 				"windowType": "FinsembleNativeWindow",
-				"path": "$javaExampleJarRoot/FinsembleJavaHeadlessExample",
+				"path": "$javaExampleJarRoot/FinsembleJavaHeadlessExample.jar",
 				"url": "",
 				"arguments": "-cp $javaExampleJarRoot/finsemble-java-example-3.11.0.rc.2-SNAPSHOT.jar com.chartiq.finsemble.example.JavaHeadlessExample",
 				"defaultHeight": 600,
