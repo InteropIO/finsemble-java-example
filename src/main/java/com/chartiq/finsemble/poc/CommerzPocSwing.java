@@ -113,8 +113,10 @@ public class CommerzPocSwing extends JFrame implements WindowListener {
         float r = rand.nextFloat();
         float g = rand.nextFloat();
         float b = rand.nextFloat();
-        colorPanel.setBackground(new Color(r, g, b));
-        saveState((int)r, (int)g, (int)b);
+        Color rgb = new Color(r, g, b);
+        colorPanel.setBackground(rgb);
+        fsbl.getClients().getLogger().log("Generated color: " + rgb.toString());
+        saveState(rgb.getRed(), rgb.getGreen(), rgb.getBlue());
     }
 
     private void changeColor(int r, int g, int b) {
@@ -128,6 +130,7 @@ public class CommerzPocSwing extends JFrame implements WindowListener {
         colorObj.put("g", colorPanel.getBackground().getGreen());
         colorObj.put("b", colorPanel.getBackground().getBlue());
         fsbl.getClients().getRouterClient().transmit("color", colorObj);
+        fsbl.getClients().getLogger().log("Transmitted color: " + colorObj.toString());
     }
 
     private void saveState(int r, int g, int b) {
@@ -152,6 +155,7 @@ public class CommerzPocSwing extends JFrame implements WindowListener {
         temp.put("fields", fields);
 
         fsbl.getClients().getWindowClient().setComponentState(temp, this::handleSetComponentStateCb);
+        fsbl.getClients().getLogger().log("Saved state: " + temp.toString());
     }
 
     private void handleSetComponentStateCb(JSONObject err, JSONObject res) {
@@ -165,13 +169,15 @@ public class CommerzPocSwing extends JFrame implements WindowListener {
         fields.put("b");
         param.put("fields", fields);
         fsbl.getClients().getWindowClient().getComponentState(param, this::handleGetComponentStateCb);
+        
     }
 
     private void handleGetComponentStateCb(JSONObject err, JSONObject state) {
         if (err == null) {
             changeColor(Integer.valueOf(state.get("r").toString()), Integer.valueOf(state.get("g").toString()), Integer.valueOf(state.get("b").toString()));
+            fsbl.getClients().getLogger().log("Restored state: " + state.toString());
         } else {
-            fsbl.getClients().getLogger().log(err.toString());
+            fsbl.getClients().getLogger().error(err.toString());
         }
     }
 
@@ -213,6 +219,7 @@ public class CommerzPocSwing extends JFrame implements WindowListener {
             LOGGER.severe(err.toString());
         } else {
             JSONObject temp = res.getJSONObject("data");
+            fsbl.getClients().getLogger().log("Received color: " + temp.toString());
             int r = temp.getInt("r");
             int g = temp.getInt("g");
             int b = temp.getInt("b");
