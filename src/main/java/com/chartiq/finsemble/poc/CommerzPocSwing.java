@@ -11,12 +11,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 public class CommerzPocSwing extends JFrame implements WindowListener {
@@ -31,7 +33,13 @@ public class CommerzPocSwing extends JFrame implements WindowListener {
 
     private Finsemble fsbl;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        if(args[0].contains("loggingConfigFile")){
+            FileInputStream fis =  new FileInputStream(args[0].substring(args[0].indexOf("=")+1));
+            LogManager.getLogManager().readConfiguration(fis);
+            fis.close();
+        }
+
         final List<String> argList = new ArrayList<>(Arrays.asList(args));
         launchForm(argList);
 
@@ -159,6 +167,7 @@ public class CommerzPocSwing extends JFrame implements WindowListener {
     }
 
     private void handleSetComponentStateCb(JSONObject err, JSONObject res) {
+        fsbl.getClients().getLogger().log("Saved state: " + res.toString());
     }
 
     private void restoreState() {
@@ -174,8 +183,11 @@ public class CommerzPocSwing extends JFrame implements WindowListener {
 
     private void handleGetComponentStateCb(JSONObject err, JSONObject state) {
         if (err == null) {
-            changeColor(Integer.valueOf(state.get("r").toString()), Integer.valueOf(state.get("g").toString()), Integer.valueOf(state.get("b").toString()));
-            fsbl.getClients().getLogger().log("Restored state: " + state.toString());
+            fsbl.getClients().getLogger().log("Restoreing state with: " + state.toString());
+            if(!state.isNull("r")){
+                changeColor(Integer.valueOf(state.get("r").toString()), Integer.valueOf(state.get("g").toString()), Integer.valueOf(state.get("b").toString()));
+                fsbl.getClients().getLogger().log("Restored state: " + state.toString());
+            }
         } else {
             fsbl.getClients().getLogger().error(err.toString());
         }
