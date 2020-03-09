@@ -29,6 +29,6 @@
         <Button fx:id="group5Button" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#toggleLinker" prefWidth="32.0" style="-fx-background-color: #2DACFF; -fx-border-color: #039BFF;" text="X" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="128.0" AnchorPane.topAnchor="0.0" />
         <Button fx:id="group6Button" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#toggleLinker" prefWidth="32.0" style="-fx-background-color: #FFA200; -fx-border-color: #FFA200;" text="X" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="160.0" AnchorPane.topAnchor="0.0" />
         <CheckBox fx:id="dockCheckBox" layoutX="195.0" layoutY="10.0" mnemonicParsing="false" text="Docking" visible="false" AnchorPane.bottomAnchor="7.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="8.0" />
-        <Button fx:id="dockingButton" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false"  prefWidth="32.0" text="X" onAction="#toggleDock" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"  />
+        <CheckBox fx:id="dockingCheckbox" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false"  prefWidth="32.0" onAction="#toggleDock" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"  />
     </AnchorPane>
 </AnchorPane>

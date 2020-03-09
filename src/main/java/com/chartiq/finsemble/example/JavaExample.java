@@ -8,11 +8,16 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Window;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +67,7 @@ public class JavaExample {
     @FXML
     private Label symbolLabel;
     @FXML
-    private Button dockingButton;
+    private CheckBox dockingCheckbox;
     //endregion
 
     /**
@@ -185,20 +190,17 @@ public class JavaExample {
                     }
                 }
             }
-            fsbl.getClients().getLogger().log(thisWindowGroups.toString());
 
             if(!thisWindowGroups.getString("dockingGroup").equals("")){
-                dockingButton.setVisible(true);
-                dockingButton.setText("O");
+                dockingCheckbox.setSelected(true);
                 fsbl.getClients().getLogger().log("docked");
             }else if(!thisWindowGroups.get("snappingGroup").equals("")){
-                dockingButton.setVisible(true);
-                dockingButton.setText("X");
+                dockingCheckbox.setDisable(false);
                 fsbl.getClients().getLogger().log("snapped");
             }else{
-                dockingButton.setVisible(false);
-                dockingButton.setText("X");
-                fsbl.getClients().getLogger().log("undocked");
+                dockingCheckbox.setSelected(false);
+                dockingCheckbox.setDisable(true);
+                fsbl.getClients().getLogger().log("unsnapped/undocked");
             }
         }
     }
@@ -354,7 +356,7 @@ public class JavaExample {
         launchComponentButton.setDisable(!enabled);
         dockCheckBox.setDisable(!enabled);
         linkerPanel.setDisable(!enabled);
-        dockingButton.setVisible(false);
+        dockingCheckbox.setDisable(!enabled);
     }
 
     /**
@@ -384,17 +386,16 @@ public class JavaExample {
         group4Button.setText("");
         group5Button.setText("");
         group6Button.setText("");
-
-        // TODO: Show docking checkbox when docking is supported
-        dockCheckBox.setVisible(false);
     }
 
     public void toggleDock(ActionEvent actionEvent) {
+        final CheckBox checkbox = (CheckBox) actionEvent.getSource();
         String currentWindowName = fsbl.getClients().getWindowClient().getWindowIdentifier().getString("windowName");
-        if(dockingButton.getText().equals("X")){
+        if(checkbox.isSelected()){
             fsbl.getClients().getRouterClient().transmit("DockingService.formGroup", new JSONObject(){{put("windowName", currentWindowName);}});
-        }else if(dockingButton.getText().equals("O")){
+        }else if(!checkbox.isSelected()){
             fsbl.getClients().getRouterClient().query("DockingService.leaveGroup", new JSONObject(){{put("name", currentWindowName);}}, new JSONObject(), this::handeLeaveGroupcb);
+            checkbox.setDisable(true);
         }
     }
 
