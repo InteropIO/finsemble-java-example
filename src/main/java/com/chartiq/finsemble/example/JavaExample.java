@@ -139,7 +139,7 @@ public class JavaExample {
                     LOGGER.log(Level.SEVERE, "Error from Finsemble", e);
                 }
             });
-            fsbl.register();
+
             appendMessage("Window registered with Finsemble");
 
             // populate component combo box

@@ -29,11 +29,11 @@ Copy the _java-example.json_ included in the project to _src/components/java-exa
         "applicationRoot": "http://localhost:3375",
         "moduleRoot": "http://localhost:3375/finsemble",
         "servicesRoot": "http://localhost:3375/finsemble/services",
-		"notificationURL": "http://localhost:3375/components/notification/notification.html",
-		"javaExampleRoot": "<path to finsemble-java-example root>/target",
+        "notificationURL": "http://localhost:3375/components/notification/notification.html",
+        "javaExampleJarRoot": "<path to finsemble-java-example target (e.g. C:/Users/andy/Documents/SourceCode/finsemble-java-example/target)>",
         "importConfig": [
-			"$applicationRoot/configs/application/config.json",
-            "$applicationRoot/components/native/java-example.json"
+            "$applicationRoot/configs/application/config.json",
+            "$applicationRoot/components/java-example/java-example.json"
         ],
         "IAC": {
             "serverAddress" : "ws://127.0.0.1:3376"
