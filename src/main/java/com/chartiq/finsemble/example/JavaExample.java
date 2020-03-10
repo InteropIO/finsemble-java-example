@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Window;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -39,8 +40,6 @@ public class JavaExample {
     @FXML
     private Button launchComponentButton;
     @FXML
-    private CheckBox dockCheckBox;
-    @FXML
     private Button messagesButton;
     @FXML
     private TextArea messages;
@@ -60,6 +59,8 @@ public class JavaExample {
     private Button group6Button;
     @FXML
     private Label symbolLabel;
+    @FXML
+    private CheckBox dockingCheckbox;
     //endregion
 
     /**
@@ -129,9 +130,10 @@ public class JavaExample {
             // populate component combo box
             populateComboBox();
 
-            // dock checkbox
-            // TODO: Figure out docking
+            // Handle Docking
+            fsbl.getClients().getRouterClient().subscribe("Finsemble.WorkspaceService.groupUpdate", this::handleDockingGroupUpdate);
 
+            // Subscribe to linker channel
             fsbl.getClients().getLinkerClient().subscribe("symbol", this::handleSymbol);
 
             setFormEnable(true);
@@ -142,6 +144,56 @@ public class JavaExample {
                 fsbl.close();
             } catch (IOException e1) {
                 LOGGER.log(Level.SEVERE, "Error closing Finsemble connection", e1);
+            }
+        }
+    }
+
+    private void handleDockingGroupUpdate(JSONObject err, JSONObject res) {
+        if (err != null) {
+            fsbl.getClients().getLogger().error(err.toString());
+        } else {
+            final JSONObject groupData = res.getJSONObject("data").getJSONObject("groupData");
+            final String currentWindowName = fsbl.getClients().getWindowClient().getWindowIdentifier().getString("windowName");
+
+            JSONObject thisWindowGroups = new JSONObject();
+            thisWindowGroups.put("dockingGroup", "");
+            thisWindowGroups.put("snappingGroup", "");
+            thisWindowGroups.put("topRight", false);
+
+            for (String windowGroupId : groupData.keySet()) {
+                JSONObject windowGroup = groupData.getJSONObject(windowGroupId);
+                JSONArray windowNames = windowGroup.getJSONArray("windowNames");
+
+                boolean windowInGroup = false;
+                for (int i = 0; i < windowNames.length(); i++) {
+                    String windowName = windowNames.getString(i);
+                    if (windowName.equals(currentWindowName)) {
+                        windowInGroup = true;
+                    }
+                }
+
+                if (windowInGroup) {
+                    if (windowGroup.getBoolean("isMovable")) {
+                        thisWindowGroups.put("dockingGroup", windowGroupId);
+                        if (windowGroup.getString("topRightWindow").equals(currentWindowName)) {
+                            thisWindowGroups.put("topRight", true);
+                        }
+                    } else {
+                        thisWindowGroups.put("snappingGroup", windowGroupId);
+                    }
+                }
+            }
+
+            if (!thisWindowGroups.getString("dockingGroup").equals("")) {
+                // docked
+                dockingCheckbox.setSelected(true);
+            } else if (!thisWindowGroups.get("snappingGroup").equals("")) {
+                // Snapped
+                dockingCheckbox.setDisable(false);
+            } else {
+                // unsnapped/undocked
+                dockingCheckbox.setSelected(false);
+                dockingCheckbox.setDisable(true);
             }
         }
     }
@@ -295,8 +347,8 @@ public class JavaExample {
         sendSymbolButton.setDisable(!enabled);
         componentComboBox.setDisable(!enabled);
         launchComponentButton.setDisable(!enabled);
-        dockCheckBox.setDisable(!enabled);
         linkerPanel.setDisable(!enabled);
+        dockingCheckbox.setDisable(!enabled);
     }
 
     /**
@@ -326,8 +378,23 @@ public class JavaExample {
         group4Button.setText("");
         group5Button.setText("");
         group6Button.setText("");
+    }
 
-        // TODO: Show docking checkbox when docking is supported
-        dockCheckBox.setVisible(false);
+    public void toggleDock(ActionEvent actionEvent) {
+        final CheckBox checkbox = (CheckBox) actionEvent.getSource();
+        String currentWindowName = fsbl.getClients().getWindowClient().getWindowIdentifier().getString("windowName");
+        if (checkbox.isSelected()) {
+            fsbl.getClients().getRouterClient().transmit("DockingService.formGroup", new JSONObject() {{
+                put("windowName", currentWindowName);
+            }});
+        } else {
+            fsbl.getClients().getRouterClient().query("DockingService.leaveGroup", new JSONObject() {{
+                put("name", currentWindowName);
+            }}, new JSONObject(), this::handeLeaveGroupcb);
+            checkbox.setDisable(true);
+        }
+    }
+
+    private void handeLeaveGroupcb(JSONObject err, JSONObject res) {
     }
 }
