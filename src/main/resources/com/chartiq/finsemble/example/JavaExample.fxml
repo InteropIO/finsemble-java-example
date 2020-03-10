@@ -8,6 +8,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.control.Tooltip?>
 
 <AnchorPane prefHeight="362.0" prefWidth="265.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.chartiq.finsemble.example.JavaExample">
     <TextField fx:id="symbolTextField" layoutY="38.0" prefHeight="25.0" prefWidth="164.0" promptText="Enter Symbol" text="AAPL" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="96.0" AnchorPane.topAnchor="38.0" />
@@ -28,6 +29,10 @@
         <Button fx:id="group4Button" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#toggleLinker" prefWidth="32.0" style="-fx-background-color: #FE6262; -fx-border-color: #F83B3B;" text="X" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="96.0" AnchorPane.topAnchor="0.0" />
         <Button fx:id="group5Button" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#toggleLinker" prefWidth="32.0" style="-fx-background-color: #2DACFF; -fx-border-color: #039BFF;" text="X" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="128.0" AnchorPane.topAnchor="0.0" />
         <Button fx:id="group6Button" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#toggleLinker" prefWidth="32.0" style="-fx-background-color: #FFA200; -fx-border-color: #FFA200;" text="X" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="160.0" AnchorPane.topAnchor="0.0" />
-        <CheckBox fx:id="dockCheckBox" layoutX="195.0" layoutY="10.0" mnemonicParsing="false" text="Docking" visible="false" AnchorPane.bottomAnchor="7.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="8.0" />
+        <Label fx:id="dockingCheckboxLabel" contentDisplay="CENTER" layoutY="65.0" text="Docking" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="0.0" >
+        </Label>
+        <CheckBox fx:id="dockingCheckbox" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefWidth="32.0" onAction="#toggleDock" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" >
+            <tooltip><Tooltip text="Attach Window/Detach Window" /></tooltip>
+        </CheckBox>
     </AnchorPane>
 </AnchorPane>
