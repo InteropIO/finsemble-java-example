@@ -5,13 +5,13 @@
 <web-app>
     <display-name>Archetype Created Web Application</display-name>
     <servlet>
-        <servlet-name>CommerzPocServlet</servlet-name>
-        <servlet-class>com.chartiq.finsemble.poc.CommerzPocServlet</servlet-class>
+        <servlet-name>JavaServlet</servlet-name>
+        <servlet-class>com.chartiq.finsemble.example.JavaServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>CommerzPocServlet</servlet-name>
-        <url-pattern>/CommerzPocServlet</url-pattern>
+        <servlet-name>JavaServlet</servlet-name>
+        <url-pattern>/JavaServlet</url-pattern>
     </servlet-mapping>
 </web-app>

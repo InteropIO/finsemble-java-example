@@ -71,18 +71,18 @@ function post_to_url(path, params) {
 }
 
 function stopEmbeddedTomcat(){
-    post_to_url("CommerzPocServlet/do",{action:'stopEmbeddedTomcat'})
+    post_to_url("JavaServlet/do",{action:'stopEmbeddedTomcat'})
 }
 function spawnSwing(){
-    post_to_url("CommerzPocServlet/do",{action:'spawn',componentName:"commerz_poc_swing"})
+    post_to_url("JavaServlet/do",{action:'spawn',componentName:"java_swing"})
 }
 
 function spawnHtml(){
-    post_to_url("CommerzPocServlet/do",{action:'spawn',componentName:"commerz_poc_html"})
+    post_to_url("JavaServlet/do",{action:'spawn',componentName:"example_html"})
 }
 
 function getComponentList(){
-    post_to_url("CommerzPocServlet/do",{action:'getComponentList'})
+    post_to_url("JavaServlet/do",{action:'getComponentList'})
 }
 
 if (window.FSBL && FSBL.addEventListener) {

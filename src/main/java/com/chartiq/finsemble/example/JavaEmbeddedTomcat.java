@@ -1,4 +1,4 @@
-package com.chartiq.finsemble.poc;
+package com.chartiq.finsemble.example;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import org.apache.jasper.servlet.JspServlet;
 import org.json.JSONObject;
 
 
-public class CommerzPocEmbeddedTomcat {
+public class JavaEmbeddedTomcat {
     public static void main(String[] args) throws LifecycleException {
         final List<String> argList = new ArrayList<>(Arrays.asList(args));
         final Finsemble fsbl = new Finsemble(argList);
@@ -28,13 +28,13 @@ public class CommerzPocEmbeddedTomcat {
         tomcat.setPort(8080);
 
         //Add war
-        String contextPath = "/CommerzPocWebapp";
-        String warFilePath = new File("CommerzPocWebappEmbedded.war").getAbsolutePath();
+        String contextPath = "/JavaWebapp";
+        String warFilePath = new File("JavaWebappEmbedded.war").getAbsolutePath();
         tomcat.getHost().setAppBase(".");
         tomcat.addWebapp(contextPath, warFilePath);
 
         //Add servlet
-        String servletContextPath = "/CommerzPocWebapp/CommerzPocServlet";
+        String servletContextPath = "/JavaWebapp/JavaServlet";
         String docBase = new File(".").getAbsolutePath();
         Context context = tomcat.addContext(servletContextPath, docBase);
 
@@ -87,7 +87,7 @@ public class CommerzPocEmbeddedTomcat {
             }
         };
 
-        String servletName = "CommerzPocServlet";
+        String servletName = "JavaServlet";
         String urlPattern = "/do";
 
         tomcat.addServlet(servletContextPath, servletName, servlet);
@@ -100,7 +100,7 @@ public class CommerzPocEmbeddedTomcat {
             fsbl.connect();
             fsbl.getClients().getLogger().log("Tomcat connected!!!");
 
-            final String componentName = "commerz_poc_jsp";
+            final String componentName = "example_jsp";
             fsbl.getClients().getLauncherClient().spawn(componentName, new JSONObject() {{
                 put("addToWorkspace", true);
             }}, (err, res) -> {

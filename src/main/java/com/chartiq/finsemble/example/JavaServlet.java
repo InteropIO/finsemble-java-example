@@ -1,10 +1,9 @@
-package com.chartiq.finsemble.poc;
+package com.chartiq.finsemble.example;
 
 
 import com.chartiq.finsemble.Finsemble;
 import org.json.JSONObject;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-public class CommerzPocServlet extends HttpServlet {
+public class JavaServlet extends HttpServlet {
     private Finsemble fsbl;
 
     public void init() {
@@ -47,7 +46,7 @@ public class CommerzPocServlet extends HttpServlet {
             fsbl.connect();
             fsbl.getClients().getLogger().log("Tomcat connected!!!");
 
-            final String componentName = "commerz_poc_jsp";
+            final String componentName = "example_jsp";
             fsbl.getClients().getLauncherClient().spawn(componentName, new JSONObject() {{
                 put("addToWorkspace", true);
             }}, (err, res) -> {

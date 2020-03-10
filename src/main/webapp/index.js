@@ -70,15 +70,15 @@ function post_to_url(path, params) {
     xhttp.send();
 }
 function spawnSwing(){
-    post_to_url("CommerzPocServlet",{action:'spawn',componentName:"commerz_poc_swing"})
+    post_to_url("JavaServlet",{action:'spawn',componentName:"java_swing"})
 }
 
 function spawnHtml(){
-    post_to_url("CommerzPocServlet",{action:'spawn',componentName:"commerz_poc_html"})
+    post_to_url("JavaServlet",{action:'spawn',componentName:"example_html"})
 }
 
 function getComponentList(){
-    post_to_url("CommerzPocServlet",{action:'getComponentList'})
+    post_to_url("JavaServlet",{action:'getComponentList'})
 }
 
 if (window.FSBL && FSBL.addEventListener) {
