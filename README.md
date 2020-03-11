@@ -39,6 +39,12 @@ Copy the _java-example.json_ included in the project to _src/components/java-exa
     }
 ```
 
+## Examples provided
+- JavaExample - Example JavaFX application
+- JavaSwingExample - Example Java Swing application
+- JavaHeadlessExample - Example integration without a user interface
+- AuthenticationExample - Example component that performs authentication from within Java
+
 **NOTE:** The _java-example.json_ file includes two components: Java Example (local) and Java Example (asset). The "local" component uses `javaExampleRoot` to specify the path to the JAR file on the local system. The "asset" component uses the `appAsset` (described below) to download and run the application.
 
 ## Configuration for asset testing
