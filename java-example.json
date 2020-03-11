@@ -3,7 +3,7 @@
 		"Java Example (local)": {
 			"window": {
 				"id": "JavaExample",
-				"windowType": "FinsembleNativeWindow",
+				"windowType": "native",
 				"path": "$javaExampleJarRoot/FinsembleJavaFXExample.jar",
 				"url": "",
 				"arguments": "",
@@ -41,7 +41,7 @@
 		"Java Example (asset)": {
 			"window": {
 				"id": "JavaExample",
-				"windowType": "FinsembleNativeWindow",
+				"windowType": "native",
 				"alias": "finsembleJavaExample",
 				"url": "",
 				"arguments": "",
@@ -79,7 +79,7 @@
 		"Java Swing Example": {
 			"window": {
 				"id": "JavaExample",
-				"windowType": "FinsembleNativeWindow",
+				"windowType": "native",
 				"path": "$javaExampleJarRoot/JavaSwingExample.jar",
 				"url": "",
 				"arguments": "",
@@ -116,7 +116,7 @@
 		},
 		"Java Authentication Example": {
 			"window": {
-				"windowType": "FinsembleNativeWindow",
+				"windowType": "native",
 				"path": "$javaExampleJarRoot/FinsembleJavaAuthenticationExample.jar",
 				"top": "center",
 				"left": "center",
@@ -155,10 +155,10 @@
 		"Java Headless Example": {
 			"window": {
 				"id": "JavaExample",
-				"windowType": "FinsembleNativeWindow",
+				"windowType": "native",
 				"path": "$javaExampleJarRoot/FinsembleJavaHeadlessExample.jar",
 				"url": "",
-				"arguments": "-cp $javaExampleJarRoot/finsemble-java-example-3.11.0.rc.2-SNAPSHOT.jar com.chartiq.finsemble.example.JavaHeadlessExample",
+				"arguments": "",
 				"defaultHeight": 600,
 				"autoShow": true,
 				"alwaysOnTop": false,
