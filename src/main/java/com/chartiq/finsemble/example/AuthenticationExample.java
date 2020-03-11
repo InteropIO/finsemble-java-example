@@ -1,3 +1,7 @@
+/***********************************************************************************************************************
+ Copyright 2018-2020 by ChartIQ, Inc.
+ Licensed under the ChartIQ, Inc. Developer License Agreement https://www.chartiq.com/developer-license-agreement
+ **********************************************************************************************************************/
 package com.chartiq.finsemble.example;
 
 import com.chartiq.finsemble.Finsemble;
@@ -21,7 +25,7 @@ public class AuthenticationExample extends JFrame implements ActionListener {
     private final JPasswordField passwordTextField;
     private final JButton submitButton;
     private final Finsemble fsbl;
-    
+
     AuthenticationExample(List<String> args) throws Exception {
         contentPane = getContentPane();
         contentPane.setLayout(new GridBagLayout());

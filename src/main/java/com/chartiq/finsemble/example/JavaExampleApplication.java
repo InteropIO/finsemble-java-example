@@ -1,3 +1,7 @@
+/***********************************************************************************************************************
+ Copyright 2018-2020 by ChartIQ, Inc.
+ Licensed under the ChartIQ, Inc. Developer License Agreement https://www.chartiq.com/developer-license-agreement
+ **********************************************************************************************************************/
 package com.chartiq.finsemble.example;
 
 import javafx.application.Application;
