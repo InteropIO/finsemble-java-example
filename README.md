@@ -2,11 +2,9 @@
 
 ## Testing in the IDE
 
-The finsemble-jar project must be built before it can be run. 
-
 Pass the following parameters:
 ```
-finsembleWindowName=FinsembleJar-11-126-Finsemble componentType=FinsembleJar uuid=uuid1545252286933_4444 left=316 top=89 width=800 height=600 iac=true serverAddress=ws://127.0.0.1:3376
+finsembleWindowName=FinsembleJavaExample-11-126-Finsemble componentType=FinsembleJar uuid=uuid1545252286933_4444 left=316 top=89 width=800 height=600 iac=true serverAddress=ws://127.0.0.1:3376
 ```
 
 ## Maven
@@ -40,6 +38,12 @@ Copy the _java-example.json_ included in the project to _src/components/java-exa
         }
     }
 ```
+
+## Examples provided
+- JavaExample - Example JavaFX application
+- JavaSwingExample - Example Java Swing application
+- JavaHeadlessExample - Example integration without a user interface
+- AuthenticationExample - Example component that performs authentication from within Java
 
 **NOTE:** The _java-example.json_ file includes two components: Java Example (local) and Java Example (asset). The "local" component uses `javaExampleRoot` to specify the path to the JAR file on the local system. The "asset" component uses the `appAsset` (described below) to download and run the application.
 
