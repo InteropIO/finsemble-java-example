@@ -317,20 +317,22 @@ public class JavaExample {
                     data.keys().forEachRemaining(componentNames::add);
 
                     // Get non-system components
-                    final String[] nonSystemComponents = componentNames
+                    final String[] launchableByUserComponents = componentNames
                             .stream()
                             .filter(componentName -> {
                                 final JSONObject component = data.getJSONObject(componentName);
-                                return !component.has("component") ||
-                                        !component.getJSONObject("component").has("category") ||
-                                        !component.getJSONObject("component").getString("category").equals("system");
+                                return component.has("foreign") &&
+                                        component.getJSONObject("foreign").has("components") &&
+                                        component.getJSONObject("foreign").getJSONObject("components").has("App Launcher") &&
+                                        component.getJSONObject("foreign").getJSONObject("components").getJSONObject("App Launcher").has("launchableByUser") &&
+                                        component.getJSONObject("foreign").getJSONObject("components").getJSONObject("App Launcher").getBoolean("launchableByUser");
                             })
                             .sorted()
                             .toArray(String[]::new);
 
                     Platform.runLater(() -> {
                         // Add them to the component combo
-                        componentComboBox.setItems(FXCollections.observableArrayList(nonSystemComponents));
+                        componentComboBox.setItems(FXCollections.observableArrayList(launchableByUserComponents));
                         if (componentComboBox.getItems().size() > 0) {
                             // If there are components, select the first
                             componentComboBox.getSelectionModel().select(0);
