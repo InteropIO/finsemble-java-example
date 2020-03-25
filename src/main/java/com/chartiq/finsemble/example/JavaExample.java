@@ -162,6 +162,15 @@ public class JavaExample {
             setDraggable();
             setDropable();
 
+            //GetComponentState
+            JSONArray getComponentStateFields = new JSONArray(){{
+                put("Finsemble_Linker");
+                put("symbol");
+            }};
+            JSONObject getComponentStateParam = new JSONObject(){{
+                put("fields", getComponentStateFields);
+            }};
+            fsbl.getClients().getWindowClient().getComponentState(getComponentStateParam, this::handleGetComponentStateCb);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Error initializing Finsemble connection", ex);
             appendMessage("Error initializing Finsemble connection: " + ex.getMessage());
@@ -270,8 +279,12 @@ public class JavaExample {
             final String symbol = res.has("data") && res.getJSONObject("data").has("data") ?
                     res.getJSONObject("data").getString("data") :
                     "";
+            fsbl.getClients().getWindowClient().setComponentState(new JSONObject(){{put("field", "symbol");put("value", symbol);}}, this::handleSetComponentStateCb);
             Platform.runLater(() -> symbolLabel.setText(symbol));
         }
+    }
+
+    private void handleSetComponentStateCb(JSONObject err, JSONObject res) {
     }
 
     @FXML
@@ -376,6 +389,29 @@ public class JavaExample {
         launchComponentButton.setDisable(!enabled);
         linkerPanel.setDisable(!enabled);
         dockingCheckbox.setDisable(!enabled);
+    }
+
+    private void handleGetComponentStateCb(JSONObject err, JSONObject res) {
+        if(err!=null){
+            fsbl.getClients().getLogger().error(err.toString());
+        }else{
+            //Set subscribe linker channel
+            JSONArray channelToLink = res.getJSONArray("Finsemble_Linker");
+            for(int i=0;i<channelToLink.length();i++){
+                Button tempBtn = (Button) window.getScene().lookup("#"+channelToLink.getString(i)+"Button");
+                Platform.runLater(() -> tempBtn.fire());
+                fsbl.getClients().getLogger().log(channelToLink.getString(i));
+            }
+
+            //Set symbol value
+            String symbol = res.getString("symbol");
+            if(!symbol.equals("")){
+                Platform.runLater(() -> symbolLabel.setText(symbol));
+            }
+        }
+    }
+
+    private void handleLinkToChannelCb(JSONObject jsonObject, JSONObject jsonObject1) {
     }
 
     private void setDraggable() {
