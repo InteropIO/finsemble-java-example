@@ -163,11 +163,11 @@ public class JavaExample {
             setDropable();
 
             //GetComponentState
-            JSONArray getComponentStateFields = new JSONArray(){{
+            final JSONArray getComponentStateFields = new JSONArray(){{
                 put("Finsemble_Linker");
                 put("symbol");
             }};
-            JSONObject getComponentStateParam = new JSONObject(){{
+            final JSONObject getComponentStateParam = new JSONObject(){{
                 put("fields", getComponentStateFields);
             }};
             fsbl.getClients().getWindowClient().getComponentState(getComponentStateParam, this::handleGetComponentStateCb);
@@ -279,12 +279,13 @@ public class JavaExample {
             final String symbol = res.has("data") && res.getJSONObject("data").has("data") ?
                     res.getJSONObject("data").getString("data") :
                     "";
-            fsbl.getClients().getWindowClient().setComponentState(new JSONObject(){{put("field", "symbol");put("value", symbol);}}, this::handleSetComponentStateCb);
+            final JSONObject param = new JSONObject() {{
+                put("field", "symbol");
+                put("value", symbol);
+            }};
+            fsbl.getClients().getWindowClient().setComponentState(param, (e, r) -> { });
             Platform.runLater(() -> symbolLabel.setText(symbol));
         }
-    }
-
-    private void handleSetComponentStateCb(JSONObject err, JSONObject res) {
     }
 
     @FXML
@@ -396,22 +397,22 @@ public class JavaExample {
             fsbl.getClients().getLogger().error(err.toString());
         }else{
             //Set subscribe linker channel
-            JSONArray channelToLink = res.getJSONArray("Finsemble_Linker");
-            for(int i=0;i<channelToLink.length();i++){
-                Button tempBtn = (Button) window.getScene().lookup("#"+channelToLink.getString(i)+"Button");
-                Platform.runLater(() -> tempBtn.fire());
-                fsbl.getClients().getLogger().log(channelToLink.getString(i));
+            if (res.has("Finsemble_Linker")) {
+                final JSONArray channelToLink = res.getJSONArray("Finsemble_Linker");
+                for (int i = 0; i < channelToLink.length(); i++) {
+                    Button tempBtn = (Button) window.getScene().lookup("#" + channelToLink.getString(i) + "Button");
+                    Platform.runLater(() -> tempBtn.fire());
+                }
             }
 
             //Set symbol value
-            String symbol = res.getString("symbol");
-            if(!symbol.equals("")){
-                Platform.runLater(() -> symbolLabel.setText(symbol));
+            if(res.has("symbol")) {
+                final String symbol = res.getString("symbol");
+                if (!symbol.equals("")) {
+                    Platform.runLater(() -> symbolLabel.setText(symbol));
+                }
             }
         }
-    }
-
-    private void handleLinkToChannelCb(JSONObject jsonObject, JSONObject jsonObject1) {
     }
 
     private void setDraggable() {
