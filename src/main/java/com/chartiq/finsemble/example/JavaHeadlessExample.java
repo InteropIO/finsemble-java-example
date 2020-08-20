@@ -35,7 +35,7 @@ public class JavaHeadlessExample {
 
         final Finsemble fsbl = new Finsemble(argList);
         try {
-            fsbl.connect();
+            fsbl.connect(new MessageHandler());
             LOGGER.info("Connected to Finsemble");
 
             Timer timer = new Timer(true);

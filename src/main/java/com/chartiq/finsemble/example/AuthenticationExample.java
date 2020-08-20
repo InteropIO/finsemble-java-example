@@ -79,7 +79,7 @@ public class AuthenticationExample extends JFrame implements ActionListener {
         setResizable(false);
 
         fsbl = new Finsemble(args, this);
-        fsbl.connect();
+        fsbl.connect(new MessageHandler());
     }
 
     public static void main(String[] args) throws Exception {

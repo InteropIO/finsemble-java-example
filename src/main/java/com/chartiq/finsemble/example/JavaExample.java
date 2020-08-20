@@ -129,7 +129,7 @@ public class JavaExample {
 
         fsbl = new Finsemble(args, window);
         try {
-            fsbl.connect();
+            fsbl.connect(new MessageHandler());
             appendMessage("Connected to Finsemble");
 
             fsbl.addListener(new ConnectionListener() {

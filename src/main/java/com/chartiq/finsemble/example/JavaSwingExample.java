@@ -89,14 +89,14 @@ public class JavaSwingExample extends JFrame implements WindowListener {
         contentPane = getContentPane();
         contentPane.setLayout(new GridBagLayout());
         final GridBagConstraints constraints = new GridBagConstraints();
-        constraints.insets= new Insets(10,10,0,10);
+        constraints.insets = new Insets(10, 10, 0, 10);
 
         // region Linker buttons
         group1Button = new JButton();
-        group1Button.setBackground(new Color(135,129,189));
-        group1Button.setForeground(new Color(187,187,187));
+        group1Button.setBackground(new Color(135, 129, 189));
+        group1Button.setForeground(new Color(187, 187, 187));
         group1Button.setName("group1");
-        constraints.insets= new Insets(10,10,0,0);
+        constraints.insets = new Insets(10, 10, 0, 0);
         constraints.ipady = 40;
         constraints.weightx = 0.5;
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -105,10 +105,10 @@ public class JavaSwingExample extends JFrame implements WindowListener {
         contentPane.add(group1Button, constraints);
 
         group2Button = new JButton();
-        group2Button.setBackground(new Color(255,224,53));
-        group2Button.setForeground(new Color(187,187,187));
+        group2Button.setBackground(new Color(255, 224, 53));
+        group2Button.setForeground(new Color(187, 187, 187));
         group2Button.setName("group2");
-        constraints.insets= new Insets(10,0,0,0);
+        constraints.insets = new Insets(10, 0, 0, 0);
         constraints.weightx = 0.5;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.gridx = 1;
@@ -116,10 +116,10 @@ public class JavaSwingExample extends JFrame implements WindowListener {
         contentPane.add(group2Button, constraints);
 
         group3Button = new JButton();
-        group3Button.setBackground(new Color(137,216,3));
-        group3Button.setForeground(new Color(187,187,187));
+        group3Button.setBackground(new Color(137, 216, 3));
+        group3Button.setForeground(new Color(187, 187, 187));
         group3Button.setName("group3");
-        constraints.insets= new Insets(10,0,0,0);
+        constraints.insets = new Insets(10, 0, 0, 0);
         constraints.weightx = 0.5;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.gridx = 2;
@@ -127,10 +127,10 @@ public class JavaSwingExample extends JFrame implements WindowListener {
         contentPane.add(group3Button, constraints);
 
         group4Button = new JButton();
-        group4Button.setBackground(new Color(254,98,98));
-        group4Button.setForeground(new Color(187,187,187));
+        group4Button.setBackground(new Color(254, 98, 98));
+        group4Button.setForeground(new Color(187, 187, 187));
         group4Button.setName("group4");
-        constraints.insets= new Insets(10,0,0,0);
+        constraints.insets = new Insets(10, 0, 0, 0);
         constraints.weightx = 0.5;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.gridx = 3;
@@ -138,10 +138,10 @@ public class JavaSwingExample extends JFrame implements WindowListener {
         contentPane.add(group4Button, constraints);
 
         group5Button = new JButton();
-        group5Button.setBackground(new Color(45,172,255));
-        group5Button.setForeground(new Color(187,187,187));
+        group5Button.setBackground(new Color(45, 172, 255));
+        group5Button.setForeground(new Color(187, 187, 187));
         group5Button.setName("group5");
-        constraints.insets= new Insets(10,0,0,0);
+        constraints.insets = new Insets(10, 0, 0, 0);
         constraints.weightx = 0.5;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.gridx = 4;
@@ -149,10 +149,10 @@ public class JavaSwingExample extends JFrame implements WindowListener {
         contentPane.add(group5Button, constraints);
 
         group6Button = new JButton();
-        group6Button.setBackground(new Color(255,162,0));
-        group6Button.setForeground(new Color(187,187,187));
+        group6Button.setBackground(new Color(255, 162, 0));
+        group6Button.setForeground(new Color(187, 187, 187));
         group6Button.setName("group6");
-        constraints.insets= new Insets(10,0,0,10);
+        constraints.insets = new Insets(10, 0, 0, 10);
         constraints.weightx = 0.5;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.gridx = 5;
@@ -164,7 +164,7 @@ public class JavaSwingExample extends JFrame implements WindowListener {
         symbolTextField = new JTextField("MSFT");
         symbolTextField.setEditable(true);
         symbolTextField.setEnabled(false);
-        constraints.insets= new Insets(10,10,0,10);
+        constraints.insets = new Insets(10, 10, 0, 10);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.ipady = 10;
         constraints.gridx = 0;
@@ -219,7 +219,7 @@ public class JavaSwingExample extends JFrame implements WindowListener {
 
         messages = new JTextArea();
         messages.setVisible(false);
-        constraints.insets= new Insets(10,10,10,10);
+        constraints.insets = new Insets(10, 10, 10, 10);
         constraints.fill = GridBagConstraints.BOTH;
         constraints.weighty = 1;
         constraints.gridx = 0;
@@ -227,13 +227,46 @@ public class JavaSwingExample extends JFrame implements WindowListener {
         constraints.gridwidth = 6;
         contentPane.add(messages, constraints);
         // endregion
+
+        // test methods
+        JButton save = new JButton("save");
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 0;
+        constraints.gridy = 8;
+        constraints.gridwidth = 6;
+        contentPane.add(save, constraints);
+        save.addActionListener((e) -> this.saveMethod());
+
+        JButton minimize = new JButton("minimize");
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 0;
+        constraints.gridy = 9;
+        constraints.gridwidth = 6;
+        contentPane.add(minimize, constraints);
+        minimize.addActionListener((e) -> this.minimizeAll());
+
+        JButton reveal = new JButton("reveal");
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 0;
+        constraints.gridy = 10;
+        constraints.gridwidth = 6;
+        contentPane.add(reveal, constraints);
+        reveal.addActionListener((e) -> this.bringWindowsToFront());
+
+        JButton autoArrange = new JButton("autoArrange");
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 0;
+        constraints.gridy = 11;
+        constraints.gridwidth = 6;
+        contentPane.add(autoArrange, constraints);
+        autoArrange.addActionListener((e) -> this.autoArrange());
     }
 
     private void initFinsemble() {
         // TODO: populate this with a way to test the API
         fsbl = new Finsemble(launchArgs, this);
         try {
-            fsbl.connect();
+            fsbl.connect(new MessageHandler(messages));
             appendMessage("Connected to Finsemble");
 
             fsbl.addListener(new ConnectionListener() {
@@ -277,6 +310,50 @@ public class JavaSwingExample extends JFrame implements WindowListener {
         } else {
             messagesButton.setText("Show messages");
         }
+    }
+
+    private void saveMethod(){
+        fsbl.getClients().getWorkspaceClient().save((err, res) -> {
+            if (err != null) {
+                LOGGER.severe("Error " + err);
+            } else {
+                LOGGER.info("Result " + res);
+            }
+        });
+    }
+
+    private void bringWindowsToFront(){
+        try {
+            fsbl.getClients().getWorkspaceClient().bringWindowsToFront(new JSONObject(), (err, res) -> {
+                if (err != null) {
+                    LOGGER.severe("Error " + err);
+                } else {
+                    LOGGER.info("Result " + res);
+                }
+            });
+        }catch (Throwable e){
+            System.out.println(e);
+        }
+    }
+
+    private void minimizeAll(){
+        fsbl.getClients().getWorkspaceClient().minimizeAll(new JSONObject(), (err, res) -> {
+            if (err != null) {
+                LOGGER.severe("Error " + err);
+            } else {
+                LOGGER.info("Result " + res);
+            }
+        });
+    }
+
+    private void autoArrange(){
+        fsbl.getClients().getWorkspaceClient().autoArrange("a", "b", (err, res) -> {
+            if (err != null) {
+                LOGGER.severe("Error " + err);
+            } else {
+                LOGGER.info("Result " + res);
+            }
+        });
     }
 
     private void sendSymbol() {
