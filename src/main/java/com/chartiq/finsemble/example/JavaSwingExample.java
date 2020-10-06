@@ -229,44 +229,30 @@ public class JavaSwingExample extends JFrame implements WindowListener {
         // endregion
 
         // test methods
-        JButton save = new JButton("save");
+        JButton finsembleWindowButton = new JButton("FinsembleWindow");
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.gridx = 0;
-        constraints.gridy = 8;
+        constraints.gridy = 12;
         constraints.gridwidth = 6;
-        contentPane.add(save, constraints);
-        save.addActionListener((e) -> this.saveMethod());
-
-        JButton minimize = new JButton("minimize");
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.gridx = 0;
-        constraints.gridy = 9;
-        constraints.gridwidth = 6;
-        contentPane.add(minimize, constraints);
-        minimize.addActionListener((e) -> this.minimizeAll());
-
-        JButton reveal = new JButton("reveal");
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.gridx = 0;
-        constraints.gridy = 10;
-        constraints.gridwidth = 6;
-        contentPane.add(reveal, constraints);
-        reveal.addActionListener((e) -> this.bringWindowsToFront());
-
-        JButton autoArrange = new JButton("autoArrange");
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.gridx = 0;
-        constraints.gridy = 11;
-        constraints.gridwidth = 6;
-        contentPane.add(autoArrange, constraints);
-        autoArrange.addActionListener((e) -> this.autoArrange());
+        contentPane.add(finsembleWindowButton, constraints);
+        finsembleWindowButton.addActionListener((e) ->
+                {
+                    JFrame frame = new JFrame();
+                    frame.setContentPane(new FinsembleWindowFrame(fsbl).getMainPanel());
+                    frame.setTitle("FinsembleWindow");
+                    frame.setBounds(20, 20, 800, 800);
+                    frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                    frame.pack();
+                    frame.setVisible(true);
+                }
+        );
     }
 
     private void initFinsemble() {
         // TODO: populate this with a way to test the API
         fsbl = new Finsemble(launchArgs, this);
         try {
-            fsbl.connect(new MessageHandler(messages));
+            fsbl.connect();
             appendMessage("Connected to Finsemble");
 
             fsbl.addListener(new ConnectionListener() {
@@ -310,50 +296,6 @@ public class JavaSwingExample extends JFrame implements WindowListener {
         } else {
             messagesButton.setText("Show messages");
         }
-    }
-
-    private void saveMethod(){
-        fsbl.getClients().getWorkspaceClient().save((err, res) -> {
-            if (err != null) {
-                LOGGER.severe("Error " + err);
-            } else {
-                LOGGER.info("Result " + res);
-            }
-        });
-    }
-
-    private void bringWindowsToFront(){
-        try {
-            fsbl.getClients().getWorkspaceClient().bringWindowsToFront(new JSONObject(), (err, res) -> {
-                if (err != null) {
-                    LOGGER.severe("Error " + err);
-                } else {
-                    LOGGER.info("Result " + res);
-                }
-            });
-        }catch (Throwable e){
-            System.out.println(e);
-        }
-    }
-
-    private void minimizeAll(){
-        fsbl.getClients().getWorkspaceClient().minimizeAll(new JSONObject(), (err, res) -> {
-            if (err != null) {
-                LOGGER.severe("Error " + err);
-            } else {
-                LOGGER.info("Result " + res);
-            }
-        });
-    }
-
-    private void autoArrange(){
-        fsbl.getClients().getWorkspaceClient().autoArrange("a", "b", (err, res) -> {
-            if (err != null) {
-                LOGGER.severe("Error " + err);
-            } else {
-                LOGGER.info("Result " + res);
-            }
-        });
     }
 
     private void sendSymbol() {
@@ -601,7 +543,7 @@ public class JavaSwingExample extends JFrame implements WindowListener {
      */
     @Override
     public void windowOpened(WindowEvent e) {
-        initFinsemble();
+        new Thread(this::initFinsemble).start();
     }
 
     /**
