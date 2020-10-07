@@ -7,17 +7,13 @@ import org.json.JSONObject;
 
 import javax.swing.*;
 import javax.swing.text.DefaultCaret;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Objects;
-import java.util.logging.Logger;
+import java.util.*;
 
 public class FinsembleWindowFrame {
-    private static final Logger LOGGER = Logger.getLogger(FinsembleWindowFrame.class.getName());
 
     private JPanel mainPanel;
     private JPanel logPanel;
-    private JPanel getInsatancePanel;
+    private JPanel getInstancePanel;
 
     private JButton showButton;
     private JButton blurButton;
@@ -51,9 +47,16 @@ public class FinsembleWindowFrame {
     private JTextField width;
     private JTextField height;
     private JTextField textSetOpacity;
+    private JTextField textShowAtLeft;
+    private JTextField textShowAtTop;
+    private JTextField textGetComponentState;
+    private JTextField textRemoveComponentState;
+    private JTextField textNameSetComponentState;
+    private JTextField textValueSetComponentState;
+    private JButton setComponentStateButton;
+    private JButton removeComponentStateButton;
 
     private FinsembleWindow finsembleWindow;
-    private Finsemble finsemble;
 
     private final CallbackListener defaultCallback = ((err, res) -> {
         if (Objects.nonNull(err)) {
@@ -83,7 +86,7 @@ public class FinsembleWindowFrame {
         showButton.addActionListener(e -> finsembleWindow.show(new JSONObject(), defaultCallback));
         focusButton.addActionListener(e -> finsembleWindow.focus(new JSONObject(), defaultCallback));
         closeButton.addActionListener(e -> finsembleWindow.close(new JSONObject(), defaultCallback));
-        showAtButton.addActionListener(e -> finsembleWindow.showAt(new JSONObject(), defaultCallback));
+
         restoreButton.addActionListener(e -> finsembleWindow.restore(new JSONObject(), defaultCallback));
         minimizeButton.addActionListener(e -> finsembleWindow.minimize(new JSONObject(), defaultCallback));
         maximizeButton.addActionListener(e -> finsembleWindow.maximize(new JSONObject(), defaultCallback));
@@ -94,7 +97,21 @@ public class FinsembleWindowFrame {
         bringToFrontButton.addActionListener(e -> finsembleWindow.bringToFront(new JSONObject(), defaultCallback));
         isAlwaysOnTopButton.addActionListener(e -> finsembleWindow.isAlwaysOnTop(new JSONObject(), defaultCallback));
         getWindowStateButton.addActionListener(e -> finsembleWindow.getWindowState(new JSONObject(), defaultCallback));
-        getComponentStateButton.addActionListener(e -> finsembleWindow.getComponentState(new JSONObject(), defaultCallback));
+
+        getComponentStateButton.addActionListener(e -> {
+            finsembleWindow.getComponentState(new JSONObject(Collections.singletonMap("field", textGetComponentState.getText())), defaultCallback);
+        });
+
+        setComponentStateButton.addActionListener(e -> {
+            JSONObject params = new JSONObject();
+            params.put("field", textNameSetComponentState.getText());
+            params.put("value", Double.parseDouble(textValueSetComponentState.getText()));
+            finsembleWindow.setComponentState(params, defaultCallback);
+        });
+
+        removeComponentStateButton.addActionListener(e -> {
+            finsembleWindow.removeComponentState(new JSONObject(Collections.singletonMap("field", textRemoveComponentState.getText())), defaultCallback);
+        });
 
         setAlwaysOnTopCheckBox.addActionListener(e -> finsembleWindow.setAlwaysOnTop(
                 new JSONObject(Collections.singletonMap("alwaysOnTop", setAlwaysOnTopCheckBox.isSelected())),
@@ -102,21 +119,31 @@ public class FinsembleWindowFrame {
         );
 
         setOpacityButton.addActionListener(e -> finsembleWindow.setOpacity(
-                new JSONObject(Collections.singletonMap("opacity", textSetOpacity.getText())),
+                new JSONObject(Collections.singletonMap("opacity", Double.parseDouble(textSetOpacity.getText()))),
                 defaultCallback)
         );
 
         setBoundsButton.addActionListener(e -> {
+                    Map<String, String> bounds = new HashMap<>();
+                    bounds.put("left", left.getText());
+                    bounds.put("right", right.getText());
+                    bounds.put("top", top.getText());
+                    bounds.put("bottom", bottom.getText());
+                    bounds.put("width", width.getText());
+                    bounds.put("height", height.getText());
+
                     JSONObject params = new JSONObject();
-                    params.put("left", left.getText());
-                    params.put("right", right.getText());
-                    params.put("top", top.getText());
-                    params.put("bottom", bottom.getText());
-                    params.put("width", width.getText());
-                    params.put("height", height.getText());
+                    params.put("bounds", bounds);
                     finsembleWindow.setBounds(params, defaultCallback);
                 }
         );
+
+        showAtButton.addActionListener(e -> {
+            JSONObject params = new JSONObject();
+            params.put("left", Integer.parseInt(textShowAtLeft.getText()));
+            params.put("top", Integer.parseInt(textShowAtTop.getText()));
+            finsembleWindow.showAt(params, defaultCallback);
+        });
 
         clearButton.addActionListener(e -> textLogs.setText(""));
 
