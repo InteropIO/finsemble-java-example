@@ -217,22 +217,11 @@ public class JavaSwingExample extends JFrame implements WindowListener {
         constraints.gridwidth = 6;
         contentPane.add(messagesButton, constraints);
 
-        messages = new JTextArea();
-        messages.setVisible(false);
-        constraints.insets = new Insets(10, 10, 10, 10);
-        constraints.fill = GridBagConstraints.BOTH;
-        constraints.weighty = 1;
-        constraints.gridx = 0;
-        constraints.gridy = 7;
-        constraints.gridwidth = 6;
-        contentPane.add(messages, constraints);
-        // endregion
-
         // test methods
         JButton finsembleWindowButton = new JButton("FinsembleWindow");
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.gridx = 0;
-        constraints.gridy = 12;
+        constraints.gridy = 8;
         constraints.gridwidth = 6;
         contentPane.add(finsembleWindowButton, constraints);
         finsembleWindowButton.addActionListener((e) ->
@@ -246,6 +235,33 @@ public class JavaSwingExample extends JFrame implements WindowListener {
                     frame.setVisible(true);
                 }
         );
+
+        JButton routerClient = new JButton("RouterClient");
+        constraints.gridx = 0;
+        constraints.gridy = 9;
+        constraints.gridwidth = 6;
+        contentPane.add(routerClient, constraints);
+        routerClient.addActionListener((e) ->
+                {
+                    JFrame frame = new JFrame();
+                    frame.setContentPane(new RouterClientFrame(fsbl).getMainPanel());
+                    frame.setTitle("RouterClient");
+                    frame.setBounds(20, 20, 700, 750);
+                    frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                    frame.pack();
+                    frame.setVisible(true);
+                }
+        );
+
+        messages = new JTextArea();
+        messages.setVisible(false);
+        constraints.insets = new Insets(10, 10, 10, 10);
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.weighty = 1;
+        constraints.gridx = 0;
+        constraints.gridy = 7;
+        constraints.gridwidth = 6;
+        contentPane.add(messages, constraints);
     }
 
     private void initFinsemble() {
