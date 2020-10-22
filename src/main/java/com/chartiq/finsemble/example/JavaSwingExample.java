@@ -253,6 +253,40 @@ public class JavaSwingExample extends JFrame implements WindowListener {
                 }
         );
 
+        JButton searchClient = new JButton("SearchClient");
+        constraints.gridx = 0;
+        constraints.gridy = 10;
+        constraints.gridwidth = 6;
+        contentPane.add(searchClient, constraints);
+        searchClient.addActionListener((e) ->
+                {
+                    JFrame frame = new JFrame();
+                    frame.setContentPane(new SearchClientFrame(fsbl).getMainPanel());
+                    frame.setTitle("SearchClient");
+                    frame.setBounds(20, 20, 700, 750);
+                    frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                    frame.pack();
+                    frame.setVisible(true);
+                }
+        );
+
+        JButton storeClient = new JButton("StoreClient");
+        constraints.gridx = 0;
+        constraints.gridy = 11;
+        constraints.gridwidth = 6;
+        contentPane.add(storeClient, constraints);
+        storeClient.addActionListener((e) ->
+                {
+                    JFrame frame = new JFrame();
+                    frame.setContentPane(new StoreClientFrame(fsbl).getMainPanel());
+                    frame.setTitle("SearchClient");
+                    frame.setBounds(20, 20, 700, 750);
+                    frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                    frame.pack();
+                    frame.setVisible(true);
+                }
+        );
+
         messages = new JTextArea();
         messages.setVisible(false);
         constraints.insets = new Insets(10, 10, 10, 10);
