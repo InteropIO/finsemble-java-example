@@ -279,7 +279,24 @@ public class JavaSwingExample extends JFrame implements WindowListener {
                 {
                     JFrame frame = new JFrame();
                     frame.setContentPane(new StoreClientFrame(fsbl).getMainPanel());
-                    frame.setTitle("SearchClient");
+                    frame.setTitle("StoreClient");
+                    frame.setBounds(20, 20, 700, 750);
+                    frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                    frame.pack();
+                    frame.setVisible(true);
+                }
+        );
+
+        JButton loggerClient = new JButton("LoggerClient");
+        constraints.gridx = 0;
+        constraints.gridy = 12;
+        constraints.gridwidth = 6;
+        contentPane.add(loggerClient, constraints);
+        loggerClient.addActionListener((e) ->
+                {
+                    JFrame frame = new JFrame();
+                    frame.setContentPane(new LogClientFrame(fsbl).getMainPanel());
+                    frame.setTitle("LoggerClient");
                     frame.setBounds(20, 20, 700, 750);
                     frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
                     frame.pack();

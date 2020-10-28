@@ -90,7 +90,7 @@ public class SearchClientFrame {
         });
 
         unregisterButton.addActionListener(e ->
-                fsbl.getClients().getSearchClient().unRegister(providerNameUnRegisterTextField.getText(), defaultCallback));
+                fsbl.getClients().getSearchClient().unregister(providerNameUnRegisterTextField.getText(), defaultCallback));
     }
 
     public JPanel getMainPanel() {

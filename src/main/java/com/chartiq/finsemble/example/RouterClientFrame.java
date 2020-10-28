@@ -5,7 +5,6 @@ import com.chartiq.finsemble.interfaces.CallbackListener;
 import com.chartiq.finsemble.model.PubSubModel;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.swing.*;
