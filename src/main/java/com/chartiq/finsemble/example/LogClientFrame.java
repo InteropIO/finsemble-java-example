@@ -39,11 +39,6 @@ public class LogClientFrame {
     }
 
     public LogClientFrame(Finsemble fsbl) {
-//        ButtonGroup group = new ButtonGroup();
-//        group.add(systemRadioButton);
-//        group.add(devRadioButton);
-//        group.add(perfRadioButton);
-
         clearButton.addActionListener(e -> textLogs.setText(""));
 
         logButton.addActionListener(e -> getLogger(fsbl).log(textField1.getText()));

@@ -1,0 +1,189 @@
+package com.chartiq.finsemble.example;
+
+import com.chartiq.finsemble.Finsemble;
+import com.chartiq.finsemble.interfaces.CallbackListener;
+import com.chartiq.finsemble.model.Action;
+import com.chartiq.finsemble.model.Filter;
+import com.chartiq.finsemble.model.Notification;
+import com.chartiq.finsemble.model.Subscription;
+import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.layout.FormLayout;
+import org.json.JSONObject;
+
+import javax.swing.*;
+import javax.swing.text.DefaultCaret;
+import java.awt.*;
+import java.time.Instant;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Objects;
+
+import static java.util.Collections.emptyMap;
+
+public class NotificationClientFrame {
+    private JPanel mainPanel;
+    private JButton notifyButton;
+    private JTextArea textLogs;
+    private JButton clearButton;
+    private JTextField titleTextField;
+    private JTextField messageTextField;
+    private JTextField headerTextField;
+    private JButton subscribeButton;
+    private JButton unsubscribeButton;
+    private JTextField channelTextField;
+    private JTextField subscribtionIdTextField;
+    private JButton getlastIssuedAtButton;
+    private JTextField sourceTextField;
+    private JButton fetchHistoryButton;
+    private JButton performActionButton;
+
+    private final CallbackListener defaultCallback = ((err, res) -> {
+        if (Objects.nonNull(err)) {
+            writeLogs(err.toString(4));
+        } else {
+            writeLogs(res.toString(4));
+        }
+    });
+
+    public NotificationClientFrame(Finsemble fsbl) {
+        DefaultCaret caret = new DefaultCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+        textLogs.setCaret(caret);
+
+        clearButton.addActionListener(e -> textLogs.setText(""));
+
+        notifyButton.addActionListener(e -> {
+            Notification notification = new Notification();
+            notification.setHeaderText(headerTextField.getText());
+            notification.setTitle(titleTextField.getText());
+            notification.setDetails(messageTextField.getText());
+            notification.setHeaderLogo("http://localhost:3375/components/finsemble-notifications/components/shared/assets/email.svg");
+            notification.setContentLogo("http://localhost:3375/components/finsemble-notifications/components/shared/assets/graph.png");
+            fsbl.getClients().getNotificationClient().notify(Collections.singletonList(notification), defaultCallback);
+        });
+
+        subscribeButton.addActionListener(e -> {
+            Subscription subscription = new Subscription(
+                    null, new Filter(emptyMap(), emptyMap()), channelTextField.getText()
+            );
+
+            fsbl.getClients().getNotificationClient().subscribe(subscription,
+                    (err, res) -> {
+                        res.put("callback", "onSubscribe");
+                        defaultCallback.callback(err, res);
+                    },
+                    (err, res) -> {
+                        res.put("callback", "onNotification");
+                        defaultCallback.callback(err, res);
+                    });
+        });
+
+        unsubscribeButton.addActionListener(e ->
+                fsbl.getClients().getNotificationClient().unsubscribe(subscribtionIdTextField.getText(), defaultCallback)
+        );
+
+        getlastIssuedAtButton.addActionListener(e ->
+                fsbl.getClients().getNotificationClient().getLastIssuedAt(sourceTextField.getText(), defaultCallback)
+        );
+
+        fetchHistoryButton.addActionListener(e ->
+                fsbl.getClients().getNotificationClient().fetchHistory(
+                        Instant.now(),
+                        new Filter(emptyMap(), emptyMap()),
+                        defaultCallback
+                ));
+        performActionButton.addActionListener(e -> {
+            Notification notification = new Notification();
+            notification.setHeaderText(headerTextField.getText());
+            notification.setTitle(titleTextField.getText());
+            notification.setDetails(messageTextField.getText());
+            notification.setHeaderLogo("http://localhost:3375/components/finsemble-notifications/components/shared/assets/email.svg");
+            notification.setContentLogo("http://localhost:3375/components/finsemble-notifications/components/shared/assets/graph.png");
+
+            Action action = new Action("1", "buttonText", "typeText",
+                    2000, "component", new JSONObject(), channelTextField.getText(), new JSONObject()
+            );
+            fsbl.getClients().getNotificationClient().performAction(
+                    Arrays.asList(notification, notification),
+                    action,
+                    defaultCallback
+            );
+        });
+    }
+
+    private void writeLogs(String text) {
+        textLogs.append("\n" + text);
+    }
+
+    public JPanel getMainPanel() {
+        return mainPanel;
+    }
+
+    {
+// GUI initializer generated by IntelliJ IDEA GUI Designer
+// >>> IMPORTANT!! <<<
+// DO NOT EDIT OR ADD ANY CODE HERE!
+        $$$setupUI$$$();
+    }
+
+    /**
+     * Method generated by IntelliJ IDEA GUI Designer
+     * >>> IMPORTANT!! <<<
+     * DO NOT edit this method OR call it in your code!
+     *
+     * @noinspection ALL
+     */
+    private void $$$setupUI$$$() {
+        final JPanel panel1 = new JPanel();
+        panel1.setLayout(new FormLayout("fill:d:grow", "center:d:grow"));
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new FormLayout("fill:max(d;4px):noGrow,left:4dlu:noGrow,fill:max(d;4px):noGrow,left:4dlu:noGrow,fill:108px:grow,left:5dlu:noGrow,left:64dlu:noGrow,left:4dlu:noGrow,fill:125px:grow,fill:d:grow,left:5dlu:noGrow", "center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:d:grow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow"));
+        mainPanel.setPreferredSize(new Dimension(640, 550));
+        CellConstraints cc = new CellConstraints();
+        panel1.add(mainPanel, cc.xy(1, 1));
+        notifyButton = new JButton();
+        notifyButton.setText("notify");
+        mainPanel.add(notifyButton, cc.xy(3, 3));
+        final JScrollPane scrollPane1 = new JScrollPane();
+        mainPanel.add(scrollPane1, cc.xyw(3, 15, 8, CellConstraints.FILL, CellConstraints.FILL));
+        textLogs = new JTextArea();
+        textLogs.setText("");
+        scrollPane1.setViewportView(textLogs);
+        clearButton = new JButton();
+        clearButton.setText("Clear");
+        mainPanel.add(clearButton, cc.xy(10, 17, CellConstraints.RIGHT, CellConstraints.DEFAULT));
+        messageTextField = new JTextField();
+        messageTextField.setText("message");
+        mainPanel.add(messageTextField, cc.xyw(9, 3, 2, CellConstraints.FILL, CellConstraints.DEFAULT));
+        headerTextField = new JTextField();
+        headerTextField.setText("header");
+        mainPanel.add(headerTextField, cc.xy(5, 3, CellConstraints.FILL, CellConstraints.DEFAULT));
+        titleTextField = new JTextField();
+        titleTextField.setText("title");
+        mainPanel.add(titleTextField, cc.xy(7, 3, CellConstraints.FILL, CellConstraints.DEFAULT));
+        subscribeButton = new JButton();
+        subscribeButton.setText("subscribe");
+        mainPanel.add(subscribeButton, cc.xy(3, 5));
+        unsubscribeButton = new JButton();
+        unsubscribeButton.setText("unsubscribe");
+        mainPanel.add(unsubscribeButton, cc.xy(3, 7));
+        channelTextField = new JTextField();
+        channelTextField.setText("channel");
+        mainPanel.add(channelTextField, cc.xyw(5, 5, 3, CellConstraints.FILL, CellConstraints.DEFAULT));
+        subscribtionIdTextField = new JTextField();
+        subscribtionIdTextField.setText("subscribtionId");
+        mainPanel.add(subscribtionIdTextField, cc.xyw(5, 7, 5, CellConstraints.FILL, CellConstraints.DEFAULT));
+        getlastIssuedAtButton = new JButton();
+        getlastIssuedAtButton.setText("getlastIssuedAt");
+        mainPanel.add(getlastIssuedAtButton, cc.xyw(3, 9, 3));
+        sourceTextField = new JTextField();
+        sourceTextField.setText("source");
+        mainPanel.add(sourceTextField, cc.xy(7, 9, CellConstraints.FILL, CellConstraints.DEFAULT));
+        fetchHistoryButton = new JButton();
+        fetchHistoryButton.setText("fetchHistoryFromNow");
+        mainPanel.add(fetchHistoryButton, cc.xyw(3, 11, 3));
+        performActionButton = new JButton();
+        performActionButton.setText("performAction");
+        mainPanel.add(performActionButton, cc.xyw(3, 13, 3));
+    }
+}

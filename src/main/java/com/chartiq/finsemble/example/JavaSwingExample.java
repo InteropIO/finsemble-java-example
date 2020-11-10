@@ -304,6 +304,23 @@ public class JavaSwingExample extends JFrame implements WindowListener {
                 }
         );
 
+        JButton notificationClient = new JButton("NotificationClient");
+        constraints.gridx = 0;
+        constraints.gridy = 13;
+        constraints.gridwidth = 6;
+        contentPane.add(notificationClient, constraints);
+        notificationClient.addActionListener((e) ->
+                {
+                    JFrame frame = new JFrame();
+                    frame.setContentPane(new NotificationClientFrame(fsbl).getMainPanel());
+                    frame.setTitle("NotificationClient");
+                    frame.setBounds(20, 20, 700, 750);
+                    frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                    frame.pack();
+                    frame.setVisible(true);
+                }
+        );
+
         messages = new JTextArea();
         messages.setVisible(false);
         constraints.insets = new Insets(10, 10, 10, 10);

@@ -9,12 +9,6 @@
     <version>4.0.1-SNAPSHOT</version>
     <dependencies>
         <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20160810</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>com.chartiq.finsemble</groupId>
             <artifactId>finsemble</artifactId>
             <version>4.2.1-SNAPSHOT</version>
