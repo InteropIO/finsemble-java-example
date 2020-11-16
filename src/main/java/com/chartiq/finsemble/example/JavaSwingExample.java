@@ -321,6 +321,23 @@ public class JavaSwingExample extends JFrame implements WindowListener {
                 }
         );
 
+        JButton workspaceClient = new JButton("WorkspaceClient");
+        constraints.gridx = 0;
+        constraints.gridy = 14;
+        constraints.gridwidth = 6;
+        contentPane.add(workspaceClient, constraints);
+        workspaceClient.addActionListener((e) ->
+                {
+                    JFrame frame = new JFrame();
+                    frame.setContentPane(new WorkspaceClientFrame(fsbl).getMainPanel());
+                    frame.setTitle("WorkSpaceClientFrame");
+                    frame.setBounds(20, 20, 700, 750);
+                    frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                    frame.pack();
+                    frame.setVisible(true);
+                }
+        );
+
         messages = new JTextArea();
         messages.setVisible(false);
         constraints.insets = new Insets(10, 10, 10, 10);
