@@ -12,7 +12,7 @@
       <grid id="8352f" layout-manager="FormLayout">
         <rowspec value="center:max(d;4px):noGrow"/>
         <rowspec value="top:4dlu:noGrow"/>
-        <rowspec value="center:58px:noGrow"/>
+        <rowspec value="center:33px:noGrow"/>
         <rowspec value="top:4dlu:noGrow"/>
         <rowspec value="center:max(d;4px):noGrow"/>
         <rowspec value="top:4dlu:noGrow"/>
@@ -62,7 +62,7 @@
               <component id="e132e" class="javax.swing.JTextArea" binding="textLogs">
                 <constraints/>
                 <properties>
-                  <text value=""/>
+                  <text value="K"/>
                 </properties>
               </component>
             </children>
@@ -93,17 +93,6 @@
             </constraints>
             <properties>
               <text value="GetSystemChannels"/>
-            </properties>
-          </component>
-          <component id="2af85" class="javax.swing.JTextArea" binding="keyValueTextArea" default-binding="true">
-            <constraints>
-              <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="50"/>
-              </grid>
-              <forms defaultalign-horz="false" defaultalign-vert="false"/>
-            </constraints>
-            <properties>
-              <text value="{&quot;key&quot;:&quot;value&quot;}"/>
             </properties>
           </component>
           <component id="98677" class="javax.swing.JTextField" binding="channelNameTextField" default-binding="true">

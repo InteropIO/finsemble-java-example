@@ -2,14 +2,10 @@ package com.chartiq.finsemble.example;
 
 import com.chartiq.finsemble.Finsemble;
 import com.chartiq.finsemble.interfaces.CallbackListener;
-import com.chartiq.finsemble.model.Filter;
-import com.chartiq.finsemble.model.Subscription;
+import org.json.JSONObject;
 
 import javax.swing.*;
-import java.util.Collections;
 import java.util.Objects;
-
-import static java.util.Collections.emptyMap;
 
 public class Fdc3ClientFrame {
 
@@ -44,6 +40,18 @@ public class Fdc3ClientFrame {
     private JButton leaveChannelButton;
     private JButton broadcastButton2;
 
+    public Fdc3ClientFrame(Finsemble fsbl) {
+
+        getSystemChannelsButton.addActionListener(e -> {
+            fsbl.getClients().getFdc3Client().getSystemChannels(defaultCallback);
+        });
+
+    }
+
+    public JPanel getMainPanel() {
+        return mainPanel;
+    }
+
     private final CallbackListener defaultCallback = ((err, res) -> {
         if (Objects.nonNull(err)) {
             writeLogs(err.toString(4));
@@ -54,17 +62,6 @@ public class Fdc3ClientFrame {
 
     private void writeLogs(String text) {
         textLogs.append("\n" + text);
-    }
-
-    public JPanel getMainPanel() {
-        return mainPanel;
-    }
-
-    public Fdc3ClientFrame(Finsemble fsbl) {
-
-        getSystemChannelsButton.addActionListener(e -> {
-            fsbl.getClients().getFdc3Client().getSystemChannels(defaultCallback);
-        });
     }
 
     private void createUIComponents() {
