@@ -83,7 +83,7 @@ public class JavaSwingExample extends JFrame implements WindowListener {
 
     private void createForm() {
         setTitle("Java Swing Example");
-        setBounds(20, 20, 300, 375);
+        setBounds(20, 20, 300, 475);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         contentPane = getContentPane();
@@ -331,6 +331,23 @@ public class JavaSwingExample extends JFrame implements WindowListener {
                     JFrame frame = new JFrame();
                     frame.setContentPane(new WorkspaceClientFrame(fsbl).getMainPanel());
                     frame.setTitle("WorkSpaceClientFrame");
+                    frame.setBounds(20, 20, 700, 750);
+                    frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                    frame.pack();
+                    frame.setVisible(true);
+                }
+        );
+
+        JButton fdc3Client = new JButton("Fdc3Client");
+        constraints.gridx = 0;
+        constraints.gridy = 15;
+        constraints.gridwidth = 6;
+        contentPane.add(fdc3Client, constraints);
+        fdc3Client.addActionListener((e) ->
+                {
+                    JFrame frame = new JFrame();
+                    frame.setContentPane(new Fdc3ClientFrame(fsbl).getMainPanel());
+                    frame.setTitle("Fdc3ClientFrame");
                     frame.setBounds(20, 20, 700, 750);
                     frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
                     frame.pack();
