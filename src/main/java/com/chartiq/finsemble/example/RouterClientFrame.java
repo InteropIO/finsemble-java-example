@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import javax.swing.*;
 import javax.swing.text.DefaultCaret;
 import java.awt.*;
+import java.util.AbstractMap;
 import java.util.Objects;
 
 public class RouterClientFrame {
@@ -30,6 +31,15 @@ public class RouterClientFrame {
     private JButton clearButton;
     private JButton publish;
     private JTextField textTopicPublish;
+    private JCheckBox isEmptyPubSubResponderCheckBox;
+    private JButton transmitButton;
+    private JButton addListenerButton;
+    private JButton queryButton;
+    private JTextArea textArea1;
+    private JButton removeListenerButton;
+    private JTextField topicTextField;
+    private JButton subscribeButton;
+    private JButton unsubscribeButton;
 
     private final CallbackListener defaultCallback = ((err, res) -> {
         if (Objects.nonNull(err)) {
@@ -58,7 +68,10 @@ public class RouterClientFrame {
                         textAddPubSubTopic.getText(),
                         addIsRegEx.isSelected(),
                         new JSONObject(),
-                        new PubSubModel(defaultCallback, defaultCallback, defaultCallback), defaultCallback)
+                        isEmptyPubSubResponderCheckBox.isSelected()
+                                ? null
+                                : new PubSubModel(defaultCallback, defaultCallback, defaultCallback), defaultCallback)
+
         );
 
         removePubSubResponderButton.addActionListener(e ->
@@ -73,6 +86,15 @@ public class RouterClientFrame {
                 new JSONObject() {{
                     put("result", fsbl.getClients().getRouterClient().trustedMessage(new JSONObject(textTrustedMessage.getText())));
                 }})
+        );
+
+        subscribeButton.addActionListener(e ->
+                fsbl.getClients().getRouterClient().subscribe(topicTextField.getText(), defaultCallback)
+        );
+
+        unsubscribeButton.addActionListener(e ->
+                fsbl.getClients().getRouterClient()
+                        .unsubscribe(new AbstractMap.SimpleEntry<>(topicTextField.getText(), defaultCallback))
         );
 
         DefaultCaret caret = new DefaultCaret();
@@ -138,6 +160,13 @@ public class RouterClientFrame {
         trustedMessageButton = new JButton();
         trustedMessageButton.setText("trustedMessage");
         mainPanel.add(trustedMessageButton, cc.xy(3, 11));
+        subscribeButton = new JButton();
+        subscribeButton.setText("subscribe");
+        mainPanel.add(subscribeButton, cc.xy(3, 2));
+        unsubscribeButton = new JButton();
+        unsubscribeButton.setText("unsubscribe");
+        mainPanel.add(subscribeButton, cc.xy(3, 3));
+
         onReadyButton = new JButton();
         onReadyButton.setText("onReady");
         mainPanel.add(onReadyButton, cc.xy(3, 13));
