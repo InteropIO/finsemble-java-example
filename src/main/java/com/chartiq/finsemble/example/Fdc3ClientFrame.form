@@ -20,6 +20,8 @@
         <rowspec value="top:4dlu:noGrow"/>
         <rowspec value="center:45px:noGrow"/>
         <rowspec value="top:4dlu:noGrow"/>
+        <rowspec value="center:max(d;4px):noGrow"/>
+        <rowspec value="top:4dlu:noGrow"/>
         <rowspec value="center:39px:noGrow"/>
         <rowspec value="top:4dlu:noGrow"/>
         <rowspec value="center:40px:noGrow"/>
@@ -53,7 +55,7 @@
         <children>
           <scrollpane id="b9e5f">
             <constraints>
-              <grid row="18" column="2" row-span="1" col-span="7" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="20" column="2" row-span="1" col-span="7" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
               <forms defaultalign-horz="false" defaultalign-vert="false"/>
             </constraints>
             <properties/>
@@ -62,24 +64,24 @@
               <component id="e132e" class="javax.swing.JTextArea" binding="textLogs">
                 <constraints/>
                 <properties>
-                  <text value="K"/>
+                  <text value=""/>
                 </properties>
               </component>
             </children>
           </scrollpane>
-          <component id="cfec9" class="javax.swing.JButton" binding="getOrCreateDesctopAgentButton" default-binding="true">
+          <component id="cfec9" class="javax.swing.JButton" binding="getOrCreateDesktopAgentButton" default-binding="true">
             <constraints>
               <grid row="8" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
               <forms defaultalign-vert="false"/>
             </constraints>
             <properties>
-              <text value="GetOrCreateDesctopAgent"/>
+              <text value="GetOrCreateDesktopAgent"/>
               <verticalAlignment value="0"/>
             </properties>
           </component>
           <component id="26028" class="javax.swing.JButton" binding="broadcastButton" default-binding="true">
             <constraints>
-              <grid row="12" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="14" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
               <forms/>
             </constraints>
             <properties>
@@ -104,15 +106,6 @@
             </constraints>
             <properties>
               <text value="Channel name"/>
-            </properties>
-          </component>
-          <component id="3951a" class="javax.swing.JButton" binding="getCurrentChannelButton" default-binding="true">
-            <constraints>
-              <grid row="10" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-              <forms/>
-            </constraints>
-            <properties>
-              <text value="GetCurrentChannel"/>
             </properties>
           </component>
           <component id="a8e5" class="javax.swing.JTextField" binding="openComponentTextField" default-binding="true">
@@ -175,7 +168,7 @@
           </component>
           <component id="4687a" class="javax.swing.JTextField" binding="contextTypeTextField1" default-binding="true">
             <constraints>
-              <grid row="14" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="10" fill="1" indent="0" use-parent-layout="false">
+              <grid row="16" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="10" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
               <forms defaultalign-horz="false" defaultalign-vert="false"/>
@@ -186,7 +179,7 @@
           </component>
           <component id="7756" class="javax.swing.JButton" binding="getChannelCurrentContextButton" default-binding="true">
             <constraints>
-              <grid row="16" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="18" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
               <forms defaultalign-vert="false"/>
             </constraints>
             <properties>
@@ -195,7 +188,7 @@
           </component>
           <component id="15f66" class="javax.swing.JTextField" binding="intentTextField" default-binding="true">
             <constraints>
-              <grid row="10" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="10" fill="1" indent="0" use-parent-layout="false">
+              <grid row="12" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="10" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
               <forms defaultalign-horz="false" defaultalign-vert="false"/>
@@ -206,7 +199,7 @@
           </component>
           <component id="7891f" class="javax.swing.JButton" binding="addIntentListenerButton" default-binding="true">
             <constraints>
-              <grid row="12" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="14" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
               <forms defaultalign-vert="false"/>
             </constraints>
             <properties>
@@ -215,27 +208,27 @@
           </component>
           <component id="4d5fc" class="javax.swing.JButton" binding="removeIntentListenerButton" default-binding="true">
             <constraints>
-              <grid row="12" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="14" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
               <forms defaultalign-horz="false" defaultalign-vert="false"/>
             </constraints>
             <properties>
               <text value="RemoveIntentListener"/>
             </properties>
           </component>
-          <component id="8e331" class="javax.swing.JTextField" binding="raseIntentTextField" default-binding="true">
+          <component id="8e331" class="javax.swing.JTextField" binding="intentNameTextField" default-binding="true">
             <constraints>
-              <grid row="14" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="10" fill="1" indent="0" use-parent-layout="false">
+              <grid row="16" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="10" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
               <forms defaultalign-horz="false" defaultalign-vert="false"/>
             </constraints>
             <properties>
-              <text value="Rase Intent"/>
+              <text value="Intent name"/>
             </properties>
           </component>
           <component id="5ccda" class="javax.swing.JTextField" binding="targetTextField" default-binding="true">
             <constraints>
-              <grid row="14" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="10" fill="1" indent="0" use-parent-layout="false">
+              <grid row="16" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="10" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
               <forms defaultalign-horz="false" defaultalign-vert="false"/>
@@ -244,16 +237,16 @@
               <text value="Target"/>
             </properties>
           </component>
-          <component id="f4861" class="javax.swing.JButton" binding="raseIntentButton" default-binding="true">
+          <component id="f4861" class="javax.swing.JButton" binding="raiseIntentButton" default-binding="true">
             <constraints>
-              <grid row="16" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="18" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
               <forms defaultalign-vert="false"/>
             </constraints>
             <properties>
-              <text value="Rase Intent"/>
+              <text value="Raise Intent"/>
             </properties>
           </component>
-          <component id="28d9d" class="javax.swing.JTextField" binding="getOrCreateChannelTextField" default-binding="true">
+          <component id="28d9d" class="javax.swing.JTextField" binding="channelNameTextField2" default-binding="true">
             <constraints>
               <grid row="2" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="10" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -261,7 +254,7 @@
               <forms defaultalign-horz="false" defaultalign-vert="false"/>
             </constraints>
             <properties>
-              <text value="GetOrCreateChannel"/>
+              <text value="Channel name"/>
             </properties>
           </component>
           <component id="62fd2" class="javax.swing.JButton" binding="getOrCreateChannelButton" default-binding="true">
@@ -275,14 +268,14 @@
           </component>
           <component id="41f70" class="javax.swing.JButton" binding="clearButton1" default-binding="true">
             <constraints>
-              <grid row="20" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="22" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
               <forms/>
             </constraints>
             <properties>
               <text value="Clear"/>
             </properties>
           </component>
-          <component id="984a8" class="javax.swing.JTextField" binding="joinChannelTextField" default-binding="true">
+          <component id="984a8" class="javax.swing.JTextField" binding="channelNameTextField1" default-binding="true">
             <constraints>
               <grid row="8" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="10" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -290,12 +283,12 @@
               <forms defaultalign-horz="false" defaultalign-vert="false"/>
             </constraints>
             <properties>
-              <text value="Join Channel"/>
+              <text value=" Channel name"/>
             </properties>
           </component>
           <component id="310fd" class="javax.swing.JButton" binding="joinChannelButton" default-binding="true">
             <constraints>
-              <grid row="10" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="12" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
               <forms defaultalign-horz="false"/>
             </constraints>
             <properties>
@@ -304,20 +297,40 @@
           </component>
           <component id="a1f70" class="javax.swing.JButton" binding="leaveChannelButton" default-binding="true">
             <constraints>
-              <grid row="12" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="14" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
               <forms defaultalign-horz="false"/>
             </constraints>
             <properties>
               <text value="LeaveChannel"/>
             </properties>
           </component>
-          <component id="dd603" class="javax.swing.JButton" binding="broadcastButton2" default-binding="true">
+          <component id="3951a" class="javax.swing.JButton" binding="getCurrentChannelButton" default-binding="true">
             <constraints>
-              <grid row="14" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="16" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <forms/>
+            </constraints>
+            <properties>
+              <text value="GetCurrentChannel"/>
+            </properties>
+          </component>
+          <component id="1fdb2" class="javax.swing.JTextField" binding="typeFdc3InstrumentIdTextField" default-binding="true">
+            <constraints>
+              <grid row="12" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
               <forms defaultalign-horz="false"/>
             </constraints>
             <properties>
-              <text value="    Broadcast    "/>
+              <text value="{   &quot;type&quot;: &quot;fdc3.instrument&quot;,   &quot;id&quot;: {&quot; ticker&quot;: &quot;MSFT&quot; } }"/>
+            </properties>
+          </component>
+          <component id="60944" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="10" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
+            </constraints>
+            <properties>
+              <text value="Context jbject:"/>
             </properties>
           </component>
         </children>

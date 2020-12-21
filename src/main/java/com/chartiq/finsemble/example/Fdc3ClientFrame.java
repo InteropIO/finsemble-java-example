@@ -1,7 +1,9 @@
 package com.chartiq.finsemble.example;
 
 import com.chartiq.finsemble.Finsemble;
+import com.chartiq.finsemble.fdc3.impl.DesktopAgentClient;
 import com.chartiq.finsemble.interfaces.CallbackListener;
+import com.chartiq.finsemble.interfaces.CallbackListenerContextObject;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -13,7 +15,7 @@ public class Fdc3ClientFrame {
 
     private JTextArea textLogs;
     private JButton getSystemChannelsButton;
-    private JButton getOrCreateDesctopAgentButton;
+    private JButton getOrCreateDesktopAgentButton;
     private JButton broadcastButton;
     private JTextArea keyValueTextArea;
     private JTextField channelNameTextField;
@@ -29,23 +31,50 @@ public class Fdc3ClientFrame {
     private JTextField intentTextField;
     private JButton addIntentListenerButton;
     private JButton removeIntentListenerButton;
-    private JTextField raseIntentTextField;
+    private JTextField intentNameTextField;
     private JTextField targetTextField;
-    private JButton raseIntentButton;
-    private JTextField getOrCreateChannelTextField;
+    private JButton raiseIntentButton;
+    private JTextField channelNameTextField2;
     private JButton getOrCreateChannelButton;
     private JButton clearButton1;
-    private JTextField joinChannelTextField;
+    private JTextField channelNameTextField1;
     private JButton joinChannelButton;
     private JButton leaveChannelButton;
-    private JButton broadcastButton2;
+    private JTextField typeFdc3InstrumentIdTextField;
 
     public Fdc3ClientFrame(Finsemble fsbl) {
-
         getSystemChannelsButton.addActionListener(e -> {
             fsbl.getClients().getFdc3Client().getSystemChannels(defaultCallback);
         });
 
+        broadcastButton.addActionListener(e -> {
+            fsbl.getClients().getFdc3Client().broadcast(new JSONObject(typeFdc3InstrumentIdTextField.getText()));
+        });
+
+        getOrCreateDesktopAgentButton.addActionListener(e -> {
+            DesktopAgentClient desktopAgentClient
+                    = fsbl.getClients().getFdc3Client().getOrCreateDesktopAgent(channelNameTextField.getText());
+            //TODO print desktopAgentClient
+            writeLogs("getChannelChanging = " + desktopAgentClient.getChannelChanging());
+        });
+
+        openButton.addActionListener(e -> {
+            fsbl.getClients().getDesktopAgent().open(openComponentTextField.getText(), null, defaultContextCallback);
+        });
+
+        raiseIntentButton.addActionListener(e -> {
+            if ("".equals(targetTextField.getText()) || "Target".equalsIgnoreCase(targetTextField.getText().trim())) {
+                fsbl.getClients().getDesktopAgent()
+                        .raiseIntent(intentNameTextField.getText(), null, defaultCallback);
+            } else {
+                fsbl.getClients().getDesktopAgent()
+                        .raiseIntent(intentNameTextField.getText(), null, targetTextField.getText(),  defaultCallback);
+            }
+        });
+
+        getOrCreateChannelButton.addActionListener(e -> {
+            fsbl.getClients().getDesktopAgent().getOrCreateChannel(channelNameTextField2.getText(), defaultCallback);
+        });
     }
 
     public JPanel getMainPanel() {
@@ -53,6 +82,14 @@ public class Fdc3ClientFrame {
     }
 
     private final CallbackListener defaultCallback = ((err, res) -> {
+        if (Objects.nonNull(err)) {
+            writeLogs(err.toString(4));
+        } else {
+            writeLogs(res.toString(4));
+        }
+    });
+
+    private final CallbackListenerContextObject defaultContextCallback = ((err, context, res) -> {
         if (Objects.nonNull(err)) {
             writeLogs(err.toString(4));
         } else {
