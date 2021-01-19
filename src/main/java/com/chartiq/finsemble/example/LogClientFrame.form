@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.chartiq.finsemble.example.LogClientFrame">
+  <grid id="27dc6" binding="mainPanel" layout-manager="FormLayout">
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:d:grow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <colspec value="fill:max(d;4px):noGrow"/>
+    <colspec value="left:4dlu:noGrow"/>
+    <colspec value="fill:max(d;4px):noGrow"/>
+    <colspec value="left:4dlu:noGrow"/>
+    <colspec value="fill:max(d;4px):noGrow"/>
+    <colspec value="left:4dlu:noGrow"/>
+    <colspec value="fill:max(d;4px):noGrow"/>
+    <colspec value="left:4dlu:noGrow"/>
+    <colspec value="fill:d:grow"/>
+    <colspec value="left:4dlu:noGrow"/>
+    <colspec value="fill:max(d;4px):noGrow"/>
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties>
+      <preferredSize width="640" height="550"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <component id="8868a" class="javax.swing.JRadioButton" binding="systemRadioButton">
+        <constraints>
+          <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="94" height="20"/>
+          </grid>
+          <forms/>
+        </constraints>
+        <properties>
+          <selected value="false"/>
+          <text value="System"/>
+        </properties>
+      </component>
+      <component id="2d0b9" class="javax.swing.JRadioButton" binding="devRadioButton" default-binding="true">
+        <constraints>
+          <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="94" height="20"/>
+          </grid>
+          <forms/>
+        </constraints>
+        <properties>
+          <selected value="true"/>
+          <text value="Dev"/>
+        </properties>
+      </component>
+      <component id="3d3fd" class="javax.swing.JRadioButton" binding="perfRadioButton" default-binding="true">
+        <constraints>
+          <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="94" height="23"/>
+          </grid>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Pref"/>
+        </properties>
+      </component>
+      <component id="5ad0d" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Category:"/>
+        </properties>
+      </component>
+      <component id="e7e6e" class="javax.swing.JButton" binding="logButton" default-binding="true">
+        <constraints>
+          <grid row="10" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Log"/>
+        </properties>
+      </component>
+      <component id="c56bd" class="javax.swing.JButton" binding="errorButton" default-binding="true">
+        <constraints>
+          <grid row="10" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="113" height="30"/>
+          </grid>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Error"/>
+        </properties>
+      </component>
+      <component id="7a2f" class="javax.swing.JButton" binding="debugButton" default-binding="true">
+        <constraints>
+          <grid row="12" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="113" height="30"/>
+          </grid>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Debug"/>
+        </properties>
+      </component>
+      <component id="b0e43" class="javax.swing.JButton" binding="infoButton" default-binding="true">
+        <constraints>
+          <grid row="10" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="110" height="30"/>
+          </grid>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Info"/>
+        </properties>
+      </component>
+      <component id="e906b" class="javax.swing.JButton" binding="warnButton" default-binding="true">
+        <constraints>
+          <grid row="12" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Warn"/>
+        </properties>
+      </component>
+      <component id="a5afe" class="javax.swing.JButton" binding="verboseButton" default-binding="true">
+        <constraints>
+          <grid row="12" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="110" height="30"/>
+          </grid>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Verbose"/>
+        </properties>
+      </component>
+      <scrollpane id="4cfd8">
+        <constraints>
+          <grid row="14" column="2" row-span="1" col-span="7" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <forms defaultalign-horz="false" defaultalign-vert="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="59b58" class="javax.swing.JTextArea" binding="textLogs">
+            <constraints/>
+            <properties/>
+          </component>
+        </children>
+      </scrollpane>
+      <component id="c1812" class="javax.swing.JButton" binding="clearButton" default-binding="true">
+        <constraints>
+          <grid row="16" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+          <forms defaultalign-horz="false"/>
+        </constraints>
+        <properties>
+          <text value="Clear"/>
+        </properties>
+      </component>
+      <component id="4caa" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+        <constraints>
+          <grid row="12" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+          <forms defaultalign-horz="false"/>
+        </constraints>
+        <properties>
+          <preferredSize width="49" height="30"/>
+        </properties>
+      </component>
+      <component id="c3131" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="10" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Log message:"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+  <buttonGroups>
+    <group name="buttonGroup1">
+      <member id="8868a"/>
+      <member id="2d0b9"/>
+      <member id="3d3fd"/>
+    </group>
+  </buttonGroups>
+</form>

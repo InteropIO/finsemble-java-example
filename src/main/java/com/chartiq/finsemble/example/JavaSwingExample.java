@@ -83,20 +83,20 @@ public class JavaSwingExample extends JFrame implements WindowListener {
 
     private void createForm() {
         setTitle("Java Swing Example");
-        setBounds(20, 20, 300, 375);
+        setBounds(20, 20, 300, 475);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         contentPane = getContentPane();
         contentPane.setLayout(new GridBagLayout());
         final GridBagConstraints constraints = new GridBagConstraints();
-        constraints.insets= new Insets(10,10,0,10);
+        constraints.insets = new Insets(10, 10, 0, 10);
 
         // region Linker buttons
         group1Button = new JButton();
-        group1Button.setBackground(new Color(135,129,189));
-        group1Button.setForeground(new Color(187,187,187));
+        group1Button.setBackground(new Color(135, 129, 189));
+        group1Button.setForeground(new Color(187, 187, 187));
         group1Button.setName("group1");
-        constraints.insets= new Insets(10,10,0,0);
+        constraints.insets = new Insets(10, 10, 0, 0);
         constraints.ipady = 40;
         constraints.weightx = 0.5;
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -105,10 +105,10 @@ public class JavaSwingExample extends JFrame implements WindowListener {
         contentPane.add(group1Button, constraints);
 
         group2Button = new JButton();
-        group2Button.setBackground(new Color(255,224,53));
-        group2Button.setForeground(new Color(187,187,187));
+        group2Button.setBackground(new Color(255, 224, 53));
+        group2Button.setForeground(new Color(187, 187, 187));
         group2Button.setName("group2");
-        constraints.insets= new Insets(10,0,0,0);
+        constraints.insets = new Insets(10, 0, 0, 0);
         constraints.weightx = 0.5;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.gridx = 1;
@@ -116,10 +116,10 @@ public class JavaSwingExample extends JFrame implements WindowListener {
         contentPane.add(group2Button, constraints);
 
         group3Button = new JButton();
-        group3Button.setBackground(new Color(137,216,3));
-        group3Button.setForeground(new Color(187,187,187));
+        group3Button.setBackground(new Color(137, 216, 3));
+        group3Button.setForeground(new Color(187, 187, 187));
         group3Button.setName("group3");
-        constraints.insets= new Insets(10,0,0,0);
+        constraints.insets = new Insets(10, 0, 0, 0);
         constraints.weightx = 0.5;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.gridx = 2;
@@ -127,10 +127,10 @@ public class JavaSwingExample extends JFrame implements WindowListener {
         contentPane.add(group3Button, constraints);
 
         group4Button = new JButton();
-        group4Button.setBackground(new Color(254,98,98));
-        group4Button.setForeground(new Color(187,187,187));
+        group4Button.setBackground(new Color(254, 98, 98));
+        group4Button.setForeground(new Color(187, 187, 187));
         group4Button.setName("group4");
-        constraints.insets= new Insets(10,0,0,0);
+        constraints.insets = new Insets(10, 0, 0, 0);
         constraints.weightx = 0.5;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.gridx = 3;
@@ -138,10 +138,10 @@ public class JavaSwingExample extends JFrame implements WindowListener {
         contentPane.add(group4Button, constraints);
 
         group5Button = new JButton();
-        group5Button.setBackground(new Color(45,172,255));
-        group5Button.setForeground(new Color(187,187,187));
+        group5Button.setBackground(new Color(45, 172, 255));
+        group5Button.setForeground(new Color(187, 187, 187));
         group5Button.setName("group5");
-        constraints.insets= new Insets(10,0,0,0);
+        constraints.insets = new Insets(10, 0, 0, 0);
         constraints.weightx = 0.5;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.gridx = 4;
@@ -149,10 +149,10 @@ public class JavaSwingExample extends JFrame implements WindowListener {
         contentPane.add(group5Button, constraints);
 
         group6Button = new JButton();
-        group6Button.setBackground(new Color(255,162,0));
-        group6Button.setForeground(new Color(187,187,187));
+        group6Button.setBackground(new Color(255, 162, 0));
+        group6Button.setForeground(new Color(187, 187, 187));
         group6Button.setName("group6");
-        constraints.insets= new Insets(10,0,0,10);
+        constraints.insets = new Insets(10, 0, 0, 10);
         constraints.weightx = 0.5;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.gridx = 5;
@@ -164,7 +164,7 @@ public class JavaSwingExample extends JFrame implements WindowListener {
         symbolTextField = new JTextField("MSFT");
         symbolTextField.setEditable(true);
         symbolTextField.setEnabled(false);
-        constraints.insets= new Insets(10,10,0,10);
+        constraints.insets = new Insets(10, 10, 0, 10);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.ipady = 10;
         constraints.gridx = 0;
@@ -217,16 +217,153 @@ public class JavaSwingExample extends JFrame implements WindowListener {
         constraints.gridwidth = 6;
         contentPane.add(messagesButton, constraints);
 
+        // test methods
+        JButton finsembleWindowButton = new JButton("FinsembleWindow");
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 0;
+        constraints.gridy = 8;
+        constraints.gridwidth = 6;
+        contentPane.add(finsembleWindowButton, constraints);
+        finsembleWindowButton.addActionListener((e) ->
+                {
+                    JFrame frame = new JFrame();
+                    frame.setContentPane(new FinsembleWindowFrame(fsbl).getMainPanel());
+                    frame.setTitle("FinsembleWindow");
+                    frame.setBounds(20, 20, 800, 800);
+                    frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                    frame.pack();
+                    frame.setVisible(true);
+                }
+        );
+
+        JButton routerClient = new JButton("RouterClient");
+        constraints.gridx = 0;
+        constraints.gridy = 9;
+        constraints.gridwidth = 6;
+        contentPane.add(routerClient, constraints);
+        routerClient.addActionListener((e) ->
+                {
+                    JFrame frame = new JFrame();
+                    frame.setContentPane(new RouterClientFrame(fsbl).getMainPanel());
+                    frame.setTitle("RouterClient");
+                    frame.setBounds(20, 20, 700, 750);
+                    frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                    frame.pack();
+                    frame.setVisible(true);
+                }
+        );
+
+        JButton searchClient = new JButton("SearchClient");
+        constraints.gridx = 0;
+        constraints.gridy = 10;
+        constraints.gridwidth = 6;
+        contentPane.add(searchClient, constraints);
+        searchClient.addActionListener((e) ->
+                {
+                    JFrame frame = new JFrame();
+                    frame.setContentPane(new SearchClientFrame(fsbl).getMainPanel());
+                    frame.setTitle("SearchClient");
+                    frame.setBounds(20, 20, 700, 750);
+                    frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                    frame.pack();
+                    frame.setVisible(true);
+                }
+        );
+
+        JButton storeClient = new JButton("StoreClient");
+        constraints.gridx = 0;
+        constraints.gridy = 11;
+        constraints.gridwidth = 6;
+        contentPane.add(storeClient, constraints);
+        storeClient.addActionListener((e) ->
+                {
+                    JFrame frame = new JFrame();
+                    frame.setContentPane(new StoreClientFrame(fsbl).getMainPanel());
+                    frame.setTitle("StoreClient");
+                    frame.setBounds(20, 20, 700, 750);
+                    frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                    frame.pack();
+                    frame.setVisible(true);
+                }
+        );
+
+        JButton loggerClient = new JButton("LoggerClient");
+        constraints.gridx = 0;
+        constraints.gridy = 12;
+        constraints.gridwidth = 6;
+        contentPane.add(loggerClient, constraints);
+        loggerClient.addActionListener((e) ->
+                {
+                    JFrame frame = new JFrame();
+                    frame.setContentPane(new LogClientFrame(fsbl).getMainPanel());
+                    frame.setTitle("LoggerClient");
+                    frame.setBounds(20, 20, 700, 750);
+                    frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                    frame.pack();
+                    frame.setVisible(true);
+                }
+        );
+
+        JButton notificationClient = new JButton("NotificationClient");
+        constraints.gridx = 0;
+        constraints.gridy = 13;
+        constraints.gridwidth = 6;
+        contentPane.add(notificationClient, constraints);
+        notificationClient.addActionListener((e) ->
+                {
+                    JFrame frame = new JFrame();
+                    frame.setContentPane(new NotificationClientFrame(fsbl).getMainPanel());
+                    frame.setTitle("NotificationClient");
+                    frame.setBounds(20, 20, 700, 750);
+                    frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                    frame.pack();
+                    frame.setVisible(true);
+                }
+        );
+
+        JButton workspaceClient = new JButton("WorkspaceClient");
+        constraints.gridx = 0;
+        constraints.gridy = 14;
+        constraints.gridwidth = 6;
+        contentPane.add(workspaceClient, constraints);
+        workspaceClient.addActionListener((e) ->
+                {
+                    JFrame frame = new JFrame();
+                    frame.setContentPane(new WorkspaceClientFrame(fsbl).getMainPanel());
+                    frame.setTitle("WorkSpaceClientFrame");
+                    frame.setBounds(20, 20, 700, 750);
+                    frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                    frame.pack();
+                    frame.setVisible(true);
+                }
+        );
+
+        JButton fdc3Client = new JButton("Fdc3Client");
+        constraints.gridx = 0;
+        constraints.gridy = 15;
+        constraints.gridwidth = 6;
+        contentPane.add(fdc3Client, constraints);
+        fdc3Client.addActionListener((e) ->
+                {
+                    JFrame frame = new JFrame();
+                    frame.setContentPane(new Fdc3ClientFrame(fsbl).getMainPanel());
+                    frame.setTitle("Fdc3ClientFrame");
+                    frame.setBounds(20, 20, 700, 750);
+                    frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                    frame.pack();
+                    frame.setVisible(true);
+                }
+        );
+
         messages = new JTextArea();
         messages.setVisible(false);
-        constraints.insets= new Insets(10,10,10,10);
+        constraints.insets = new Insets(10, 10, 10, 10);
         constraints.fill = GridBagConstraints.BOTH;
         constraints.weighty = 1;
         constraints.gridx = 0;
         constraints.gridy = 7;
         constraints.gridwidth = 6;
         contentPane.add(messages, constraints);
-        // endregion
     }
 
     private void initFinsemble() {
@@ -524,7 +661,7 @@ public class JavaSwingExample extends JFrame implements WindowListener {
      */
     @Override
     public void windowOpened(WindowEvent e) {
-        initFinsemble();
+        new Thread(this::initFinsemble).start();
     }
 
     /**

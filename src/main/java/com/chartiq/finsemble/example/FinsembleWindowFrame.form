@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.chartiq.finsemble.example.FinsembleWindowFrame">
+  <grid id="27dc6" binding="mainPanel" layout-manager="FormLayout">
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:30px:noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="top:56dlu:noGrow"/>
+    <rowspec value="top:31dlu:noGrow"/>
+    <rowspec value="center:132px:noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:32px:noGrow"/>
+    <colspec value="fill:d:noGrow"/>
+    <colspec value="left:4px:noGrow"/>
+    <colspec value="fill:105px:noGrow"/>
+    <colspec value="left:4px:noGrow"/>
+    <colspec value="fill:99px:noGrow"/>
+    <colspec value="fill:max(d;4px):noGrow"/>
+    <colspec value="fill:102px:noGrow"/>
+    <colspec value="fill:max(d;4px):noGrow"/>
+    <colspec value="left:102px:noGrow"/>
+    <colspec value="left:4px:noGrow"/>
+    <colspec value="fill:102px:noGrow"/>
+    <colspec value="fill:max(d;4px):noGrow"/>
+    <colspec value="fill:100px:noGrow"/>
+    <constraints>
+      <xy x="20" y="20" width="739" height="653"/>
+    </constraints>
+    <properties>
+      <minimumSize width="739" height="653"/>
+      <preferredSize width="739" height="653"/>
+      <visible value="true"/>
+    </properties>
+    <clientProperties>
+      <html.disable class="java.lang.Boolean" value="true"/>
+    </clientProperties>
+    <border type="etched" title-position="2"/>
+    <children>
+      <component id="57c60" class="javax.swing.JButton" binding="blurButton" default-binding="true">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="blur"/>
+        </properties>
+      </component>
+      <grid id="4b2c9" binding="getInstancePanel" layout-manager="BorderLayout" hgap="4" vgap="0">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="11" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="f378c" class="javax.swing.JTextField" binding="textWindowName">
+            <constraints border-constraint="East"/>
+            <properties>
+              <preferredSize width="500" height="30"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="dfb06" class="javax.swing.JButton" binding="getInstanceButton">
+            <constraints border-constraint="Center"/>
+            <properties>
+              <background color="-12266205"/>
+              <horizontalTextPosition value="4"/>
+              <preferredSize width="150" height="30"/>
+              <text value="getInstance"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <component id="4458d" class="javax.swing.JButton" binding="setBoundsButton" default-binding="true">
+        <constraints>
+          <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="setBounds"/>
+        </properties>
+      </component>
+      <component id="10179" class="javax.swing.JButton" binding="setOpacityButton" default-binding="true">
+        <constraints>
+          <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="setOpacity"/>
+        </properties>
+      </component>
+      <grid id="42096" binding="logPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints>
+          <grid row="16" column="0" row-span="3" col-span="13" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <scrollpane id="4105c">
+            <constraints border-constraint="Center"/>
+            <properties>
+              <autoscrolls value="true"/>
+              <enabled value="true"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="5cc61" class="javax.swing.JTextArea" binding="textLogs">
+                <constraints/>
+                <properties>
+                  <enabled value="true"/>
+                  <text value=""/>
+                </properties>
+              </component>
+            </children>
+          </scrollpane>
+        </children>
+      </grid>
+      <component id="1d480" class="javax.swing.JButton" binding="clearButton" default-binding="true">
+        <constraints>
+          <grid row="20" column="12" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Clear"/>
+        </properties>
+      </component>
+      <component id="7ed28" class="javax.swing.JTextField" binding="left">
+        <constraints>
+          <grid row="8" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <minimum-size width="70" height="-1"/>
+            <preferred-size width="70" height="-1"/>
+            <maximum-size width="70" height="-1"/>
+          </grid>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="left"/>
+        </properties>
+      </component>
+      <component id="fca47" class="javax.swing.JTextField" binding="top">
+        <constraints>
+          <grid row="8" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <minimum-size width="70" height="-1"/>
+            <preferred-size width="70" height="-1"/>
+            <maximum-size width="70" height="-1"/>
+          </grid>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="top"/>
+        </properties>
+      </component>
+      <component id="99d1a" class="javax.swing.JTextField" binding="right">
+        <constraints>
+          <grid row="8" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <minimum-size width="70" height="-1"/>
+            <preferred-size width="70" height="-1"/>
+            <maximum-size width="70" height="-1"/>
+          </grid>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="right"/>
+        </properties>
+      </component>
+      <component id="27fc" class="javax.swing.JButton" binding="maximizeButton" default-binding="true">
+        <constraints>
+          <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="maximize"/>
+        </properties>
+      </component>
+      <component id="f9b3e" class="javax.swing.JButton" binding="hideButton" default-binding="true">
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="hide"/>
+        </properties>
+      </component>
+      <component id="51e12" class="javax.swing.JButton" binding="isAlwaysOnTopButton" default-binding="true">
+        <constraints>
+          <grid row="4" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="isAlwaysOnTop"/>
+        </properties>
+      </component>
+      <component id="6ec0b" class="javax.swing.JButton" binding="minimizeButton" default-binding="true">
+        <constraints>
+          <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="minimize"/>
+        </properties>
+      </component>
+      <component id="8b671" class="javax.swing.JButton" binding="showButton" default-binding="true">
+        <constraints>
+          <grid row="2" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="show"/>
+        </properties>
+      </component>
+      <component id="58d4e" class="javax.swing.JButton" binding="bringToFrontButton" default-binding="true">
+        <constraints>
+          <grid row="6" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="bringToFront"/>
+        </properties>
+      </component>
+      <component id="2f234" class="javax.swing.JTextField" binding="bottom">
+        <constraints>
+          <grid row="8" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <minimum-size width="70" height="-1"/>
+            <preferred-size width="70" height="-1"/>
+            <maximum-size width="70" height="-1"/>
+          </grid>
+          <forms defaultalign-horz="false"/>
+        </constraints>
+        <properties>
+          <text value="bottom"/>
+        </properties>
+      </component>
+      <component id="87e1e" class="javax.swing.JTextField" binding="width">
+        <constraints>
+          <grid row="8" column="10" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <minimum-size width="70" height="-1"/>
+            <preferred-size width="70" height="-1"/>
+            <maximum-size width="70" height="-1"/>
+          </grid>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="width"/>
+        </properties>
+      </component>
+      <component id="808bf" class="javax.swing.JTextField" binding="height">
+        <constraints>
+          <grid row="8" column="12" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <minimum-size width="70" height="-1"/>
+            <preferred-size width="70" height="-1"/>
+            <maximum-size width="70" height="-1"/>
+          </grid>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="height"/>
+        </properties>
+      </component>
+      <component id="15af1" class="javax.swing.JButton" binding="getOptionsButton" default-binding="true">
+        <constraints>
+          <grid row="2" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms defaultalign-horz="false"/>
+        </constraints>
+        <properties>
+          <text value="getOptions"/>
+        </properties>
+      </component>
+      <component id="79b77" class="javax.swing.JTextField" binding="textSetOpacity">
+        <constraints>
+          <grid row="10" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+          <forms defaultalign-horz="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="26919" class="javax.swing.JButton" binding="restoreButton" default-binding="true">
+        <constraints>
+          <grid row="4" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="restore"/>
+        </properties>
+      </component>
+      <component id="4f664" class="javax.swing.JButton" binding="getBoundsButton" default-binding="true">
+        <constraints>
+          <grid row="4" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms defaultalign-horz="false"/>
+        </constraints>
+        <properties>
+          <text value="getBounds"/>
+        </properties>
+      </component>
+      <component id="88a99" class="javax.swing.JButton" binding="focusButton" default-binding="true">
+        <constraints>
+          <grid row="4" column="10" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="focus"/>
+        </properties>
+      </component>
+      <component id="45913" class="javax.swing.JButton" binding="getWindowStateButton" default-binding="true">
+        <constraints>
+          <grid row="6" column="6" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="getWindowState"/>
+        </properties>
+      </component>
+      <component id="598a5" class="javax.swing.JCheckBox" binding="setAlwaysOnTopCheckBox" default-binding="true">
+        <constraints>
+          <grid row="6" column="10" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="setAlwaysOnTop"/>
+        </properties>
+      </component>
+      <component id="5d2a9" class="javax.swing.JButton" binding="closeButton" default-binding="true">
+        <constraints>
+          <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="close"/>
+        </properties>
+      </component>
+      <component id="5cad7" class="javax.swing.JButton" binding="isShowingButton" default-binding="true">
+        <constraints>
+          <grid row="2" column="10" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="isShowing"/>
+        </properties>
+      </component>
+      <component id="38164" class="javax.swing.JButton" binding="getComponentStateButton" default-binding="true">
+        <constraints>
+          <grid row="12" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="getComponentState"/>
+        </properties>
+      </component>
+      <component id="4d64e" class="javax.swing.JButton" binding="getMonitorButton">
+        <constraints>
+          <grid row="4" column="12" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="getMonitor"/>
+        </properties>
+      </component>
+      <component id="7fd2d" class="javax.swing.JButton" binding="showAtButton" default-binding="true">
+        <constraints>
+          <grid row="10" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms defaultalign-horz="false"/>
+        </constraints>
+        <properties>
+          <text value="showAt"/>
+        </properties>
+      </component>
+      <component id="b478a" class="javax.swing.JTextField" binding="textShowAtLeft">
+        <constraints>
+          <grid row="10" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+          <forms defaultalign-horz="false"/>
+        </constraints>
+        <properties>
+          <text value="left"/>
+        </properties>
+      </component>
+      <component id="747d1" class="javax.swing.JTextField" binding="textShowAtTop">
+        <constraints>
+          <grid row="10" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+          <forms defaultalign-horz="false"/>
+        </constraints>
+        <properties>
+          <text value="top"/>
+        </properties>
+      </component>
+      <component id="71d44" class="javax.swing.JButton" binding="setComponentStateButton">
+        <constraints>
+          <grid row="14" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="setComponentState"/>
+        </properties>
+      </component>
+      <component id="313b5" class="javax.swing.JTextField" binding="textGetComponentState">
+        <constraints>
+          <grid row="12" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+          <forms defaultalign-horz="false"/>
+        </constraints>
+        <properties>
+          <text value="name"/>
+        </properties>
+      </component>
+      <component id="a11ac" class="javax.swing.JTextField" binding="textNameSetComponentState">
+        <constraints>
+          <grid row="14" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+          <forms defaultalign-horz="false"/>
+        </constraints>
+        <properties>
+          <text value="name"/>
+        </properties>
+      </component>
+      <component id="de2f6" class="javax.swing.JTextField" binding="textValueSetComponentState">
+        <constraints>
+          <grid row="14" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+          <forms defaultalign-horz="false"/>
+        </constraints>
+        <properties>
+          <text value="value"/>
+        </properties>
+      </component>
+      <component id="d0b99" class="javax.swing.JButton" binding="removeComponentStateButton">
+        <constraints>
+          <grid row="14" column="8" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="removeComponentState"/>
+        </properties>
+      </component>
+      <component id="c61a9" class="javax.swing.JTextField" binding="textRemoveComponentState">
+        <constraints>
+          <grid row="14" column="12" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+          <forms defaultalign-horz="false"/>
+        </constraints>
+        <properties>
+          <text value="name"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>
