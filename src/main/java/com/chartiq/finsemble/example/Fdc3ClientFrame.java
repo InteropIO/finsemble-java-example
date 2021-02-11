@@ -4,6 +4,7 @@ import com.chartiq.finsemble.Finsemble;
 import com.chartiq.finsemble.fdc3.impl.DesktopAgentClient;
 import com.chartiq.finsemble.interfaces.CallbackListener;
 import com.chartiq.finsemble.interfaces.CallbackListenerContextObject;
+import com.sun.deploy.util.StringUtils;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -41,6 +42,9 @@ public class Fdc3ClientFrame {
     private JButton joinChannelButton;
     private JButton leaveChannelButton;
     private JTextField typeFdc3InstrumentIdTextField;
+    private JTextField findIntentTextField;
+    private JButton findIntentButton;
+    private JCheckBox byContextCheckBox;
 
     public Fdc3ClientFrame(Finsemble fsbl) {
         getSystemChannelsButton.addActionListener(e -> {
@@ -74,6 +78,39 @@ public class Fdc3ClientFrame {
 
         getOrCreateChannelButton.addActionListener(e -> {
             fsbl.getClients().getDesktopAgent().getOrCreateChannel(channelNameTextField2.getText(), defaultCallback);
+        });
+
+        findIntentButton.addActionListener(e -> {
+            if (byContextCheckBox.isSelected()) {
+                //TODO set the context object properly
+                fsbl.getClients().getDesktopAgent().findIntentsByContext(null, defaultCallback);
+            } else {
+                fsbl.getClients().getDesktopAgent().findIntent(findIntentTextField.getText(), defaultCallback);
+            }
+        });
+
+        addIntentListenerButton.addActionListener(e -> {
+            fsbl.getClients().getDesktopAgent().addIntentListener(intentTextField.getText(), defaultCallback);
+        });
+
+        removeIntentListenerButton.addActionListener(e -> {
+            fsbl.getClients().getDesktopAgent().removeListener(intentTextField.getText());
+        });
+
+        getCurrentChannelButton.addActionListener(e -> {
+            fsbl.getClients().getDesktopAgent().getCurrentChannel(defaultCallback);
+        });
+
+        addContextListenerButton.addActionListener(e -> {
+            if (contextTypeTextField.getText() != null && contextTypeTextField.getText().length() > 0) {
+                fsbl.getClients().getChannelClient().addContextListener(contextTypeTextField.getText(), defaultCallback);
+            } else {
+                fsbl.getClients().getChannelClient().addContextListener(defaultCallback);
+            }
+        });
+
+        removeContextListenerButton.addActionListener(e -> {
+            fsbl.getClients().getDesktopAgent().removeListener(contextTypeTextField.getText());
         });
     }
 
