@@ -138,9 +138,6 @@ public class InteropServiceExample {
 
     @FXML
     private TextArea messages;
-
-    @FXML
-    private Button exportMessagesButton;
     //endregion
 
     /**
@@ -312,17 +309,12 @@ public class InteropServiceExample {
     @FXML
     void addChannelContextListener(ActionEvent event) {
         Context context = buildContext();
-//        getOrCreateChannel.addContextListener(context1 -> {
-//            appendMessage("WHAT IS THIS?" + context1);
-//        });
 
         getOrCreateChannel.addContextListener(context.getType(), context1 -> {
             appendMessage("app channel context listener triggered: " + context1.toString());
         });
     }
 
-    @FXML
-    void exportMessages(ActionEvent event) {}
 
     private Context buildContext() {
         Context context = new Context();

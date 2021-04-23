@@ -155,12 +155,10 @@ public class InteropServiceExampleApplication extends Application {
 
 
     private void closeWindowEvent(WindowEvent event) {
-        System.out.println("Window close request ...");
-
         try {
             controller.getFinsembleBridge().getClients().getLoggerClient().close();
-        } catch (IOException e) {
-            LOGGER.warning("Error sending the unregister message");
+        } catch (IOException | NullPointerException e) {
+            LOGGER.warning(String.format("Error sending the unregister message: %s", e));
         }
     }
 }
