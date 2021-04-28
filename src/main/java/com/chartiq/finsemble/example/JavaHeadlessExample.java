@@ -45,7 +45,7 @@ public class JavaHeadlessExample {
                  */
                 @Override
                 public void run() {
-                    fsbl.getClients().getLogger().log("Headless example elapsed event was raised");
+                    fsbl.getClients().getLoggerClient().system().log("Headless example elapsed event was raised");
                 }
             }, 0, 1000);
 
