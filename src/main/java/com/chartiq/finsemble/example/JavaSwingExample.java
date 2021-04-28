@@ -249,7 +249,7 @@ public class JavaSwingExample extends JFrame implements WindowListener {
                 }
 
                 @Override
-                public void onWindowSateReady(ConnectionEventGenerator from) {
+                public void onWindowStateReady(ConnectionEventGenerator from) {
                     // NoOp
                 }
             });

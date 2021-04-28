@@ -373,7 +373,7 @@ public class InteropServiceExample {
                 }
 
                 @Override
-                public void onWindowSateReady(ConnectionEventGenerator from) {
+                public void onWindowStateReady(ConnectionEventGenerator from) {
                     windowReady = true;
                     appendMessage("Window window state: READY");
                     try {

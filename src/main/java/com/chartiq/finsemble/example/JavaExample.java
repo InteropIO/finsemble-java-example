@@ -145,7 +145,7 @@ public class JavaExample {
                 }
 
                 @Override
-                public void onWindowSateReady(ConnectionEventGenerator from) {
+                public void onWindowStateReady(ConnectionEventGenerator from) {
                     // NoOp
                 }
             });
