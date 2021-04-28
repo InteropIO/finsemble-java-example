@@ -340,7 +340,6 @@ public class JavaSwingExample {
     private void initFinsemble() {
         // TODO: populate this with a way to test the API
         fsbl = new Finsemble(launchArgs, frame);
-        fsblUuid = fsbl.getUuid();
         try {
             fsbl.connect();
             appendMessage("Connected to Finsemble");
