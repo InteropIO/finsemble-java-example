@@ -23,14 +23,11 @@ import java.util.List;
 import java.util.logging.*;
 import java.util.stream.Collectors;
 
-public class JavaSwingExample {
-
+public class JavaSwingExample extends JFrame implements WindowListener {
     /**
      * Logger
      */
-    private final Logger LOGGER = Logger.getLogger(JavaSwingExample.class.getName());
-
-    private JFrame frame;
+    private static final Logger LOGGER = Logger.getLogger(JavaSwingExample.class.getName());
 
     private final List<String> launchArgs;
 
@@ -51,20 +48,12 @@ public class JavaSwingExample {
 
     private Finsemble fsbl;
 
-    private String fsblUuid;
-
     /**
      * Initializes a new instance of the JavaSwingExample class.
      *
      * @param args The arguments passed to the Java application from the command line
      */
     JavaSwingExample(List<String> args) {
-
-        frame = new JFrame();
-
-        // the following statement is used to log any messages
-        LOGGER.info(String.format("Starting JavaSwingExample: %s", args.toString()));
-
         LOGGER.addHandler(new MessageHandler(messages));
 
         LOGGER.info(String.format(
@@ -90,111 +79,14 @@ public class JavaSwingExample {
         group6Button.setText("");
 
         // TODO: Implement docking
-
-        frame.addWindowListener(new WindowListener() {
-            /**
-             * Invoked the first time a window is made visible.
-             *
-             * @param e The window event
-             */
-            @Override
-            public void windowOpened(WindowEvent e) {
-                initFinsemble();
-            }
-
-            /**
-             * Invoked when the user attempts to close the window
-             * from the window's system menu.
-             *
-             * @param e The window event
-             */
-            @Override
-            public void windowClosing(WindowEvent e) {
-
-            }
-
-            /**
-             * Invoked when a window has been closed as the result
-             * of calling dispose on the window.
-             *
-             * @param e The window event
-             */
-            @Override
-            public void windowClosed(WindowEvent e) {
-                if (fsbl != null) {
-                    try {
-                        fsbl.close();
-                    } catch (Exception ex) {
-                        // Do nothing
-                        fsbl = null;
-                    }
-                }
-            }
-
-            /**
-             * Invoked when a window is changed from a normal to a
-             * minimized state. For many platforms, a minimized window
-             * is displayed as the icon specified in the window's
-             * iconImage property.
-             *
-             * @param e The window event
-             * @see Frame#setIconImage
-             */
-            @Override
-            public void windowIconified(WindowEvent e) {
-
-            }
-
-            /**
-             * Invoked when a window is changed from a minimized
-             * to a normal state.
-             *
-             * @param e The window event
-             */
-            @Override
-            public void windowDeiconified(WindowEvent e) {
-
-            }
-
-            /**
-             * Invoked when the Window is set to be the active Window. Only a Frame or
-             * a Dialog can be the active Window. The native windowing system may
-             * denote the active Window or its children with special decorations, such
-             * as a highlighted title bar. The active Window is always either the
-             * focused Window, or the first Frame or Dialog that is an owner of the
-             * focused Window.
-             *
-             * @param e The window event
-             */
-            @Override
-            public void windowActivated(WindowEvent e) {
-
-            }
-
-            /**
-             * Invoked when a Window is no longer the active Window. Only a Frame or a
-             * Dialog can be the active Window. The native windowing system may denote
-             * the active Window or its children with special decorations, such as a
-             * highlighted title bar. The active Window is always either the focused
-             * Window, or the first Frame or Dialog that is an owner of the focused
-             * Window.
-             *
-             * @param e The window event
-             */
-            @Override
-            public void windowDeactivated(WindowEvent e) {
-
-            }
-        });
-        frame.setVisible(true);
     }
 
     private void createForm() {
-        frame.setTitle("Java Swing Example");
-        frame.setBounds(20, 20, 300, 375);
-        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Java Swing Example");
+        setBounds(20, 20, 300, 375);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        contentPane = frame.getContentPane();
+        contentPane = getContentPane();
         contentPane.setLayout(new GridBagLayout());
         final GridBagConstraints constraints = new GridBagConstraints();
         constraints.insets= new Insets(10,10,0,10);
@@ -339,7 +231,7 @@ public class JavaSwingExample {
 
     private void initFinsemble() {
         // TODO: populate this with a way to test the API
-        fsbl = new Finsemble(launchArgs, frame);
+        fsbl = new Finsemble(launchArgs, this);
         try {
             fsbl.connect();
             appendMessage("Connected to Finsemble");
@@ -354,6 +246,11 @@ public class JavaSwingExample {
                 @Override
                 public void error(ConnectionEventGenerator from, Exception e) {
                     LOGGER.log(Level.SEVERE, "Error from Finsemble", e);
+                }
+
+                @Override
+                public void onWindowStateReady(ConnectionEventGenerator from) {
+                    // NoOp
                 }
             });
 
@@ -580,6 +477,8 @@ public class JavaSwingExample {
 
         launchForm(argList);
 
+        // the following statement is used to log any messages
+        LOGGER.info(String.format("Starting JavaSwingExample: %s", Arrays.toString(args)));
     }
 
     private static void initLogging(List<String> args) {
@@ -605,7 +504,7 @@ public class JavaSwingExample {
             final InputStream inputStream = new FileInputStream(loggingPropertiesPath);
             LogManager.getLogManager().readConfiguration(inputStream);
         } catch (final IOException e) {
-            // LOGGER.log(Level.SEVERE, "Could not load default logging.properties file", e);
+            LOGGER.log(Level.SEVERE, "Could not load default logging.properties file", e);
         }
     }
 
@@ -615,8 +514,109 @@ public class JavaSwingExample {
      * @param args The command line arguments.
      */
     private static void launchForm(List<String> args) {
-        new JavaSwingExample(args);
+        final JavaSwingExample example = new JavaSwingExample(args);
+        example.addWindowListener(example);
+        example.setVisible(true);
     }
+
+    //region Description
+
+    //region WindowListener implementation
+
+    /**
+     * Invoked the first time a window is made visible.
+     *
+     * @param e The window event
+     */
+    @Override
+    public void windowOpened(WindowEvent e) {
+        initFinsemble();
+    }
+
+    /**
+     * Invoked when the user attempts to close the window
+     * from the window's system menu.
+     *
+     * @param e The window event
+     */
+    @Override
+    public void windowClosing(WindowEvent e) {
+
+    }
+
+    /**
+     * Invoked when a window has been closed as the result
+     * of calling dispose on the window.
+     *
+     * @param e The window event
+     */
+    @Override
+    public void windowClosed(WindowEvent e) {
+        if (fsbl != null) {
+            try {
+                fsbl.close();
+            } catch (Exception ex) {
+                // Do nothing
+                fsbl = null;
+            }
+        }
+    }
+
+    /**
+     * Invoked when a window is changed from a normal to a
+     * minimized state. For many platforms, a minimized window
+     * is displayed as the icon specified in the window's
+     * iconImage property.
+     *
+     * @param e The window event
+     * @see Frame#setIconImage
+     */
+    @Override
+    public void windowIconified(WindowEvent e) {
+
+    }
+
+    /**
+     * Invoked when a window is changed from a minimized
+     * to a normal state.
+     *
+     * @param e The window event
+     */
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+
+    }
+
+    /**
+     * Invoked when the Window is set to be the active Window. Only a Frame or
+     * a Dialog can be the active Window. The native windowing system may
+     * denote the active Window or its children with special decorations, such
+     * as a highlighted title bar. The active Window is always either the
+     * focused Window, or the first Frame or Dialog that is an owner of the
+     * focused Window.
+     *
+     * @param e The window event
+     */
+    @Override
+    public void windowActivated(WindowEvent e) {
+
+    }
+
+    /**
+     * Invoked when a Window is no longer the active Window. Only a Frame or a
+     * Dialog can be the active Window. The native windowing system may denote
+     * the active Window or its children with special decorations, such as a
+     * highlighted title bar. The active Window is always either the focused
+     * Window, or the first Frame or Dialog that is an owner of the focused
+     * Window.
+     *
+     * @param e The window event
+     */
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+
+    }
+    //endregion
 
     /**
      * Handler to write log messages to the message area of the form.

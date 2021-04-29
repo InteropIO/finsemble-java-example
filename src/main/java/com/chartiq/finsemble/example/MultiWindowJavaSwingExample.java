@@ -12,11 +12,11 @@ public class MultiWindowJavaSwingExample {
 
     public static void main(String[] args) {
 
-        String appId = "multiWindowJavaSwingExample";
+        String appId = MultiWindowJavaSwingExample.class.getSimpleName();
         boolean alreadyRunning;
         try {
             JUnique.acquireLock(appId, message -> {
-                new JavaSwingExample(Arrays.asList(message.split("§")));
+                JavaSwingExample.main(message.split("::"));
                 return null;
             });
             alreadyRunning = false;
@@ -24,9 +24,9 @@ public class MultiWindowJavaSwingExample {
             alreadyRunning = true;
         }
         if (!alreadyRunning) {
-            new JavaSwingExample(Arrays.asList(args));
+            JavaSwingExample.main(args);
         } else {
-            JUnique.sendMessage(appId, String.join("§", args));
+            JUnique.sendMessage(appId, String.join("::", args));
         }
     }
 }
