@@ -108,7 +108,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>MultiJavaSwingExample</id>
+                        <id>MultiWindowJavaSwingExample</id>
                         <phase>package</phase>
                         <goals>
                             <goal>shade</goal>
@@ -123,7 +123,7 @@
                                     </manifestEntries>
                                 </transformer>
                             </transformers>
-                            <finalName>MultiJavaSwingExample</finalName>
+                            <finalName>MultiWindowJavaSwingExample</finalName>
                         </configuration>
                     </execution>
                     <execution>

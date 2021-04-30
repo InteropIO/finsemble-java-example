@@ -13,26 +13,33 @@ You can build the JAR files and the launch4j executable file using the `mvn pack
 ## Examples provided
 - JavaExample - Example JavaFX application
 - JavaSwingExample - Example Java Swing application
+- MultiWindowJavaSwingExample - Example of a Java Swing application running in multi-window (several windows running under the same
+      process)
 - JavaHeadlessExample - Example of a window-less Java application
 - AuthenticationExample - Example component that performs authentication from within Java
+
 
 ## Configuring the Java examples 
 Copy the _java-example.json_ included in the project to _src/components/java-example/java-example.json_. Update the application manifest to include:
 ``` JSON
     "finsemble": {
-        "applicationRoot": "http://localhost:3375",
-        "moduleRoot": "http://localhost:3375/finsemble",
-        "servicesRoot": "http://localhost:3375/finsemble/services",
-        "notificationURL": "http://localhost:3375/components/notification/notification.html",
-        "javaExampleJarRoot": "<path to finsemble-java-example target (e.g. C:/Users/andy/Documents/SourceCode/finsemble-java-example/target)>",
+        ...,
+        "custom": {
+            "javaExampleJarRoot": "<path_to_the_jar_files_directory>"
+        },
         "importConfig": [
-            "$applicationRoot/configs/application/config.json",
-            "$applicationRoot/components/java-example/java-example.json"
-        ],
-        "IAC": {
-            "serverAddress" : "ws://127.0.0.1:3376"
-        }
+            "../../configs/application/config.json",
+            "../../configs/application/java-example.json"
+        ]
     }
 ```
 
-**NOTE:** The _java-example.json_ file includes two copies of the JavaFX example: Java Example (local) and Java Example (asset). The "local" component uses `javaExampleRoot` to specify the path to the JAR file on the local system. The "asset" component uses the `appAsset` (described below) to download and run the application.
+**NOTE:**
+- The _java-example.json_ file includes two copies of the JavaFX example: 
+  - Java Example (local)
+  -  Java Example (asset). 
+
+The "local" component uses `javaExampleRoot` to specify the path to the JAR file on the local system. The "asset" component uses the `appAsset` to download and run the application - Please refer to our tutorial
+on [integrating native applications](https://documentation.finsemble.com/tutorial-integratingNativeApplications.html) for more details.
+
+
