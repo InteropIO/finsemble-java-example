@@ -13,10 +13,12 @@ You can build the JAR files and the launch4j executable file using the `mvn pack
 ## Examples provided
 - JavaExample - Example JavaFX application
 - JavaSwingExample - Example Java Swing application
-- MultiWindowJavaSwingExample - Example of a Java Swing application running in multi-window (several windows running under the same
-      process)
 - JavaHeadlessExample - Example of a window-less Java application
 - AuthenticationExample - Example component that performs authentication from within Java
+- MultiWindow - JavaSwingExample - Same as JavaSwingExample but running in multi-window (several windows running under the same
+  process)
+- MultiWindow - AuthenticationExample - Same as AuthenticationExample but running in multi-window (several windows running under the same
+      process)
 
 
 ## Configuring the Java examples 
