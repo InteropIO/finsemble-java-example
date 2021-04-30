@@ -61,7 +61,6 @@ public class JavaHeadlessExample {
                 public void error(ConnectionEventGenerator from, Exception e) {
                     LOGGER.log(Level.SEVERE, "Error from Finsemble", e);
                 }
-
             });
 
             LOGGER.info("Window registered with Finsemble");

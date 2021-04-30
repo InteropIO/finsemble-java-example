@@ -247,7 +247,6 @@ public class JavaSwingExample extends JFrame implements WindowListener {
                 public void error(ConnectionEventGenerator from, Exception e) {
                     LOGGER.log(Level.SEVERE, "Error from Finsemble", e);
                 }
-
             });
 
             appendMessage("Window registered with Finsemble");
@@ -448,7 +447,6 @@ public class JavaSwingExample extends JFrame implements WindowListener {
      * @param s The message to add.
      */
     private void appendMessage(String s) {
-
         if (messages == null) {
             return;
         }
