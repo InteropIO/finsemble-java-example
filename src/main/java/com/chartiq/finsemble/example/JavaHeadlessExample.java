@@ -45,7 +45,7 @@ public class JavaHeadlessExample {
                  */
                 @Override
                 public void run() {
-                    fsbl.getClients().getLoggerClient().system().log("Headless example elapsed event was raised");
+                    fsbl.getClients().getLogger().log("Headless example elapsed event was raised");
                 }
             }, 0, 1000);
 
@@ -62,10 +62,6 @@ public class JavaHeadlessExample {
                     LOGGER.log(Level.SEVERE, "Error from Finsemble", e);
                 }
 
-                @Override
-                public void onWindowStateReady(ConnectionEventGenerator from) {
-
-                }
             });
 
             LOGGER.info("Window registered with Finsemble");
