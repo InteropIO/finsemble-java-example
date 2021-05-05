@@ -3,9 +3,8 @@
 		"Java Example (local)": {
 			"window": {
 				"id": "JavaExample",
-				"windowType": "native",
+				"windowType": "FinsembleNativeWindow",
 				"path": "$javaExampleJarRoot/FinsembleJavaFXExample.jar",
-				"url": "",
 				"arguments": "",
 				"defaultHeight": 600,
 				"autoShow": true,
@@ -21,7 +20,7 @@
 			"foreign": {
 				"services": {
 					"workspaceService": {
-						"isArrangable": true
+						"allowAutoArrange": true
 					}
 				},
 				"components": {
@@ -41,9 +40,8 @@
 		"Java Example (asset)": {
 			"window": {
 				"id": "JavaExample",
-				"windowType": "native",
+				"windowType": "FinsembleNativeWindow",
 				"alias": "finsembleJavaExample",
-				"url": "",
 				"arguments": "",
 				"defaultHeight": 600,
 				"autoShow": true,
@@ -59,7 +57,7 @@
 			"foreign": {
 				"services": {
 					"workspaceService": {
-						"isArrangable": true
+						"allowAutoArrange": true
 					}
 				},
 				"components": {
@@ -79,9 +77,8 @@
 		"Java Swing Example": {
 			"window": {
 				"id": "JavaExample",
-				"windowType": "native",
+				"windowType": "FinsembleNativeWindow",
 				"path": "$javaExampleJarRoot/JavaSwingExample.jar",
-				"url": "",
 				"arguments": "",
 				"defaultHeight": 600,
 				"autoShow": true,
@@ -97,7 +94,7 @@
 			"foreign": {
 				"services": {
 					"workspaceService": {
-						"isArrangable": true
+						"allowAutoArrange": true
 					}
 				},
 				"components": {
@@ -116,7 +113,7 @@
 		},
 		"Java Authentication Example": {
 			"window": {
-				"windowType": "native",
+				"windowType": "FinsembleNativeWindow",
 				"path": "$javaExampleJarRoot/FinsembleJavaAuthenticationExample.jar",
 				"top": "center",
 				"left": "center",
@@ -138,7 +135,7 @@
 			"foreign": {
 				"services": {
 					"workspaceService": {
-						"isArrangable": false
+						"allowAutoArrange": false
 					}
 				},
 				"components": {
@@ -155,9 +152,8 @@
 		"Java Headless Example": {
 			"window": {
 				"id": "JavaExample",
-				"windowType": "native",
+				"windowType": "FinsembleNativeWindow",
 				"path": "$javaExampleJarRoot/FinsembleJavaHeadlessExample.jar",
-				"url": "",
 				"arguments": "",
 				"defaultHeight": 600,
 				"autoShow": true,
@@ -173,12 +169,86 @@
 			"foreign": {
 				"services": {
 					"workspaceService": {
-						"isArrangable": true
+						"allowAutoArrange": true
 					}
 				},
 				"components": {
 					"App Launcher": {
 						"launchableByUser": false
+					},
+					"Window Manager": {
+						"persistWindowState": false,
+						"FSBLHeader": true
+					},
+					"Toolbar": {
+						"iconURL": "$applicationRoot/assets/img/notepad.png"
+					}
+				}
+			}
+		},
+		"MultiWindow - JavaSwingExample": {
+			"window": {
+				"id": "MultiWindowJavaSwingExample",
+				"windowType": "FinsembleNativeWindow",
+				"path": "$javaExampleJarRoot/MultiWindowJavaSwingExample.jar",
+				"arguments": "example=JavaSwingExample",
+				"defaultHeight": 600,
+				"autoShow": true,
+				"alwaysOnTop": false,
+				"resizable": true,
+				"showTaskbarIcon": false,
+				"contextMenu": true,
+				"addToWorkspace": true
+			},
+			"component": {
+				"spawnOnStartup": false
+			},
+			"foreign": {
+				"services": {
+					"workspaceService": {
+						"allowAutoArrange": true
+					}
+				},
+				"components": {
+					"App Launcher": {
+						"launchableByUser": true
+					},
+					"Window Manager": {
+						"persistWindowState": false,
+						"FSBLHeader": true
+					},
+					"Toolbar": {
+						"iconURL": "$applicationRoot/assets/img/notepad.png"
+					}
+				}
+			}
+		},
+		"MultiWindow - AuthenticationExample": {
+			"window": {
+				"id": "MultiWindowJavaSwingExample",
+				"windowType": "FinsembleNativeWindow",
+				"path": "$javaExampleJarRoot/MultiWindowJavaSwingExample.jar",
+				"arguments": "example=AuthenticationExample",
+				"defaultHeight": 600,
+				"autoShow": true,
+				"alwaysOnTop": false,
+				"resizable": true,
+				"showTaskbarIcon": false,
+				"contextMenu": true,
+				"addToWorkspace": true
+			},
+			"component": {
+				"spawnOnStartup": false
+			},
+			"foreign": {
+				"services": {
+					"workspaceService": {
+						"allowAutoArrange": true
+					}
+				},
+				"components": {
+					"App Launcher": {
+						"launchableByUser": true
 					},
 					"Window Manager": {
 						"persistWindowState": false,

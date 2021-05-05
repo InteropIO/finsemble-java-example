@@ -53,7 +53,7 @@ public class JavaSwingExample extends JFrame implements WindowListener {
      *
      * @param args The arguments passed to the Java application from the command line
      */
-    private JavaSwingExample(List<String> args) {
+    JavaSwingExample(List<String> args) {
         LOGGER.addHandler(new MessageHandler(messages));
 
         LOGGER.info(String.format(
