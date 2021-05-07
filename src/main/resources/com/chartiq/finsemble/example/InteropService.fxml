@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
-<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.chartiq.finsemble.example.fdc3.InteropServiceExample">
@@ -31,7 +30,7 @@
                         <Label fx:id="connectionStatusLabel" layoutX="76.0" layoutY="31.0" text="Offline" textFill="WHITE" />
                      </children>
                   </Pane>
-                  <Pane layoutX="14.0" layoutY="83.0" prefHeight="285.0" prefWidth="200.0" style="-fx-border-color: #acb2c0;">
+                  <Pane layoutX="14.0" layoutY="83.0" prefHeight="320.0" prefWidth="200.0" style="-fx-border-color: #acb2c0;">
                      <children>
                         <Label layoutX="51.0" layoutY="4.0" prefHeight="17.0" prefWidth="99.0" text="System Channels" textAlignment="CENTER" textFill="WHITE">
                            <font>
@@ -42,14 +41,15 @@
                         <Button fx:id="getCurrentChannelButton" layoutX="10.0" layoutY="58.0" mnemonicParsing="false" onAction="#getCurrentChannel" prefHeight="25.0" prefWidth="180.0" style="-fx-background-color: #42a5ba;" text="Get Current Channel" textFill="WHITE" />
                         <TextField fx:id="channelName" layoutX="10.0" layoutY="124.0" prefHeight="25.0" prefWidth="180.0" promptText="Channel name" />
                         <Button fx:id="joinChannelButton" layoutX="10.0" layoutY="157.0" mnemonicParsing="false" onAction="#joinChannel" prefHeight="25.0" prefWidth="180.0" style="-fx-background-color: #42a5ba;" text="Join Channel" textFill="WHITE" />
-                        <Button fx:id="leaveChannelButton" layoutX="10.0" layoutY="188.0" mnemonicParsing="false" onAction="#leaveChannel" prefHeight="25.0" prefWidth="180.0" style="-fx-background-color: #42a5ba;" text="Leave Current Channel" textFill="WHITE" />
+                        <Button fx:id="leaveChannelButton" layoutX="10.0" layoutY="189.0" mnemonicParsing="false" onAction="#leaveChannel" prefHeight="25.0" prefWidth="180.0" style="-fx-background-color: #42a5ba;" text="Leave Current Channel" textFill="WHITE" />
                         <Label layoutX="11.0" layoutY="96.0" text="Current Channel:" textFill="WHITE" />
-                        <Label fx:id="currentChannelLabel" layoutX="106.0" layoutY="96.0" text="Offline" textFill="WHITE" />
-                        <Button fx:id="broadcastButton" layoutX="10.0" layoutY="219.0" mnemonicParsing="false" onAction="#broadcast" prefHeight="25.0" prefWidth="180.0" style="-fx-background-color: #42a5ba;" text="Broadcast" textFill="WHITE" />
-                        <Button fx:id="getChannelCurrentContextButton" layoutX="10.0" layoutY="250.0" mnemonicParsing="false" onAction="#getChannelCurrentContext" prefHeight="25.0" prefWidth="180.0" style="-fx-background-color: #42a5ba;" text="Get Channel Current Context" textFill="WHITE" />
+                        <Label fx:id="currentChannelLabel" layoutX="106.0" layoutY="96.0" text="None" textFill="WHITE" />
+                        <Button fx:id="broadcastButton" layoutX="10.0" layoutY="254.0" mnemonicParsing="false" onAction="#broadcast" prefHeight="25.0" prefWidth="180.0" style="-fx-background-color: #42a5ba;" text="Broadcast" textFill="WHITE" />
+                        <Button fx:id="getChannelCurrentContextButton" layoutX="10.0" layoutY="286.0" mnemonicParsing="false" onAction="#getChannelCurrentContext" prefHeight="25.0" prefWidth="180.0" style="-fx-background-color: #42a5ba;" text="Get Channel Current Context" textFill="WHITE" />
+                        <Button fx:id="getCurrentChannelsButton" layoutX="11.0" layoutY="221.0" mnemonicParsing="false" onAction="#getCurrentChannels" prefHeight="25.0" prefWidth="180.0" style="-fx-background-color: #42a5ba;" text="Get Current (joined) Channels" textFill="WHITE" />
                      </children>
                   </Pane>
-                  <Pane layoutX="14.0" layoutY="376.0" prefHeight="134.0" prefWidth="200.0" style="-fx-border-color: #acb2c0;">
+                  <Pane layoutX="14.0" layoutY="411.0" prefHeight="133.0" prefWidth="200.0" style="-fx-border-color: #acb2c0;">
                      <children>
                         <Group layoutX="10.0" layoutY="6.0">
                            <children>
@@ -98,7 +98,7 @@
                         <Button fx:id="removeContextListenerButton" layoutX="10.0" layoutY="216.0" mnemonicParsing="false" onAction="#removeContextListener" prefHeight="25.0" prefWidth="180.0" style="-fx-background-color: #42a5ba;" text="Remove Context Listener" textFill="WHITE" />
                      </children>
                   </Pane>
-                  <Pane layoutX="14.0" layoutY="519.0" prefHeight="265.0" prefWidth="200.0" style="-fx-border-color: #acb2c0;">
+                  <Pane layoutX="14.0" layoutY="551.0" prefHeight="233.0" prefWidth="200.0" style="-fx-border-color: #acb2c0;">
                      <children>
                         <Group layoutX="10.0" layoutY="6.0">
                            <children>
@@ -107,8 +107,8 @@
                                     <Font name="System Bold" size="12.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="intent" layoutY="41.0" prefHeight="25.0" prefWidth="180.0" promptText="ViewChart" />
-                              <Label layoutY="21.0" prefHeight="17.0" prefWidth="50.0" text="Intent" textAlignment="CENTER" textFill="WHITE">
+                              <TextField fx:id="intent" layoutY="43.0" prefHeight="25.0" prefWidth="180.0" promptText="ViewChart" />
+                              <Label layoutY="21.0" prefHeight="17.0" prefWidth="75.0" text="Intent Name" textAlignment="CENTER" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>
@@ -116,11 +116,10 @@
                            </children>
                         </Group>
                         <CheckBox fx:id="intentUseContext" layoutX="10.0" layoutY="80.0" mnemonicParsing="false" text="Use context" textFill="WHITE" />
-                        <Button fx:id="findIntentButton" layoutX="10.0" layoutY="108.0" mnemonicParsing="false" onAction="#findIntent" prefHeight="25.0" prefWidth="180.0" style="-fx-background-color: #42a5ba;" text="Find Intent" textFill="WHITE" />
-                        <Button fx:id="raiseIntentButton" layoutX="10.0" layoutY="140.0" mnemonicParsing="false" onAction="#raiseIntent" prefHeight="25.0" prefWidth="180.0" style="-fx-background-color: #42a5ba;" text="Raise Intent" textFill="WHITE" />
-                        <Button fx:id="addIntentListenerButton" layoutX="10.0" layoutY="195.0" mnemonicParsing="false" onAction="#addIntentListener" prefHeight="25.0" prefWidth="180.0" style="-fx-background-color: #42a5ba;" text="Add Intent Listener" textFill="WHITE" />
-                        <Button fx:id="removeIntentListenerButton" layoutX="10.0" layoutY="227.0" mnemonicParsing="false" onAction="#removeIntentListener" prefHeight="25.0" prefWidth="180.0" style="-fx-background-color: #42a5ba;" text="Remove Intent Listener" textFill="WHITE" />
-                        <Line endX="13.0" layoutX="139.0" layoutY="181.0" startX="-100.0" stroke="WHITE" strokeWidth="0.2" style="-fx-stroke-dash-array: 4; -fx-fill: #ffffff;" />
+                        <Button fx:id="findIntentButton" layoutX="10.0" layoutY="105.0" mnemonicParsing="false" onAction="#findIntent" prefHeight="25.0" prefWidth="180.0" style="-fx-background-color: #42a5ba;" text="Find Intent" textFill="WHITE" />
+                        <Button fx:id="raiseIntentButton" layoutX="10.0" layoutY="136.0" mnemonicParsing="false" onAction="#raiseIntent" prefHeight="25.0" prefWidth="180.0" style="-fx-background-color: #42a5ba;" text="Raise Intent" textFill="WHITE" />
+                        <Button fx:id="addIntentListenerButton" layoutX="10.0" layoutY="167.0" mnemonicParsing="false" onAction="#addIntentListener" prefHeight="25.0" prefWidth="180.0" style="-fx-background-color: #42a5ba;" text="Add Intent Listener" textFill="WHITE" />
+                        <Button fx:id="removeIntentListenerButton" layoutX="10.0" layoutY="198.0" mnemonicParsing="false" onAction="#removeIntentListener" prefHeight="25.0" prefWidth="180.0" style="-fx-background-color: #42a5ba;" text="Remove Intent Listener" textFill="WHITE" />
                      </children>
                   </Pane>
                   <Pane layoutX="226.0" layoutY="282.0" prefHeight="166.0" prefWidth="200.0" style="-fx-border-color: #acb2c0;">

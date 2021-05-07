@@ -2,6 +2,7 @@ package com.chartiq.finsemble.example.fdc3;
 
 import com.chartiq.finsemble.Finsemble;
 import com.chartiq.finsemble.fdc3.*;
+import com.chartiq.finsemble.fdc3.channel.Channel;
 import com.chartiq.finsemble.fdc3.channel.ChannelClient;
 import com.chartiq.finsemble.fdc3.context.Context;
 import com.chartiq.finsemble.fdc3.meta.AppMetadata;
@@ -72,6 +73,9 @@ public class InteropServiceExample {
 
     @FXML
     private Button getChannelCurrentContextButton;
+
+    @FXML
+    private Button getCurrentChannelsButton;
 
     @FXML
     private TextField applicationName;
@@ -237,8 +241,9 @@ public class InteropServiceExample {
 
 
     @FXML
-    void getInfo(ActionEvent event) {
-        appendMessage("*** fdc3.getInfo() - NOT YET IMPLEMENTED");
+    void getInfo(ActionEvent event) throws ExecutionException, InterruptedException {
+        appendMessage("*** fdc3.getInfo() *** \n " + new JSONObject(finsembleDesktopAgent.getInfo()
+                .get()).toString(2));
     }
 
     @FXML
@@ -270,7 +275,30 @@ public class InteropServiceExample {
 
     @FXML
     void getCurrentChannel(ActionEvent event) {
-        finsembleDesktopAgent.getCurrentChannel();
+        try {
+            ChannelClient channel = (ChannelClient) finsembleDesktopAgent.getCurrentChannel().get();
+            String currentChannel = channel == null ? "None" : channel.getId();
+            appendMessage("Current Channel: " + currentChannel);
+            currentChannelLabel.setText(currentChannel);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void getCurrentChannels(ActionEvent event) {
+        try {
+            List<Channel> channels = finsembleDesktopAgent.getCurrentChannels().get();
+            appendMessage(":: Current Channels ::");
+            channels.forEach(channel -> appendMessage(((ChannelClient)channel).getId()));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @FXML
@@ -286,6 +314,20 @@ public class InteropServiceExample {
     @FXML
     void leaveChannel(ActionEvent event) {
         finsembleDesktopAgent.leaveCurrentChannel();
+        // TODO: This is if we want to fetch the current channel automatically after leaving
+        //  otherwise we need to click the get current channel button
+//        try {
+//            List<Channel> channels = finsembleDesktopAgent.getCurrentChannels().get();
+//            appendMessage(":: Current Channels ::");
+//            channels.forEach(channel -> appendMessage(((ChannelClient)channel).getId()));
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        }
+
+        // TODO: This is FDC2 2.0
+//        finsembleDesktopAgent.leaveChannels(new String[] {"Channel 2", "Channel 3"});
     }
 
     @FXML
