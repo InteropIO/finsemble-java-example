@@ -247,6 +247,11 @@ public class JavaSwingExample extends JFrame implements WindowListener {
                 public void error(ConnectionEventGenerator from, Exception e) {
                     LOGGER.log(Level.SEVERE, "Error from Finsemble", e);
                 }
+
+                @Override
+                public void onWindowStateReady(ConnectionEventGenerator from) {
+                    // NoOp
+                }
             });
 
             appendMessage("Window registered with Finsemble");
