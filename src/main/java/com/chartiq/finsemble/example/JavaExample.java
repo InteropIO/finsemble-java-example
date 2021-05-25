@@ -184,7 +184,7 @@ public class JavaExample {
 
     private void handleDockingGroupUpdate(JSONObject err, JSONObject res) {
         if (err != null) {
-            fsbl.getClients().getLogger().error(err.toString());
+            fsbl.getClients().getLoggerClient().dev().error(err.toString());
         } else {
             final JSONObject groupData = res.getJSONObject("data").getJSONObject("groupData");
             final String currentWindowName = fsbl.getClients().getWindowClient().getWindowIdentifier().getString("windowName");
@@ -394,7 +394,7 @@ public class JavaExample {
 
     private void handleGetComponentStateCb(JSONObject err, JSONObject res) {
         if(err!=null){
-            fsbl.getClients().getLogger().error(err.toString());
+            fsbl.getClients().getLoggerClient().dev().error(err.toString());
         }else{
             //Set subscribe linker channel
             if (res.has("Finsemble_Linker")) {
