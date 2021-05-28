@@ -7,6 +7,7 @@ package com.chartiq.finsemble.example;
 import com.chartiq.finsemble.Finsemble;
 import com.chartiq.finsemble.interfaces.ConnectionEventGenerator;
 import com.chartiq.finsemble.interfaces.ConnectionListener;
+import org.json.JSONObject;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -48,6 +49,11 @@ public class JavaHeadlessExample {
                     fsbl.getClients().getLoggerClient().system().log("Headless example elapsed event was raised");
                 }
             }, 0, 1000);
+
+            fsbl.getClients().getRouterClient().addResponder("JavaHeadlessExample", (err, queryMessageResponse) -> {
+                queryMessageResponse
+                        .sendQueryResponse(null, new JSONObject().put("queryResponderTestField", "Response from JavaHeadlessExample"));
+            });
 
             fsbl.addListener(new ConnectionListener() {
                 @Override
