@@ -95,7 +95,7 @@ public class InteropServiceExampleApplication extends Application {
             final VBox anchorPane = loader.load();
             LOGGER.info("Parent loaded from resource");
             primaryStage.setTitle("InteropServiceExampleApplication");
-            primaryStage.setResizable(false);
+            primaryStage.setResizable(true);
             final Scene scene = new Scene(anchorPane, 265, 400);
 
             LOGGER.info("Scene created");
