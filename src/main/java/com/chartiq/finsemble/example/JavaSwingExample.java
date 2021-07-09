@@ -7,6 +7,7 @@ package com.chartiq.finsemble.example;
 import com.chartiq.finsemble.Finsemble;
 import com.chartiq.finsemble.interfaces.ConnectionEventGenerator;
 import com.chartiq.finsemble.interfaces.ConnectionListener;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -19,6 +20,7 @@ import java.awt.event.WindowListener;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.*;
 import java.util.stream.Collectors;
@@ -45,6 +47,8 @@ public class JavaSwingExample extends JFrame implements WindowListener {
     private JButton group4Button;
     private JButton group5Button;
     private JButton group6Button;
+
+    private HashMap<String, JButton> linkerButtons = new HashMap<>();
 
     private Finsemble fsbl;
 
@@ -103,6 +107,7 @@ public class JavaSwingExample extends JFrame implements WindowListener {
         constraints.gridx = 0;
         constraints.gridy = 0;
         contentPane.add(group1Button, constraints);
+        linkerButtons.put("group1", group1Button);
 
         group2Button = new JButton();
         group2Button.setBackground(new Color(255,224,53));
@@ -114,6 +119,7 @@ public class JavaSwingExample extends JFrame implements WindowListener {
         constraints.gridx = 1;
         constraints.gridy = 0;
         contentPane.add(group2Button, constraints);
+        linkerButtons.put("group2", group2Button);
 
         group3Button = new JButton();
         group3Button.setBackground(new Color(137,216,3));
@@ -125,6 +131,7 @@ public class JavaSwingExample extends JFrame implements WindowListener {
         constraints.gridx = 2;
         constraints.gridy = 0;
         contentPane.add(group3Button, constraints);
+        linkerButtons.put("group3", group3Button);
 
         group4Button = new JButton();
         group4Button.setBackground(new Color(254,98,98));
@@ -136,6 +143,7 @@ public class JavaSwingExample extends JFrame implements WindowListener {
         constraints.gridx = 3;
         constraints.gridy = 0;
         contentPane.add(group4Button, constraints);
+        linkerButtons.put("group4", group4Button);
 
         group5Button = new JButton();
         group5Button.setBackground(new Color(45,172,255));
@@ -147,6 +155,7 @@ public class JavaSwingExample extends JFrame implements WindowListener {
         constraints.gridx = 4;
         constraints.gridy = 0;
         contentPane.add(group5Button, constraints);
+        linkerButtons.put("group5", group5Button);
 
         group6Button = new JButton();
         group6Button.setBackground(new Color(255,162,0));
@@ -158,6 +167,7 @@ public class JavaSwingExample extends JFrame implements WindowListener {
         constraints.gridx = 5;
         constraints.gridy = 0;
         contentPane.add(group6Button, constraints);
+        linkerButtons.put("group6", group6Button);
         // endregion
 
         // region Symbol
@@ -331,6 +341,52 @@ public class JavaSwingExample extends JFrame implements WindowListener {
         group4Button.addActionListener(this::toggleLinker);
         group5Button.addActionListener(this::toggleLinker);
         group6Button.addActionListener(this::toggleLinker);
+
+        //GetComponentState
+        final JSONArray getComponentStateFields = new JSONArray(){{
+            put("Finsemble_Linker");
+            put("symbol");
+        }};
+        final JSONObject getComponentStateParam = new JSONObject(){{
+            put("fields", getComponentStateFields);
+        }};
+        fsbl.getClients().getWindowClient().getComponentState(getComponentStateParam, this::handleGetComponentStateCb);
+    }
+
+    private void handleGetComponentStateCb(JSONObject err, JSONObject res) {
+        fsbl.getClients().getLoggerClient().system().warn(res.toString(2));
+        if(err!=null){
+            fsbl.getClients().getLoggerClient().system().error(err.toString());
+        }else{
+            //Set subscribe linker channel
+            if (res.has("Finsemble_Linker")) {
+                fsbl.getClients().getLoggerClient().system().warn("linkerButtons: " + linkerButtons.keySet());
+                fsbl.getClients().getLoggerClient().system().warn("linkerButtons size: " + linkerButtons.size());
+                final JSONArray channelToLink = res.getJSONArray("Finsemble_Linker");
+                for (int i = 0; i < channelToLink.length(); i++) {
+
+                    try {
+                        JButton lkrBtn = linkerButtons.get(channelToLink.getString(i));
+                        fsbl.getClients().getLoggerClient().system().warn("lkrBtn: " + lkrBtn);
+                        lkrBtn.setText("X");
+                        // lkrBtn.doClick();
+                        lkrBtn.updateUI();
+                        fsbl.getClients().getLoggerClient().system().warn("DONE phoudasse");
+
+                    } catch (Exception ex) {
+                        fsbl.getClients().getLoggerClient().system().error("ERRO caralho: " + ex.getMessage());
+                    }
+                }
+            }
+
+            //Set symbol value
+            if(res.has("symbol")) {
+                final String symbol = res.getString("symbol");
+                if (!symbol.equals("")) {
+                    symbolLabel.setText(symbol);
+                }
+            }
+        }
     }
 
     private void handleSymbol(JSONObject err, JSONObject res) {
