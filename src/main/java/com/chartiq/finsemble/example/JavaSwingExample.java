@@ -343,12 +343,12 @@ public class JavaSwingExample extends JFrame implements WindowListener {
         group6Button.addActionListener(this::toggleLinker);
 
         //GetComponentState
-        final JSONArray getComponentStateFields = new JSONArray() {{
+        final JSONArray componentStateFields = new JSONArray() {{
             put("Finsemble_Linker");
             put("symbol");
         }};
         final JSONObject getComponentStateParam = new JSONObject() {{
-            put("fields", getComponentStateFields);
+            put("fields", componentStateFields);
         }};
         fsbl.getClients().getWindowClient().getComponentState(getComponentStateParam, this::handleGetComponentStateCb);
     }
@@ -366,7 +366,7 @@ public class JavaSwingExample extends JFrame implements WindowListener {
                         String currentChannel = channelToLink.getString(i);
                         JButton lkrBtn = linkerButtons.get(currentChannel);
                         fsbl.getClients().getLinkerClient().linkToChannel(currentChannel, windowIdentifier, (error, response) -> {
-                            if (err != null) {
+                            if (error != null) {
                                 LOGGER.log(Level.SEVERE, String.format("Error linking to channel: %s", currentChannel), err);
                             } else {
                                 LOGGER.info((String.format("Linked to channel: %s", currentChannel)));
