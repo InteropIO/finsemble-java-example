@@ -143,6 +143,11 @@ public class JavaExample {
                 public void error(ConnectionEventGenerator from, Exception e) {
                     LOGGER.log(Level.SEVERE, "Error from Finsemble", e);
                 }
+
+                @Override
+                public void onWindowStateReady(ConnectionEventGenerator from) {
+                    // NoOp
+                }
             });
 
             appendMessage("Window registered with Finsemble");
@@ -163,11 +168,11 @@ public class JavaExample {
             setDropable();
 
             //GetComponentState
-            final JSONArray getComponentStateFields = new JSONArray(){{
+            final JSONArray getComponentStateFields = new JSONArray() {{
                 put("Finsemble_Linker");
                 put("symbol");
             }};
-            final JSONObject getComponentStateParam = new JSONObject(){{
+            final JSONObject getComponentStateParam = new JSONObject() {{
                 put("fields", getComponentStateFields);
             }};
             fsbl.getClients().getWindowClient().getComponentState(getComponentStateParam, this::handleGetComponentStateCb);
@@ -184,7 +189,7 @@ public class JavaExample {
 
     private void handleDockingGroupUpdate(JSONObject err, JSONObject res) {
         if (err != null) {
-            fsbl.getClients().getLogger().error(err.toString());
+            fsbl.getClients().getLoggerClient().system().error(err.toString());
         } else {
             final JSONObject groupData = res.getJSONObject("data").getJSONObject("groupData");
             final String currentWindowName = fsbl.getClients().getWindowClient().getWindowIdentifier().getString("windowName");
@@ -283,7 +288,8 @@ public class JavaExample {
                 put("field", "symbol");
                 put("value", symbol);
             }};
-            fsbl.getClients().getWindowClient().setComponentState(param, (e, r) -> { });
+            fsbl.getClients().getWindowClient().setComponentState(param, (e, r) -> {
+            });
             Platform.runLater(() -> symbolLabel.setText(symbol));
         }
     }
@@ -393,9 +399,9 @@ public class JavaExample {
     }
 
     private void handleGetComponentStateCb(JSONObject err, JSONObject res) {
-        if(err!=null){
-            fsbl.getClients().getLogger().error(err.toString());
-        }else{
+        if (err != null) {
+            fsbl.getClients().getLoggerClient().system().error(err.toString());
+        } else {
             //Set subscribe linker channel
             if (res.has("Finsemble_Linker")) {
                 final JSONArray channelToLink = res.getJSONArray("Finsemble_Linker");
@@ -406,7 +412,7 @@ public class JavaExample {
             }
 
             //Set symbol value
-            if(res.has("symbol")) {
+            if (res.has("symbol")) {
                 final String symbol = res.getString("symbol");
                 if (!symbol.equals("")) {
                     Platform.runLater(() -> symbolLabel.setText(symbol));
@@ -565,11 +571,11 @@ public class JavaExample {
         } else {
             fsbl.getClients().getRouterClient().query("DockingService.leaveGroup", new JSONObject() {{
                 put("name", currentWindowName);
-            }}, new JSONObject(), this::handeLeaveGroupcb);
+            }}, new JSONObject(), this::handleLeaveGroupCallback);
             checkbox.setDisable(true);
         }
     }
 
-    private void handeLeaveGroupcb(JSONObject err, JSONObject res) {
+    private void handleLeaveGroupCallback(JSONObject err, JSONObject res) {
     }
 }

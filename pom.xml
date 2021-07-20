@@ -6,7 +6,16 @@
 
     <groupId>ChartIQ</groupId>
     <artifactId>finesmble-java-example</artifactId>
-    <version>4.0.1-SNAPSHOT</version>
+    <version>6.0.0-SNAPSHOT</version>
+
+    <repositories>
+        <repository>
+            <id>poolborges-github-thirdparty</id>
+            <name>poolborges-github</name>
+            <url>https://github.com/poolborges/maven/raw/master/thirdparty/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>org.json</groupId>
@@ -17,8 +26,15 @@
         <dependency>
             <groupId>com.chartiq.finsemble</groupId>
             <artifactId>finsemble</artifactId>
-            <version>4.0.1</version>
+            <version>6.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>it.sauronsoftware</groupId>
+            <artifactId>junique</artifactId>
+            <version>1.0.4</version>
+            <type>jar</type>
+        </dependency>
+
     </dependencies>
 
     <properties>
@@ -51,6 +67,25 @@
                                 </transformer>
                             </transformers>
                             <finalName>FinsembleJavaFXExample</finalName>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>MultiWindowJavaSwingExample</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <manifestEntries>
+                                        <Main-Class>com.chartiq.finsemble.example.MultiWindowJavaSwingExample</Main-Class>
+                                    </manifestEntries>
+                                </transformer>
+                            </transformers>
+                            <finalName>MultiWindowJavaSwingExample</finalName>
                         </configuration>
                     </execution>
                     <execution>
@@ -108,6 +143,25 @@
                                 </transformer>
                             </transformers>
                             <finalName>JavaSwingExample</finalName>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>InteropServiceExampleApplication</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <manifestEntries>
+                                        <Main-Class>com.chartiq.finsemble.example.fdc3.InteropServiceExampleApplication</Main-Class>
+                                    </manifestEntries>
+                                </transformer>
+                            </transformers>
+                            <finalName>InteropServiceExampleApplication</finalName>
                         </configuration>
                     </execution>
                 </executions>
