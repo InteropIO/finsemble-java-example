@@ -18,8 +18,8 @@ You can build the JAR files and the launch4j executable file using the `mvn pack
 - MultiWindow - JavaSwingExample - Same as JavaSwingExample but running in multi-window (several windows running under the same
   process)
 - MultiWindow - AuthenticationExample - Same as AuthenticationExample but running in multi-window (several windows running under the same
-      process)
-
+      process) 
+- InteropServiceExample - Example of JavaFX FDC3 Desktop Agent client
 
 ## Configuring the Java examples 
 Copy the _java-example.json_ included in the project to _src/components/java-example/java-example.json_. Update the application manifest to include:
@@ -39,7 +39,7 @@ Copy the _java-example.json_ included in the project to _src/components/java-exa
 **NOTE:**
 - The _java-example.json_ file includes two copies of the JavaFX example: 
   - Java Example (local)
-  -  Java Example (asset). 
+  - Java Example (asset). 
 
 The "local" component uses `javaExampleRoot` to specify the path to the JAR file on the local system. The "asset" component uses the `appAsset` to download and run the application - Please refer to our tutorial
 on [integrating native applications](https://documentation.finsemble.com/tutorial-integratingNativeApplications.html) for more details.
