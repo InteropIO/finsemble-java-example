@@ -7,6 +7,7 @@ package com.chartiq.finsemble.example;
 import com.chartiq.finsemble.Finsemble;
 import com.chartiq.finsemble.interfaces.ConnectionEventGenerator;
 import com.chartiq.finsemble.interfaces.ConnectionListener;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -19,6 +20,7 @@ import java.awt.event.WindowListener;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.*;
 import java.util.stream.Collectors;
@@ -45,6 +47,8 @@ public class JavaSwingExample extends JFrame implements WindowListener {
     private JButton group4Button;
     private JButton group5Button;
     private JButton group6Button;
+
+    private HashMap<String, JButton> linkerButtons = new HashMap<>();
 
     private Finsemble fsbl;
 
@@ -89,82 +93,88 @@ public class JavaSwingExample extends JFrame implements WindowListener {
         contentPane = getContentPane();
         contentPane.setLayout(new GridBagLayout());
         final GridBagConstraints constraints = new GridBagConstraints();
-        constraints.insets= new Insets(10,10,0,10);
+        constraints.insets = new Insets(10, 10, 0, 10);
 
         // region Linker buttons
         group1Button = new JButton();
-        group1Button.setBackground(new Color(135,129,189));
-        group1Button.setForeground(new Color(187,187,187));
+        group1Button.setBackground(new Color(135, 129, 189));
+        group1Button.setForeground(new Color(187, 187, 187));
         group1Button.setName("group1");
-        constraints.insets= new Insets(10,10,0,0);
+        constraints.insets = new Insets(10, 10, 0, 0);
         constraints.ipady = 40;
         constraints.weightx = 0.5;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.gridx = 0;
         constraints.gridy = 0;
         contentPane.add(group1Button, constraints);
+        linkerButtons.put("group1", group1Button);
 
         group2Button = new JButton();
-        group2Button.setBackground(new Color(255,224,53));
-        group2Button.setForeground(new Color(187,187,187));
+        group2Button.setBackground(new Color(255, 224, 53));
+        group2Button.setForeground(new Color(187, 187, 187));
         group2Button.setName("group2");
-        constraints.insets= new Insets(10,0,0,0);
+        constraints.insets = new Insets(10, 0, 0, 0);
         constraints.weightx = 0.5;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.gridx = 1;
         constraints.gridy = 0;
         contentPane.add(group2Button, constraints);
+        linkerButtons.put("group2", group2Button);
 
         group3Button = new JButton();
-        group3Button.setBackground(new Color(137,216,3));
-        group3Button.setForeground(new Color(187,187,187));
+        group3Button.setBackground(new Color(137, 216, 3));
+        group3Button.setForeground(new Color(187, 187, 187));
         group3Button.setName("group3");
-        constraints.insets= new Insets(10,0,0,0);
+        constraints.insets = new Insets(10, 0, 0, 0);
         constraints.weightx = 0.5;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.gridx = 2;
         constraints.gridy = 0;
         contentPane.add(group3Button, constraints);
+        linkerButtons.put("group3", group3Button);
 
         group4Button = new JButton();
-        group4Button.setBackground(new Color(254,98,98));
-        group4Button.setForeground(new Color(187,187,187));
+        group4Button.setBackground(new Color(254, 98, 98));
+        group4Button.setForeground(new Color(187, 187, 187));
         group4Button.setName("group4");
-        constraints.insets= new Insets(10,0,0,0);
+        constraints.insets = new Insets(10, 0, 0, 0);
         constraints.weightx = 0.5;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.gridx = 3;
         constraints.gridy = 0;
         contentPane.add(group4Button, constraints);
+        linkerButtons.put("group4", group4Button);
 
         group5Button = new JButton();
-        group5Button.setBackground(new Color(45,172,255));
-        group5Button.setForeground(new Color(187,187,187));
+        group5Button.setBackground(new Color(45, 172, 255));
+        group5Button.setForeground(new Color(187, 187, 187));
         group5Button.setName("group5");
-        constraints.insets= new Insets(10,0,0,0);
+        constraints.insets = new Insets(10, 0, 0, 0);
         constraints.weightx = 0.5;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.gridx = 4;
         constraints.gridy = 0;
         contentPane.add(group5Button, constraints);
+        linkerButtons.put("group5", group5Button);
 
         group6Button = new JButton();
-        group6Button.setBackground(new Color(255,162,0));
-        group6Button.setForeground(new Color(187,187,187));
+        group6Button.setBackground(new Color(255, 162, 0));
+        group6Button.setForeground(new Color(187, 187, 187));
         group6Button.setName("group6");
-        constraints.insets= new Insets(10,0,0,10);
+        constraints.insets = new Insets(10, 0, 0, 10);
         constraints.weightx = 0.5;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.gridx = 5;
         constraints.gridy = 0;
         contentPane.add(group6Button, constraints);
+        linkerButtons.put("group6", group6Button);
         // endregion
 
         // region Symbol
         symbolTextField = new JTextField("MSFT");
         symbolTextField.setEditable(true);
         symbolTextField.setEnabled(false);
-        constraints.insets= new Insets(10,10,0,10);
+        constraints.insets = new Insets(10, 10, 0, 10);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.ipady = 10;
         constraints.gridx = 0;
@@ -219,7 +229,7 @@ public class JavaSwingExample extends JFrame implements WindowListener {
 
         messages = new JTextArea();
         messages.setVisible(false);
-        constraints.insets= new Insets(10,10,10,10);
+        constraints.insets = new Insets(10, 10, 10, 10);
         constraints.fill = GridBagConstraints.BOTH;
         constraints.weighty = 1;
         constraints.gridx = 0;
@@ -331,6 +341,55 @@ public class JavaSwingExample extends JFrame implements WindowListener {
         group4Button.addActionListener(this::toggleLinker);
         group5Button.addActionListener(this::toggleLinker);
         group6Button.addActionListener(this::toggleLinker);
+
+        //GetComponentState
+        final JSONArray componentStateFields = new JSONArray() {{
+            put("Finsemble_Linker");
+            put("symbol");
+        }};
+        final JSONObject getComponentStateParam = new JSONObject() {{
+            put("fields", componentStateFields);
+        }};
+        fsbl.getClients().getWindowClient().getComponentState(getComponentStateParam, this::handleGetComponentStateCb);
+    }
+
+    private void handleGetComponentStateCb(JSONObject err, JSONObject res) {
+        if (err != null) {
+            LOGGER.log(Level.SEVERE, "Error in handleGetComponentStateCb", err);
+        } else {
+            //Set subscribe linker channel
+            if (res.has("Finsemble_Linker")) {
+                final JSONArray channelToLink = res.getJSONArray("Finsemble_Linker");
+                final JSONObject windowIdentifier = fsbl.getClients().getWindowClient().getWindowIdentifier();
+                for (int i = 0; i < channelToLink.length(); i++) {
+                    try {
+                        String currentChannel = channelToLink.getString(i);
+                        JButton lkrBtn = linkerButtons.get(currentChannel);
+                        fsbl.getClients().getLinkerClient().linkToChannel(currentChannel, windowIdentifier, (error, response) -> {
+                            if (error != null) {
+                                LOGGER.log(Level.SEVERE, String.format("Error linking to channel: %s", currentChannel), err);
+                            } else {
+                                LOGGER.info((String.format("Linked to channel: %s", currentChannel)));
+                            }
+                        });
+                        lkrBtn.setText("X");
+                        lkrBtn.updateUI();
+                    } catch (Exception ex) {
+                        String errorMsg = String.format("Error linking channel %s to group", channelToLink);
+                        LOGGER.log(Level.SEVERE, errorMsg, ex.getMessage());
+                        fsbl.getClients().getLoggerClient().system().error(errorMsg + " cause: " + ex.getMessage());
+                    }
+                }
+            }
+
+            //Set symbol value
+            if (res.has("symbol")) {
+                final String symbol = res.getString("symbol");
+                if (!symbol.equals("")) {
+                    symbolLabel.setText(symbol);
+                }
+            }
+        }
     }
 
     private void handleSymbol(JSONObject err, JSONObject res) {

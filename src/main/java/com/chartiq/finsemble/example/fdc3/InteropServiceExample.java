@@ -420,6 +420,10 @@ public class InteropServiceExample {
                     appendMessage("Window window state: READY");
                     try {
                         appendMessage("Registering with InteropService...");
+                        // Added this to allow for Finsemble to send the correct active descriptors.
+                        // Seems that we have a bug that the onReady event gets fired before the
+                        // activeDescriptors object gets updated
+                        Thread.sleep(200);
                         registerWithInteropService();
                     } catch (Exception e) {
                         e.printStackTrace();
