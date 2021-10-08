@@ -88,7 +88,7 @@ public class InteropServiceExampleApplication extends Application {
         final List<String> args = getParameters().getRaw();
 
         LOGGER.info(String.format(
-                "Finsemble Java Example starting with arguments:\n\t%s", String.join("\n\t", args)));
+                "Finsemble Java FDC3 Desktop Agent Example starting with arguments:\n\t%s", String.join("\n\t", args)));
         final URL resource = JavaExampleApplication.class.getResource("InteropService.fxml");
         final FXMLLoader loader = new FXMLLoader(resource);
         try {
