@@ -176,7 +176,7 @@
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <manifestEntries>
-                                        <Main-Class>com.finsemble.example.fdc3.JavaFDC3Example</Main-Class>
+                                        <Main-Class>io.interop.finsemble.example.fdc3.JavaFDC3Example</Main-Class>
                                     </manifestEntries>
                                 </transformer>
                             </transformers>
