@@ -66,9 +66,6 @@ public class JavaFDC3Example extends JFrame {
      */
     private void configureFinsemble(final String[] args) {
         finsemble = new Finsemble(Arrays.stream(args).sequential().collect(Collectors.toList()), this);
-        // TODO: Do not set name if args contains name
-        // TODO: App config
-        finsemble.setAppName(getClass().getSimpleName());
     }
 
     /**
@@ -221,6 +218,7 @@ public class JavaFDC3Example extends JFrame {
         tabbedPane.add("Open", openPanel);
 
         // The "broadcast" tab
+        // The panel
         final JPanel broadcastPanel = new JPanel(new GridBagLayout());
         // The dropdown box for the user channels
         final JComboBox<String> broadcastChannelComboBox = new JComboBox<>();
@@ -235,12 +233,14 @@ public class JavaFDC3Example extends JFrame {
         // The button to raise the intent
         final JButton broadcastButton = new JButton("Broadcast");
         // Add an action for when the intent button is clicked.
-        broadcastButton.addActionListener(event ->
+        broadcastButton.addActionListener(event -> {
+            if (null != broadcastChannelComboBox.getSelectedItem()) {
                 broadcast(
-                        broadcastChannelComboBox.getSelectedItem().toString(),
-                        broadcastTickerTextField.getText().trim()
-                )
-        );
+                    broadcastChannelComboBox.getSelectedItem().toString(),
+                    broadcastTickerTextField.getText().trim()
+                );
+            }
+        });
         // GridBagConstraints
         final GridBagConstraints cs = new GridBagConstraints();
         cs.fill = GridBagConstraints.HORIZONTAL;
@@ -293,7 +293,7 @@ public class JavaFDC3Example extends JFrame {
      * @throws Exception when something goes wrong
      */
     public static void main(final String[] args) throws Exception {
-        // Set the look and feel
+        // Set the look and feel (it is OK to throw an exception here)
         ignoreException(() -> UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()));
 
         // Open a new UI instance
@@ -301,3 +301,27 @@ public class JavaFDC3Example extends JFrame {
     }
 
 }
+
+//<editor-fold defaultstate="collapsed" desc="apps.json App Definition">
+/* This is a sample app config suitable for insertion into apps.json
+ {
+     "appId": "JavaFDC3Example",
+     "name": "JavaFDC3Example",
+     "type": "native",
+ 	   "details": {
+ 	       "path": "PATH_TO_JAR"
+ 	   },
+ 	   "interop": {
+         "intents": {}
+     },
+     "hostManifests": {
+         "Finsemble": {
+             "window": {
+                 "windowType": "native",
+                 "addToWorkspace": false
+             }
+         }
+     }
+ },
+*/
+//</editor-fold>
