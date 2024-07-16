@@ -304,24 +304,19 @@ public class JavaFDC3Example extends JFrame {
 
 //<editor-fold defaultstate="collapsed" desc="apps.json App Definition">
 /* This is a sample app config suitable for insertion into apps.json
- {
-     "appId": "JavaFDC3Example",
-     "name": "JavaFDC3Example",
-     "type": "native",
- 	   "details": {
- 	       "path": "PATH_TO_JAR"
- 	   },
- 	   "interop": {
-         "intents": {}
-     },
-     "hostManifests": {
-         "Finsemble": {
-             "window": {
-                 "windowType": "native",
-                 "addToWorkspace": false
-             }
-         }
-     }
- },
+{
+    "appId": "JavaFDC3Example",
+    "type": "native",
+    "details": {
+        "path": "PATH_TO_JAR"
+    },
+    "hostManifests": {
+        "Finsemble": {
+            "window": {
+                "addToWorkspace": true
+            }
+        }
+    }
+},
 */
 //</editor-fold>
