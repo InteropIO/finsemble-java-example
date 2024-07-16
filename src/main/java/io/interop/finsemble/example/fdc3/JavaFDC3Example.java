@@ -309,13 +309,6 @@ public class JavaFDC3Example extends JFrame {
     "type": "native",
     "details": {
         "path": "PATH_TO_JAR"
-    },
-    "hostManifests": {
-        "Finsemble": {
-            "window": {
-                "addToWorkspace": true
-            }
-        }
     }
 },
 */
