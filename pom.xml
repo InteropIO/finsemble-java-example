@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ChartIQ</groupId>
+    <groupId>interop.io</groupId>
     <artifactId>finesmble-java-example</artifactId>
     <version>8.11.1</version>
 
@@ -214,11 +214,11 @@
                                 <fileVersion>1.0.0.0</fileVersion>
                                 <txtFileVersion>${project.version}</txtFileVersion>
                                 <fileDescription>${project.name}</fileDescription>
-                                <copyright>2020 ChartIQ</copyright>
+                                <copyright>2024 interop.io</copyright>
                                 <productVersion>1.0.0.0</productVersion>
                                 <txtProductVersion>1.0.0.0</txtProductVersion>
                                 <productName>${project.name}</productName>
-                                <companyName>ChartIQ</companyName>
+                                <companyName>interop.io</companyName>
                                 <internalName>Finsemble Java Example</internalName>
                                 <originalFilename>FinsembleJavaExample.exe</originalFilename>
                             </versionInfo>
