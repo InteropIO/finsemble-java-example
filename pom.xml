@@ -5,10 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>interop.io</groupId>
-    <artifactId>finesmble-java-example</artifactId>
+    <artifactId>finsemble-java-example</artifactId>
     <version>8.11.1</version>
 
     <repositories>
+        <!-- Required for multi-window example, to prevent multiple instances of the same Java app -->
         <repository>
             <id>poolborges-github-thirdparty</id>
             <name>poolborges-github</name>
@@ -29,12 +30,12 @@
             <version>8.11.1</version>
         </dependency>
         <dependency>
+            <!-- Required for multi-window example, to prevent multiple instances of the same Java app -->
             <groupId>it.sauronsoftware</groupId>
             <artifactId>junique</artifactId>
             <version>1.0.4</version>
             <type>jar</type>
         </dependency>
-
     </dependencies>
 
     <properties>
@@ -188,18 +189,18 @@
             <plugin>
                 <groupId>com.akathist.maven.plugins.launch4j</groupId>
                 <artifactId>launch4j-maven-plugin</artifactId>
-                <version>1.5.1</version>
+                <version>2.5.2</version>
                 <executions>
                     <execution>
-                        <id>l4j-clui</id>
+                        <id>l4j-javafxexample</id>
                         <phase>package</phase>
                         <goals>
                             <goal>launch4j</goal>
                         </goals>
                         <configuration>
                             <headerType>gui</headerType>
-                            <jar>${project.build.directory}/${artifactId}-${version}.jar</jar>
-                            <outfile>${project.build.directory}/FinsembleJavaExample.exe</outfile>
+                            <jar>${project.build.directory}/FinsembleJavaFXExample.jar</jar>
+                            <outfile>${project.build.directory}/FinsembleJavaFXExample.exe</outfile>
                             <downloadUrl>http://java.com/download</downloadUrl>
                             <classPath>
                                 <mainClass>com.chartiq.finsemble.example.JavaExampleApplication</mainClass>
@@ -219,28 +220,59 @@
                                 <txtProductVersion>1.0.0.0</txtProductVersion>
                                 <productName>${project.name}</productName>
                                 <companyName>interop.io</companyName>
-                                <internalName>Finsemble Java Example</internalName>
-                                <originalFilename>FinsembleJavaExample.exe</originalFilename>
+                                <internalName>Finsemble Java FX Example</internalName>
+                                <originalFilename>FinsembleJavaFXExample.exe</originalFilename>
                             </versionInfo>
                         </configuration>
                     </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.5.3</version>
-                <configuration>
-                    <finalName>FinsembleJavaExample-${version}</finalName>
-                    <appendAssemblyId>false</appendAssemblyId>
-                    <descriptor>src/assembly/dep.xml</descriptor>
-                </configuration>
-                <executions>
                     <execution>
-                        <id>create-archive</id>
+                        <!--
+                        This execution ("default-cli") is run by default; since this runs against
+                        the artifactId JAR, and that JAR is not runnable nor shaded, the EXE will not
+                        work; therefore, skip this EXE
+                        -->
+                        <id>default-cli</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>single</goal>
+                            <goal>launch4j</goal>
                         </goals>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>l4j-javaswingexample</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                        <configuration>
+                            <headerType>gui</headerType>
+                            <jar>${project.build.directory}/JavaSwingExample.jar</jar>
+                            <outfile>${project.build.directory}/FinsembleJavaSwingExample.exe</outfile>
+                            <downloadUrl>http://java.com/download</downloadUrl>
+                            <classPath>
+                                <mainClass>com.chartiq.finsemble.example.JavaSwingExample</mainClass>
+                                <preCp>anything</preCp>
+                            </classPath>
+                            <jre>
+                                <minVersion>1.8.0</minVersion>
+                                <jdkPreference>preferJre</jdkPreference>
+                                <path>./jre</path>
+                            </jre>
+                            <versionInfo>
+                                <fileVersion>1.0.0.0</fileVersion>
+                                <txtFileVersion>${project.version}</txtFileVersion>
+                                <fileDescription>${project.name}</fileDescription>
+                                <copyright>2024 interop.io</copyright>
+                                <productVersion>1.0.0.0</productVersion>
+                                <txtProductVersion>1.0.0.0</txtProductVersion>
+                                <productName>${project.name}</productName>
+                                <companyName>interop.io</companyName>
+                                <internalName>Finsemble Java Swing Example</internalName>
+                                <originalFilename>FinsembleJavaSwingExample.exe</originalFilename>
+                            </versionInfo>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

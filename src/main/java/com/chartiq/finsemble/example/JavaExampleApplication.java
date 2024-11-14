@@ -110,11 +110,36 @@ public class JavaExampleApplication extends Application {
             connectThread.start();
 
             LOGGER.info("Started successfully");
+
+            // Terminate the process when the window is closed
+            primaryStage.setOnCloseRequest(event -> {
+                // Close the Finsemble connection
+                runSafe(controller::disconnect);
+
+                // Stop the connect thread
+                runSafe(connectThread::interrupt);
+
+                // Exit the platform
+                runSafe(javafx.application.Platform::exit);
+            });
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error in start", e);
         }
     }
     //endregion
+
+    /**
+     * Execute a function, ignoring any exceptions thrown.
+     *
+     * @param runnable the Runnable to execute
+     */
+    private void runSafe(Runnable runnable) {
+        try {
+            runnable.run();
+        } catch (final Exception e) {
+            System.err.println(e);
+        }
+    }
 
     private static void initLogging(List<String> args) {
         LOGGER.addHandler(messageHandler);
