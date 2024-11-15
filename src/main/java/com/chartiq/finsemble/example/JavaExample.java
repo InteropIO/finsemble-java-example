@@ -187,6 +187,17 @@ public class JavaExample {
         }
     }
 
+    /**
+     * Disconnects from Finsemble.
+     */
+    void disconnect() {
+        try {
+            fsbl.close();
+        } catch (Exception exception) {
+            // Do nothing;
+        }
+    }
+
     private void handleDockingGroupUpdate(JSONObject err, JSONObject res) {
         if (err != null) {
             fsbl.getClients().getLoggerClient().system().error(err.toString());
