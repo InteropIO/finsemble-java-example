@@ -551,18 +551,23 @@ public class JavaSwingExample extends JFrame implements WindowListener {
                 .filter(arg -> arg.startsWith("-Djava.util.logging.config.file"))
                 .collect(Collectors.toList());
 
-        if ((properties.size() == 0) || !properties.get(0).contains("=")) {
-            // No logging properties specified
+        if ((properties.size() != 0) && properties.get(0).contains("=")) {
+            // Get filename from parameter
+            final String loggingPropertiesPath = properties.get(0).split("=")[1];
+            try {
+                final InputStream inputStream = new FileInputStream(loggingPropertiesPath);
+                LogManager.getLogManager().readConfiguration(inputStream);
+            } catch (final IOException e) {
+                LOGGER.log(Level.SEVERE, "Could not load default logging.properties file", e);
+            }
             return;
         }
 
-        // Get filename from parameter
-        final String loggingPropertiesPath = properties.get(0).split("=")[1];
         try {
-            final InputStream inputStream = new FileInputStream(loggingPropertiesPath);
-            LogManager.getLogManager().readConfiguration(inputStream);
-        } catch (final IOException e) {
-            LOGGER.log(Level.SEVERE, "Could not load default logging.properties file", e);
+            final ClassLoader classLoader = JavaSwingExample.class.getClassLoader();
+            LogManager.getLogManager().readConfiguration(classLoader.getResourceAsStream("logging.properties"));
+        } catch (final IOException ioe) {
+            LOGGER.log(Level.SEVERE, "Could not load logging.properties");
         }
     }
 
