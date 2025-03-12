@@ -33,7 +33,7 @@
             <groupId>com.chartiq.finsemble</groupId>
             <artifactId>finsemble</artifactId>
             <!-- TODO: This version needs to be bumped to the Finsemble release which is decoupled from JFX -->
-            <version>8.14.3</version>
+            <version>8.14.4</version>
         </dependency>
         <dependency>
             <!-- Required for multi-window example, to prevent multiple instances of the same Java app -->
