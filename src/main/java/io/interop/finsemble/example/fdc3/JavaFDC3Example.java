@@ -67,7 +67,6 @@ public class JavaFDC3Example extends JFrame {
      */
     private void configureFinsemble(final String[] args) {
         finsemble = new Finsemble(Arrays.stream(args).sequential().collect(Collectors.toList()), this);
-        finsemble.setAppName("JavaFDC3Example");
     }
 
     /**
@@ -81,7 +80,7 @@ public class JavaFDC3Example extends JFrame {
 
         // This helper method will create an FDC3 2.0 instance; the FDC3 2.0 API is specified in
         // com.finsemble.fdc3.DesktopAgent (whereas the 1.2 spec is in com.chartiq.finsemble.fdc3.DesktopAgent).
-        // Use the built in RSA private key; this will only be used if dynamic auth cannot be used (i.e. standalone mode)
+        // Use the built-in RSA private key; this will only be used if dynamic auth cannot be used (i.e. standalone mode)
         desktopAgent = FDC3.createDesktopAgentInstance(finsemble, ExampleKeys.getPrivateRSAKey());
     }
 
@@ -149,7 +148,7 @@ public class JavaFDC3Example extends JFrame {
             desktopAgent.getUserChannels()
                     .toCompletableFuture().get()
                     .stream().map(Channel::getId)
-                    .collect(Collectors.toList())
+                    .toList()
                     .toArray(new String[]{})
         , new String[]{});
     }
