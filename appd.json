@@ -8,8 +8,8 @@
         "window": {
           "id": "InteropServiceExampleApplication",
           "windowType": "FinsembleNativeWindow",
-          "path": "$javaExampleJarRoot/InteropServiceExampleApplication.jar",
-          "arguments": "",
+          "path": "/path/to/javaw",
+          "arguments": "-jar $javaExampleJarRoot/InteropServiceExampleApplication.jar",
           "defaultHeight": 600,
           "autoShow": true,
           "alwaysOnTop": false,

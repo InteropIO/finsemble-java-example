@@ -308,7 +308,8 @@ public class JavaFDC3Example extends JFrame {
     "appId": "JavaFDC3Example",
     "type": "native",
     "details": {
-        "path": "PATH_TO_JAR"
+        "path": "/path/to/javaw",
+        "arguments": "-jar $javaExampleJarRoot/JavaFDC3Example.jar"
     }
 },
 */
