@@ -1,6 +1,7 @@
 package io.interop.finsemble.example.fdc3;
 
 import com.chartiq.finsemble.Finsemble;
+import com.chartiq.finsemble.example.util.ExampleKeys;
 import com.finsemble.fdc3.*;
 import com.finsemble.fdc3.finsemble.FinsembleAppIdentifier;
 
@@ -79,16 +80,21 @@ public class JavaFDC3Example extends JFrame {
 
         // This helper method will create an FDC3 2.0 instance; the FDC3 2.0 API is specified in
         // com.finsemble.fdc3.DesktopAgent (whereas the 1.2 spec is in com.chartiq.finsemble.fdc3.DesktopAgent).
-        desktopAgent = FDC3.createDesktopAgentInstance(finsemble);
+        // Use the built-in RSA private key; this will only be used if dynamic auth cannot be used (i.e. standalone mode)
+        desktopAgent = FDC3.createDesktopAgentInstance(finsemble, ExampleKeys.getPrivateRSAKey());
     }
 
     /**
      * Invoked to disconnect from Finsemble.
-     *
-     * @throws Exception when Finsemble cannot be disconnected
-     */
-    private void disconnectFinsemble() throws Exception {
-        finsemble.close();
+     **/
+    private void disconnectFinsemble() {
+        // Do our best to close
+        try {
+            finsemble.close();
+        } catch (final Exception e) {
+            System.err.println("could not disconnect: " + e.getLocalizedMessage());
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -139,12 +145,12 @@ public class JavaFDC3Example extends JFrame {
      */
     private String[] getUserChannels() {
         return IgnoreException.ignoreException(() ->
-            desktopAgent.getUserChannels()
-                    .toCompletableFuture().get()
-                    .stream().map(Channel::getId)
-                    .collect(Collectors.toList())
-                    .toArray(new String[]{})
-        , new String[]{});
+                        desktopAgent.getUserChannels()
+                                .toCompletableFuture().get()
+                                .stream().map(Channel::getId)
+                                .toList()
+                                .toArray(new String[]{})
+                , new String[]{});
     }
 
     /**
@@ -156,7 +162,6 @@ public class JavaFDC3Example extends JFrame {
     private Context createInstrumentContextWithTicker(final String ticker) {
         return new Context("fdc3.instrument") {{
             getId().put("ticker", ticker);
-            setName("Instrument");
         }};
     }
 
@@ -190,6 +195,9 @@ public class JavaFDC3Example extends JFrame {
         final JTextField tickerTextField = new JTextField("TSLA");
         // The button to raise the intent
         final JButton raiseIntentButton = new JButton("Raise Chart Intent");
+        // Set the button to be disabled until Finsemble is connected
+        raiseIntentButton.setEnabled(false);
+        onConnectedHandlers.add(() -> raiseIntentButton.setEnabled(true));
         // The tab panel
         final JPanel raiseIntentPanel = new JPanel(new BorderLayout());
         // Add an action for when the intent button is clicked.
@@ -206,6 +214,9 @@ public class JavaFDC3Example extends JFrame {
         final JTextField openTickerTextField = new JTextField("MSFT");
         // The button to raise the intent
         final JButton openButton = new JButton("Open");
+        // Set the button to be disabled until Finsemble is connected
+        openButton.setEnabled(false);
+        onConnectedHandlers.add(() -> openButton.setEnabled(true));
         // The tab panel
         final JPanel openPanel = new JPanel(new BorderLayout());
         // Add an action for when the intent button is clicked.
@@ -232,12 +243,15 @@ public class JavaFDC3Example extends JFrame {
         });
         // The button to raise the intent
         final JButton broadcastButton = new JButton("Broadcast");
+        // Set the button to be disabled until Finsemble is connected
+        broadcastButton.setEnabled(false);
+        onConnectedHandlers.add(() -> broadcastButton.setEnabled(true));
         // Add an action for when the intent button is clicked.
         broadcastButton.addActionListener(event -> {
             if (null != broadcastChannelComboBox.getSelectedItem()) {
                 broadcast(
-                    broadcastChannelComboBox.getSelectedItem().toString(),
-                    broadcastTickerTextField.getText().trim()
+                        broadcastChannelComboBox.getSelectedItem().toString(),
+                        broadcastTickerTextField.getText().trim()
                 );
             }
         });
@@ -303,14 +317,41 @@ public class JavaFDC3Example extends JFrame {
 }
 
 //<editor-fold defaultstate="collapsed" desc="apps.json App Definition">
-/* This is a sample app config suitable for insertion into apps.json
-{
-    "appId": "JavaFDC3Example",
-    "type": "native",
-    "details": {
-        "path": "/path/to/javaw",
-        "arguments": "-jar $javaExampleJarRoot/JavaFDC3Example.jar"
-    }
-},
-*/
+// {
+//     "appId": "JavaFDC3Example",
+//     "name": "JavaFDC3Example",
+//     "type": "native",
+// 	   "details": {
+//        "path": "/path/to/javaw",
+//        "arguments": "-jar $javaExampleJarRoot/JavaFDC3Example.jar"
+// 	   },
+// 	   "interop": {
+//         "intents": {}
+//     },
+//     "hostManifests": {
+//         "Finsemble": {
+//             "window": {
+//                 "windowType": "native",
+//                 "addToWorkspace": false
+//             },
+//             "foreign": {
+//                 "components": {
+//                     "App Launcher": {
+//                         "launchableByUser": true
+//                     }
+//                 }
+//             },
+//             "signatureKey": {
+//                 "alg": "RS256",
+//                 "e": "AQAB",
+//                 "ext": true,
+//                 "key_ops": [
+//                     "verify"
+//                 ],
+//                 "kty": "RSA",
+//                 "n": "x7HC2OMop_3mQVOSE8FdHTIf_aLJDtbz8vSwEnaMBjo-Sl2__FlRcxetooceTop8DnuCmYQjH3YKRPIdkC5yIkHsHj6gLMIQc5BJ5jGJBIaHR83ayzBc2tvX7JgNmee6MWjKWVXLRk-R6Dp0yWVr97oAkqzqQiUPTt45MtCfGnlePTj5XT1otLQ478zgpzBxtk1VaYOhzGEXIrWKG2jKO-CydbsJA5Az4NejqFSpexWk7U6Fy8cjN0B5s_tFlg_GlmHE89_N2SauBmCvcX_Pn4s38ZsxvR9Q2i_I4I4eocZ5ujAq9b0qTnrORHxwLPMV6YANqpz8C6Bnt46o2CerzQ"
+//             }
+//         }
+//     }
+// },
 //</editor-fold>

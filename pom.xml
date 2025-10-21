@@ -18,6 +18,12 @@
     </repositories>
 
     <dependencies>
+        <!-- Needed for JWT -->
+        <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>nimbus-jose-jwt</artifactId>
+            <version>9.37.2</version>
+        </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
@@ -33,7 +39,7 @@
             <groupId>com.chartiq.finsemble</groupId>
             <artifactId>finsemble</artifactId>
             <!-- TODO: This version should be bumped to the Finsemble latest upon release -->
-            <version>8.14.4</version>
+            <version>8.15.2</version>
         </dependency>
         <dependency>
             <!-- Required for multi-window example, to prevent multiple instances of the same Java app -->

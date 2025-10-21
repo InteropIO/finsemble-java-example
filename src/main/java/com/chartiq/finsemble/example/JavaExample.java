@@ -337,7 +337,7 @@ public class JavaExample {
     }
 
     private void populateComboBox() {
-        fsbl.getClients().getLauncherClient().getComponentList((err, res) -> {
+        fsbl.getClients().getAppsClient().getComponentList((err, res) -> {
             if (err != null) {
                 LOGGER.log(Level.SEVERE, "Error getting component list", err);
             } else {
@@ -391,7 +391,7 @@ public class JavaExample {
             return;
         }
 
-        fsbl.getClients().getLauncherClient().spawn(componentName, new JSONObject(), (err, res) -> {
+        fsbl.getClients().getAppsClient().spawn(componentName, new JSONObject(), (err, res) -> {
             if (err != null) {
                 LOGGER.log(Level.SEVERE, String.format("Error spawning \"%s\"", componentName), err);
             } else {
