@@ -4,8 +4,8 @@
 			"window": {
 				"id": "JavaExample",
 				"windowType": "FinsembleNativeWindow",
-				"path": "$javaExampleJarRoot/FinsembleJavaFXExample.jar",
-				"arguments": "",
+				"path": "/path/to/javaw",
+				"arguments": "-jar $javaExampleJarRoot/JavaExample.jar",
 				"defaultHeight": 600,
 				"autoShow": true,
 				"alwaysOnTop": false,
@@ -78,8 +78,8 @@
 			"window": {
 				"id": "JavaExample",
 				"windowType": "FinsembleNativeWindow",
-				"path": "$javaExampleJarRoot/JavaSwingExample.jar",
-				"arguments": "",
+				"path": "/path/to/javaw",
+				"arguments": "-jar $javaExampleJarRoot/JavaSwingExample.jar",
 				"defaultHeight": 600,
 				"autoShow": true,
 				"alwaysOnTop": false,
@@ -114,7 +114,8 @@
 		"Java Authentication Example": {
 			"window": {
 				"windowType": "FinsembleNativeWindow",
-				"path": "$javaExampleJarRoot/FinsembleJavaAuthenticationExample.jar",
+				"path": "/path/to/javaw",
+				"arguments": "-jar $javaExampleJarRoot/FinsembleJavaAuthenticationExample.jar",
 				"top": "center",
 				"left": "center",
 				"width": 300,
@@ -153,8 +154,8 @@
 			"window": {
 				"id": "JavaExample",
 				"windowType": "FinsembleNativeWindow",
-				"path": "$javaExampleJarRoot/FinsembleJavaHeadlessExample.jar",
-				"arguments": "",
+				"path": "/path/to/javaw",
+				"arguments": "-jar $javaExampleJarRoot/FinsembleJavaHeadlessExample.jar",
 				"defaultHeight": 600,
 				"autoShow": true,
 				"alwaysOnTop": false,
@@ -190,8 +191,8 @@
 			"window": {
 				"id": "MultiWindowJavaSwingExample",
 				"windowType": "FinsembleNativeWindow",
-				"path": "$javaExampleJarRoot/MultiWindowJavaSwingExample.jar",
-				"arguments": "example=JavaSwingExample",
+				"path": "/path/to/javaw",
+				"arguments": "-jar $javaExampleJarRoot/MultiWindowJavaSwingExample.jar example=JavaSwingExample",
 				"defaultHeight": 600,
 				"autoShow": true,
 				"alwaysOnTop": false,
@@ -227,8 +228,8 @@
 			"window": {
 				"id": "MultiWindowJavaSwingExample",
 				"windowType": "FinsembleNativeWindow",
-				"path": "$javaExampleJarRoot/MultiWindowJavaSwingExample.jar",
-				"arguments": "example=AuthenticationExample",
+				"path": "/path/to/javaw",
+				"arguments": "-jar $javaExampleJarRoot/MultiWindowJavaSwingExample.jar example=AuthenticationExample",
 				"defaultHeight": 600,
 				"autoShow": true,
 				"alwaysOnTop": false,

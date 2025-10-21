@@ -145,12 +145,12 @@ public class JavaFDC3Example extends JFrame {
      */
     private String[] getUserChannels() {
         return IgnoreException.ignoreException(() ->
-            desktopAgent.getUserChannels()
-                    .toCompletableFuture().get()
-                    .stream().map(Channel::getId)
-                    .toList()
-                    .toArray(new String[]{})
-        , new String[]{});
+                        desktopAgent.getUserChannels()
+                                .toCompletableFuture().get()
+                                .stream().map(Channel::getId)
+                                .toList()
+                                .toArray(new String[]{})
+                , new String[]{});
     }
 
     /**
@@ -250,8 +250,8 @@ public class JavaFDC3Example extends JFrame {
         broadcastButton.addActionListener(event -> {
             if (null != broadcastChannelComboBox.getSelectedItem()) {
                 broadcast(
-                    broadcastChannelComboBox.getSelectedItem().toString(),
-                    broadcastTickerTextField.getText().trim()
+                        broadcastChannelComboBox.getSelectedItem().toString(),
+                        broadcastTickerTextField.getText().trim()
                 );
             }
         });
@@ -322,7 +322,8 @@ public class JavaFDC3Example extends JFrame {
 //     "name": "JavaFDC3Example",
 //     "type": "native",
 // 	   "details": {
-// 	       "path": "PATH_TO_JAR"
+//        "path": "/path/to/javaw",
+//        "arguments": "-jar $javaExampleJarRoot/JavaFDC3Example.jar"
 // 	   },
 // 	   "interop": {
 //         "intents": {}
