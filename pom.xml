@@ -40,7 +40,7 @@
             <groupId>com.chartiq.finsemble</groupId>
             <artifactId>finsemble</artifactId>
             <!-- TODO: This version should be bumped to the Finsemble latest upon release -->
-            <version>9.10.1</version>
+            <version>9.10.1-SNAPSHOT</version>
         </dependency>
         <!-- Needed to get the native window handle for Finsemble -->
         <dependency>
@@ -216,7 +216,7 @@
                     </execution>
 
                     <execution>
-                        <id>freestanding-finsemble</id>
+                        <id>freestanding-finsemble-fdc3-client</id>
                         <phase>package</phase>
                         <goals>
                             <goal>shade</goal>
@@ -231,11 +231,11 @@
                                     </manifestEntries>
                                 </transformer>
                             </transformers>
-                            <finalName>FreestandingFinsemble</finalName>
+                            <finalName>FreestandingFinsembleFDC3Client</finalName>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>freestanding-glue</id>
+                        <id>freestanding-finsemble-glue-client</id>
                         <phase>package</phase>
                         <goals>
                             <goal>shade</goal>
@@ -250,7 +250,7 @@
                                     </manifestEntries>
                                 </transformer>
                             </transformers>
-                            <finalName>FreestandingGlue</finalName>
+                            <finalName>FreestandingGlueFDC3Client</finalName>
                         </configuration>
                     </execution>
                 </executions>
@@ -338,6 +338,72 @@
                                 <companyName>interop.io</companyName>
                                 <internalName>IOCD Example</internalName>
                                 <originalFilename>IOCDExample.exe</originalFilename>
+                            </versionInfo>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>l4j-freestandingfinsemblefdc3client</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                        <configuration>
+                            <headerType>gui</headerType>
+                            <jar>${project.build.directory}/FreestandingFinsembleFDC3Client.jar</jar>
+                            <outfile>${project.build.directory}/FreestandingFinsembleFDC3Client.exe</outfile>
+                            <downloadUrl>http://java.com/download</downloadUrl>
+                            <classPath>
+                                <mainClass>io.interop.finsemble.example.fdc3.FreestandingFinsembleFDC3Client</mainClass>
+                            </classPath>
+                            <jre>
+                                <minVersion>${project.minjava}</minVersion>
+                                <requiresJdk>false</requiresJdk>
+                                <path>%JAVA_HOME%</path>
+                            </jre>
+                            <versionInfo>
+                                <fileVersion>1.0.0.0</fileVersion>
+                                <txtFileVersion>${project.version}</txtFileVersion>
+                                <fileDescription>${project.name}</fileDescription>
+                                <copyright>2024 interop.io</copyright>
+                                <productVersion>1.0.0.0</productVersion>
+                                <txtProductVersion>1.0.0.0</txtProductVersion>
+                                <productName>${project.name}</productName>
+                                <companyName>interop.io</companyName>
+                                <internalName>Freestanding Finsemble FDC3 Client Example</internalName>
+                                <originalFilename>FreestandingFinsembleFDC3Client.exe</originalFilename>
+                            </versionInfo>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>l4j-freestandinggluefdc3client</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                        <configuration>
+                            <headerType>gui</headerType>
+                            <jar>${project.build.directory}/FreestandingGlueFDC3Client.jar</jar>
+                            <outfile>${project.build.directory}/FreestandingGlueFDC3Client.exe</outfile>
+                            <downloadUrl>http://java.com/download</downloadUrl>
+                            <classPath>
+                                <mainClass>io.interop.finsemble.example.fdc3.FreestandingGlueFDC3Client</mainClass>
+                            </classPath>
+                            <jre>
+                                <minVersion>${project.minjava}</minVersion>
+                                <requiresJdk>false</requiresJdk>
+                                <path>%JAVA_HOME%</path>
+                            </jre>
+                            <versionInfo>
+                                <fileVersion>1.0.0.0</fileVersion>
+                                <txtFileVersion>${project.version}</txtFileVersion>
+                                <fileDescription>${project.name}</fileDescription>
+                                <copyright>2024 interop.io</copyright>
+                                <productVersion>1.0.0.0</productVersion>
+                                <txtProductVersion>1.0.0.0</txtProductVersion>
+                                <productName>${project.name}</productName>
+                                <companyName>interop.io</companyName>
+                                <internalName>Freestanding Glue FDC3 Client Example</internalName>
+                                <originalFilename>FreestandingGlueFDC3Client.exe</originalFilename>
                             </versionInfo>
                         </configuration>
                     </execution>
