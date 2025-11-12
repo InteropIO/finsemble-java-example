@@ -6,7 +6,7 @@
 
     <groupId>interop.io</groupId>
     <artifactId>finsemble-java-example</artifactId>
-    <version>8.14.3</version>
+    <version>9.10.1</version>
 
     <repositories>
         <!-- Required for multi-window example, to prevent multiple instances of the same Java app -->
@@ -39,7 +39,14 @@
             <groupId>com.chartiq.finsemble</groupId>
             <artifactId>finsemble</artifactId>
             <!-- TODO: This version should be bumped to the Finsemble latest upon release -->
-            <version>8.15.2</version>
+            <version>9.10.1</version>
+        </dependency>
+        <!-- Needed to get the native window handle for Finsemble -->
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna-platform</artifactId>
+            <version>4.5.1</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <!-- Required for multi-window example, to prevent multiple instances of the same Java app -->
@@ -204,6 +211,45 @@
                                 </transformer>
                             </transformers>
                             <finalName>IOCDExample</finalName>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>freestanding-finsemble</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <manifestEntries>
+                                        <Main-Class>io.interop.finsemble.example.fdc3.FreestandingFinsembleFDC3Client</Main-Class>
+                                    </manifestEntries>
+                                </transformer>
+                            </transformers>
+                            <finalName>FreestandingFinsemble</finalName>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>freestanding-glue</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <manifestEntries>
+                                        <Main-Class>io.interop.finsemble.example.fdc3.FreestandingGlueFDC3Client</Main-Class>
+                                    </manifestEntries>
+                                </transformer>
+                            </transformers>
+                            <finalName>FreestandingGlue</finalName>
                         </configuration>
                     </execution>
                 </executions>
