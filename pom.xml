@@ -7,7 +7,7 @@
     <groupId>interop.io</groupId>
     <artifactId>finsemble-java-example</artifactId>
     <!-- TODO: This version should be bumped to the Finsemble latest upon release -->
-    <version>9.10.1</version>
+    <version>9.10.2</version>
 
     <repositories>
         <!-- Required for multi-window example, to prevent multiple instances of the same Java app -->
