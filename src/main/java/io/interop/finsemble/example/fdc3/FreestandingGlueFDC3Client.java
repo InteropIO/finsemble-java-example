@@ -1,5 +1,6 @@
 package io.interop.finsemble.example.fdc3;
 
+import com.chartiq.finsemble.Finsemble;
 import com.tick42.glue.Glue;
 import com.tick42.glue.internal.Tick42Glue;
 import io.interop.api.core.DesktopAgent;
@@ -8,6 +9,7 @@ import io.interop.api.types.context.Context;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -34,13 +36,7 @@ public class FreestandingGlueFDC3Client extends AbstractFreestandingFDC3Client<V
     @Override
     protected final DesktopAgentFactory<Void, DesktopAgent> connect() {
         // Create the bridge
-        final Glue glueBridge = Tick42Glue.builder()
-                .withApplicationName(getApplicationName())
-                .withShutdownRequestListener(io -> {
-                    output("Starting shutdown procedure...");
-                    glueBridgeReference.get().closeAsync();
-                })
-                .build();
+        final Glue glueBridge = Tick42Glue.builder().build();
 
         // Store the bridge reference
         glueBridgeReference.set(glueBridge);
@@ -53,6 +49,12 @@ public class FreestandingGlueFDC3Client extends AbstractFreestandingFDC3Client<V
 
         // Connect to the server
         glueBridge.appManager().ready().toCompletableFuture().join();
+
+        // Add a shutdown listener
+        glueBridge.appManager().registerShuttingDownHandler(args -> {
+            output("IOCD is shutting down");
+            return CompletableFuture.completedFuture(false);
+        });
 
         return new DesktopAgentFactory<>() {
 

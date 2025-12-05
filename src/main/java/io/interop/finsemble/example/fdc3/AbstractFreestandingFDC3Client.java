@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -116,6 +117,83 @@ public abstract class AbstractFreestandingFDC3Client<DesktopAgent_1_2, DesktopAg
     //</editor-fold>
 
 
+    //<editor-fold desc="UI">
+    /**
+     * Configures the UI.
+     */
+    final JPanel controlButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+
+    /**
+     * Configures the UI
+     */
+    private void configureUI() {
+        final String applicationName = getApplicationName();
+        setTitle(applicationName);
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().add(statusLabel, BorderLayout.NORTH);
+        getContentPane().add(new JScrollPane(messageTextArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
+
+        final JButton clearButton = new JButton("Clear");
+        clearButton.addActionListener(e -> messageTextArea.setText(""));
+        controlButtonPanel.add(clearButton);
+        getContentPane().add(controlButtonPanel, BorderLayout.SOUTH);
+
+
+        functionButtonPanel.setLayout(new GridLayout(0, 1));
+        getContentPane().add(functionButtonPanel, BorderLayout.WEST);
+
+
+        pack();
+        setVisible(true);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+    //</editor-fold>
+
+
+    //<editor-fold desc="UI:FunctionButton">
+    // The function button panel
+    private final JPanel functionButtonPanel = new JPanel();
+    /**
+     * Adds a function button to the UI's function button panel.
+     *
+     * @param button the button to add to the function button panel
+     */
+    protected void addFunctionButton(final JButton button) {
+        functionButtonPanel.add(button);
+    }
+
+    /**
+     * Adds a visual separator to the function button panel.
+     *
+     * @param name the name of the section
+     */
+    protected void addFunctionPanelSeparator(final String name) {
+        functionButtonPanel.add(new JLabel(name));
+    }
+
+    /**
+     * Adds a separator and function buttons to the UI's function button panel.
+     *
+     * @param name the name of the section
+     * @param buttons the buttons to add to the function button panel
+     */
+    protected void addFunctionButtons(final String name, final JButton ...buttons) {
+        addFunctionPanelSeparator(name);
+        Arrays.stream(buttons).forEach(this::addFunctionButton);
+    }
+    //</editor-fold>
+
+
+    //<editor-fold desc="UI:Console">
+    // The UI console
+    private final JTextArea messageTextArea = new JTextArea(40, 120) {{
+        setFont(new Font("Monospaced", Font.PLAIN, 12));
+        setEditable(false);
+        // Uncomment to make the text area appear as if it cannot be edited
+        // setEnabled(false);
+    }};
+
     //<editor-fold desc="Output methods">
     /**
      * Output to the UI console and update the header.
@@ -123,7 +201,7 @@ public abstract class AbstractFreestandingFDC3Client<DesktopAgent_1_2, DesktopAg
      * @param message the message to use
      */
     protected void outputAndUpdateHeader(final String message) {
-        headerLabel.setText(MSG_HEADER_PREFIX + " - " + message);
+        updateStatus(message);
         output(message);
     }
 
@@ -162,7 +240,6 @@ public abstract class AbstractFreestandingFDC3Client<DesktopAgent_1_2, DesktopAg
         System.out.println(timestampedMessage);
     }
 
-
     /**
      * Outputs an exception to the console and also updates the header label.
      *
@@ -172,8 +249,6 @@ public abstract class AbstractFreestandingFDC3Client<DesktopAgent_1_2, DesktopAg
         exception.printStackTrace();
         outputAndUpdateHeader("Error: " + exception.getLocalizedMessage());
     }
-    //</editor-fold>
-
 
     //<editor-fold desc="Indent methods">
     // The indent count
@@ -201,35 +276,20 @@ public abstract class AbstractFreestandingFDC3Client<DesktopAgent_1_2, DesktopAg
     private String decorateWithIndent(final String message, int numberOfIndents) {
         return INDENT_STRING.repeat(Math.max(0, numberOfIndents)) + message;
     }
-    //</editor-fold>
+    //</editor-fold> // Indent methods
+
+    //</editor-fold> // Output methods
+
+    //</editor-fold> // UI:Console
 
 
-    //<editor-fold desc="UI elements">
-    /**
-     * Configures the UI.
-     */
-    protected void configureUI() {
-        final String applicationName = getApplicationName();
-        setTitle(applicationName);
-        getContentPane().setLayout(new BorderLayout());
-        getContentPane().add(headerLabel, BorderLayout.NORTH);
-        getContentPane().add(new JScrollPane(messageTextArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
+    //<editor-fold desc="UI:Status">
+    // The status label
+    private final JLabel statusLabel = new JLabel(MSG_DEFAULT_STATUS);
 
-        pack();
-        setVisible(true);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    protected void updateStatus(final String status) {
+        statusLabel.setText(status);
     }
-
-    // The header label
-    private final JLabel headerLabel = new JLabel(MSG_HEADER_PREFIX);
-    // The UI console
-    private final JTextArea messageTextArea = new JTextArea(40, 120) {{
-        setFont(new Font("Monospaced", Font.PLAIN, 12));
-        setEditable(false);
-        // Uncomment to make the text area appear as if it cannot be edited
-        // setEnabled(false);
-    }};
     //</editor-fold>
 
 
@@ -238,7 +298,7 @@ public abstract class AbstractFreestandingFDC3Client<DesktopAgent_1_2, DesktopAg
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractFreestandingFDC3Client.class);
 
     // Strings for messages
-    private static final String MSG_HEADER_PREFIX = "Connection Test";
+    private static final String MSG_DEFAULT_STATUS = "Connection Test";
     private static final String MSG_CONNECTING = "Connecting...";
     private static final String MSG_CONNECTED = "Connected!";
     private final static String MSG_STARTING_DESKTOPAGENT_1_2_TEST = "Starting DesktopAgent 1 test";
@@ -247,15 +307,6 @@ public abstract class AbstractFreestandingFDC3Client<DesktopAgent_1_2, DesktopAg
     private final static String MSG_ENDING_DESKTOPAGENT_2_0_TEST = "DesktopAgent 2 test complete";
     private final static String MSG_HEADER = "================================================================================================================================================================";
     //</editor-fold>
-
-
-//    /**
-//     * A functional interface declaring a function which may throw.
-//     */
-//    @FunctionalInterface
-//    interface ThrowingFunction extends io.interop.finsemble.example.fdc3.ThrowingFunction {
-//        void apply() throws Exception;
-//    }
 
 }
 
