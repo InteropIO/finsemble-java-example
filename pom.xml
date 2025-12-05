@@ -40,7 +40,7 @@
             <groupId>com.chartiq.finsemble</groupId>
             <artifactId>finsemble</artifactId>
             <!-- TODO: This version should be bumped to the Finsemble latest upon release -->
-            <version>9.10.1</version>
+            <version>9.10.2</version>
         </dependency>
         <!-- Needed to get the native window handle for Finsemble -->
         <dependency>
