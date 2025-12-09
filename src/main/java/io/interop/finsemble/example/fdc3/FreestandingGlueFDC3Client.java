@@ -1,6 +1,5 @@
 package io.interop.finsemble.example.fdc3;
 
-import com.chartiq.finsemble.Finsemble;
 import com.tick42.glue.Glue;
 import com.tick42.glue.internal.Tick42Glue;
 import io.interop.api.core.DesktopAgent;
@@ -42,19 +41,22 @@ public class FreestandingGlueFDC3Client extends AbstractFreestandingFDC3Client<V
         glueBridgeReference.set(glueBridge);
 
         // Output some information about the library and environment
-        output("Application Name:  " + getApplicationName());
-        output("Glue Version:      " + glueBridge.version());
-        output("Glue Environnment: " + glueBridge.env());
-        output("Glue Region:       " + glueBridge.region());
+        output("Application Name:          " + getApplicationName());
+        output("Glue Version:              " + glueBridge.version());
+        output("Glue Environnment:         " + glueBridge.env());
+        output("Glue Region:               " + glueBridge.region());
+        output("Glue supports this window: " + glueBridge.windows().isWindowSupported(this));
 
-        // Connect to the server
-        glueBridge.appManager().ready().toCompletableFuture().join();
+        glueBridge.windows().register(glueBridge.windows().getWindowHandle(this));
 
         // Add a shutdown listener
         glueBridge.appManager().registerShuttingDownHandler(args -> {
             output("IOCD is shutting down");
             return CompletableFuture.completedFuture(false);
         });
+
+        // Connect to the server
+        glueBridge.appManager().ready().toCompletableFuture().join();
 
         return new DesktopAgentFactory<>() {
 

@@ -1,6 +1,7 @@
 package io.interop.finsemble.example.fdc3;
 
 import com.chartiq.finsemble.Finsemble;
+import com.chartiq.finsemble.util.RuntimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 
@@ -35,6 +37,11 @@ public abstract class AbstractFreestandingFDC3Client<DesktopAgent_1_2, DesktopAg
      */
     public AbstractFreestandingFDC3Client() {
         configureUI();
+
+        // Runtime info
+        output("runtime.getRunningPath:    " + RuntimeUtil.getRunningPath(getClass()));
+        output("runtime.isRunningFromJar:  " + RuntimeUtil.isRunningFromJar(getClass()));
+        output("runtime.getRunningJarName: " + Optional.ofNullable(RuntimeUtil.getRunningJarName(getClass())).map(s -> s + ".jar").orElse("<none>"));
     }
 
 
