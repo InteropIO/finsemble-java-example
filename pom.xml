@@ -7,7 +7,7 @@
     <groupId>interop.io</groupId>
     <artifactId>finsemble-java-example</artifactId>
     <!-- TODO: This version should be bumped to the Finsemble latest upon release -->
-    <version>9.10.2</version>
+    <version>9.10.2-SNAPSHOT</version>
 
     <repositories>
         <!-- Required for multi-window example, to prevent multiple instances of the same Java app -->
@@ -23,7 +23,7 @@
         <dependency>
             <groupId>com.nimbusds</groupId>
             <artifactId>nimbus-jose-jwt</artifactId>
-            <version>9.37.2</version>
+            <version>10.0.2</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -31,23 +31,9 @@
             <version>${project.minjava}</version>
         </dependency>
         <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20231013</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>com.chartiq.finsemble</groupId>
             <artifactId>finsemble</artifactId>
-            <!-- TODO: This version should be bumped to the Finsemble latest upon release -->
-            <version>9.10.2</version>
-        </dependency>
-        <!-- Needed to get the native window handle for Finsemble -->
-        <dependency>
-            <groupId>net.java.dev.jna</groupId>
-            <artifactId>jna-platform</artifactId>
-            <version>4.5.1</version>
-            <scope>compile</scope>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <!-- Required for multi-window example, to prevent multiple instances of the same Java app -->
