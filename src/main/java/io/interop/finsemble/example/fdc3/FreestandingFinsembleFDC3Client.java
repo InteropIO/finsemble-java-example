@@ -4,6 +4,7 @@ import com.chartiq.finsemble.Finsemble;
 import com.chartiq.finsemble.fdc3.versions.DesktopAgent1_2;
 import com.chartiq.finsemble.fdc3.versions.DesktopAgent2_0;
 import com.chartiq.finsemble.interfaces.CallbackListener;
+import com.chartiq.finsemble.util.io.IOUtil;
 import com.finsemble.fdc3.Channel;
 import com.finsemble.fdc3.Context;
 import com.finsemble.fdc3.FDC3;
@@ -22,12 +23,21 @@ import java.util.stream.Stream;
 public class FreestandingFinsembleFDC3Client extends AbstractFreestandingFDC3Client<DesktopAgent1_2, DesktopAgent2_0> {
 
     /**
+     * Constructor, this prepares the UI.
+     *
+     * @param args the command line arguments
+     */
+    public FreestandingFinsembleFDC3Client(final String[] args) {
+        super(args);
+    }
+
+    /**
      * The main entry to the program; no command line arguments are used.
      *
      * @param args command line arguments (ignored)
      */
     public static void main(final String[] args) {
-        new FreestandingFinsembleFDC3Client().executeTests();
+        new FreestandingFinsembleFDC3Client(args).executeTests();
     }
 
 
@@ -44,20 +54,20 @@ public class FreestandingFinsembleFDC3Client extends AbstractFreestandingFDC3Cli
         // Allow the user to select the host type
         final Finsemble.HostType hostType = getHostType();
         if (null != hostType) {
-            final String[] args;
+            final List<String> args = getArgs();
+            final String hostTypeName = "hostType";
 
             // Set the "hostType" "command line argument" to coincide with the user's selection
             switch (hostType) {
-                case autodetect -> args = new String[]{};
-                case finsemble -> args = new String[]{"hostType=finsemble"};
-                case iocd -> args = new String[]{"hostType=iocd"};
+                case finsemble -> IOUtil.addOrUpdateCommandLineArguments(hostTypeName, Finsemble.HostType.finsemble.name(), args);
+                case iocd -> IOUtil.addOrUpdateCommandLineArguments(hostTypeName, Finsemble.HostType.iocd.name(), args);
                 default -> {
                     JOptionPane.showMessageDialog(null, "Invalid selection, using auto-detect", "Error", JOptionPane.ERROR_MESSAGE);
-                    args = new String[]{};
+                    IOUtil.addOrUpdateCommandLineArguments(hostTypeName, Finsemble.HostType.autodetect.name(), args);
                 }
             }
 
-            finsemble = new Finsemble(Arrays.asList(args), this);
+            finsemble = new Finsemble(args, this);
             finsemble.setAppName(getApplicationName());
 
             finsemble.addShutdownHook(new CallbackListener() {

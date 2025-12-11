@@ -17,12 +17,21 @@ import java.util.concurrent.atomic.AtomicReference;
 public class FreestandingGlueFDC3Client extends AbstractFreestandingFDC3Client<Void, DesktopAgent> {
 
     /**
+     * Constructor, this prepares the UI.
+     *
+     * @param args the command line arguments
+     */
+    public FreestandingGlueFDC3Client(String[] args) {
+        super(args);
+    }
+
+    /**
      * The main entry to the program; no command line arguments are used.
      *
      * @param args command line arguments (ignored)
      */
     public static void main(final String[] args) throws Exception {
-        new FreestandingGlueFDC3Client().executeTests();
+        new FreestandingGlueFDC3Client(args).executeTests();
     }
 
 

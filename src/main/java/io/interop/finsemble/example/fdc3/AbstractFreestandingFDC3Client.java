@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -34,8 +35,11 @@ public abstract class AbstractFreestandingFDC3Client<DesktopAgent_1_2, DesktopAg
 
     /**
      * Constructor, this prepares the UI.
+     *
+     * @param args the command line arguments
      */
-    public AbstractFreestandingFDC3Client() {
+    public AbstractFreestandingFDC3Client(final String[] args) {
+        this.args = args;
         configureUI();
 
         // Runtime info
@@ -61,6 +65,14 @@ public abstract class AbstractFreestandingFDC3Client<DesktopAgent_1_2, DesktopAg
         executeTest(MSG_STARTING_DESKTOPAGENT_2_0_TEST, () -> testDesktopAgent_2_0(desktopAgentFactoryAtomicReference.get().getDesktopAgent_2_0()), MSG_ENDING_DESKTOPAGENT_2_0_TEST);
     }
 
+    /**
+     * Gets the command line arguments passed in.
+     *
+     * @return the command line arguments passed in
+     */
+    protected List<String> getArgs() {
+        return Arrays.asList(this.args);
+    }
 
     //<editor-fold desc="Testing and helper methods to be implemented">
     /**
@@ -134,11 +146,6 @@ public abstract class AbstractFreestandingFDC3Client<DesktopAgent_1_2, DesktopAg
 
     //<editor-fold desc="UI">
     /**
-     * Configures the UI.
-     */
-    final JPanel controlButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-
-    /**
      * Configures the UI
      */
     private void configureUI() {
@@ -167,8 +174,6 @@ public abstract class AbstractFreestandingFDC3Client<DesktopAgent_1_2, DesktopAg
 
 
     //<editor-fold desc="UI:FunctionButton">
-    // The function button panel
-    private final JPanel functionButtonPanel = new JPanel();
     /**
      * Adds a function button to the UI's function button panel.
      *
@@ -201,13 +206,6 @@ public abstract class AbstractFreestandingFDC3Client<DesktopAgent_1_2, DesktopAg
 
 
     //<editor-fold desc="UI:Console">
-    // The UI console
-    private final JTextArea messageTextArea = new JTextArea(40, 120) {{
-        setFont(new Font("Monospaced", Font.PLAIN, 12));
-        setEditable(false);
-        // Uncomment to make the text area appear as if it cannot be edited
-        // setEnabled(false);
-    }};
 
     //<editor-fold desc="Output methods">
     /**
@@ -266,11 +264,6 @@ public abstract class AbstractFreestandingFDC3Client<DesktopAgent_1_2, DesktopAg
     }
 
     //<editor-fold desc="Indent methods">
-    // The indent count
-    private int indentCount = 0;
-    // The indent string
-    private final String INDENT_STRING = "\t";
-
     /**
      * Adds the correct amount of indent, based on the indentCount.
      *
@@ -299,23 +292,49 @@ public abstract class AbstractFreestandingFDC3Client<DesktopAgent_1_2, DesktopAg
 
 
     //<editor-fold desc="UI:Status">
-    // The status label
-    private final JLabel statusLabel = new JLabel(MSG_DEFAULT_STATUS);
-
     protected void updateStatus(final String status) {
         statusLabel.setText(status);
     }
     //</editor-fold>
 
+    //<editor-fold desc="Instance members">
+    // The indent count
+    private int indentCount = 0;
+
+    // The status label
+    private final JLabel statusLabel = new JLabel(MSG_DEFAULT_STATUS);
+
+    // The function button panel
+    private final JPanel functionButtonPanel = new JPanel();
+
+    /**
+     * Configures the UI.
+     */
+    private final JPanel controlButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+
+    // The UI console
+    private final JTextArea messageTextArea = new JTextArea(40, 120) {{
+        setFont(new Font("Monospaced", Font.PLAIN, 12));
+        setEditable(false);
+        // Uncomment to make the text area appear as if it cannot be edited
+        // setEnabled(false);
+    }};
+
+    private final String[] args;
+
+    //</editor-fold>
 
     //<editor-fold desc="Static members">
     // The logger
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractFreestandingFDC3Client.class);
 
+    // The indent string
+    private final static String INDENT_STRING = "\t";
+
     // Strings for messages
-    private static final String MSG_DEFAULT_STATUS = "Connection Test";
-    private static final String MSG_CONNECTING = "Connecting...";
-    private static final String MSG_CONNECTED = "Connected!";
+    private final static String MSG_DEFAULT_STATUS = "Connection Test";
+    private final static String MSG_CONNECTING = "Connecting...";
+    private final static String MSG_CONNECTED = "Connected!";
     private final static String MSG_STARTING_DESKTOPAGENT_1_2_TEST = "Starting DesktopAgent 1 test";
     private final static String MSG_ENDING_DESKTOPAGENT_1_2_TEST = "DesktopAgent 1 test complete";
     private final static String MSG_STARTING_DESKTOPAGENT_2_0_TEST = "Starting DesktopAgent 2 test";
