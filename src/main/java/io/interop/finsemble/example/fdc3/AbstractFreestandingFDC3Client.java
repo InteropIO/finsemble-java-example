@@ -14,13 +14,6 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 
-// TODO: Consider allowing context listeners to be removed by context type (use a dropdown)
-// TODO: Consider allowing channel context listeners to be removed by channelId (use a dropdown)
-// TODO: Use dropdown for channel join instead of multiple buttons
-// TODO: Use dropdown for adding a channel context listener
-// TODO: Use a text field for add/remove context listeners
-// TODO: Add a component to display the current channel
-
 /**
  * A self-contained application which can test different FDC3 implementations.
  *
