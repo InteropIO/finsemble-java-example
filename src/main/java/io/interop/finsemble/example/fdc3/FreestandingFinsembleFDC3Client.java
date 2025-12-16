@@ -59,6 +59,7 @@ public class FreestandingFinsembleFDC3Client extends AbstractFreestandingFDC3Cli
 
             // Set the "hostType" "command line argument" to coincide with the user's selection
             switch (hostType) {
+                case autodetect -> IOUtil.addOrUpdateCommandLineArguments(hostTypeName, Finsemble.HostType.autodetect.name(), args);
                 case finsemble -> IOUtil.addOrUpdateCommandLineArguments(hostTypeName, Finsemble.HostType.finsemble.name(), args);
                 case iocd -> IOUtil.addOrUpdateCommandLineArguments(hostTypeName, Finsemble.HostType.iocd.name(), args);
                 default -> {
